@@ -1,11 +1,45 @@
-[09:08:12] [main/INFO]: Setting user: Player656
-[09:08:12] [Client thread/INFO]: LWJGL Version: 2.9.1
-[09:08:16] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:ZSSpiritcontrol
-[09:08:17] [Sound Library Loader/INFO]: Sound engine started
-[09:08:17] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[09:08:17] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[09:08:17] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:ZSSpiritcontrol
-[09:08:17] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[09:08:17] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[09:08:18] [Sound Library Loader/INFO]: Sound engine started
-[09:08:24] [Client thread/INFO]: Stopping!
+[10:35:22] [main/INFO]: Setting user: Mighty_S0715
+[10:35:24] [Client thread/INFO]: LWJGL Version: 2.9.1
+[10:35:34] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:ZSSpiritcontrol
+[10:35:35] [Sound Library Loader/INFO]: Sound engine started
+[10:35:39] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[10:35:39] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[10:35:39] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:ZSSpiritcontrol
+[10:35:39] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[10:35:39] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[10:35:40] [Sound Library Loader/INFO]: Sound engine started
+[10:36:15] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[10:36:15] [Server thread/INFO]: Generating keypair
+[10:36:16] [Server thread/INFO]: Preparing start region for level 0
+[10:36:17] [Server thread/INFO]: Changing view distance to 12, from 10
+[10:36:18] [Server thread/INFO]: Mighty_S0715[local:E:c47db6cd] logged in with entity id 263 at (253.19017412124734, 83.0, -125.95344746656254)
+[10:36:18] [Server thread/INFO]: Mighty_S0715 joined the game
+[10:36:18] [Server thread/INFO]: Saving and pausing game...
+[10:36:18] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[10:36:18] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[10:36:18] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[10:36:22] [Client thread/INFO]: [CHAT] §6Spirit Control cmd is a WIP!
+[10:36:25] [Client thread/INFO]: [CHAT] help - shows a list of commands
+[10:36:25] [Client thread/INFO]: [CHAT] skills - displays all unlocked skill names and descriptions
+[10:36:25] [Client thread/INFO]: [CHAT] equip [slotName] [skillName] - equips the selected skill onto your loadout
+[10:36:25] [Client thread/INFO]: [CHAT] enable [player] - unlocks Spirit Control for a Player OP
+[10:36:25] [Client thread/INFO]: [CHAT] disable [player] - locks Spirit Control for a Player OP
+[10:36:25] [Client thread/INFO]: [CHAT] check [player] - shows a Playerâ€™s Gauge, loadout, and all unlocked abilities OP
+[10:36:25] [Client thread/INFO]: [CHAT] unlock [skillName] [player] - unlocks an ability OP
+[10:36:25] [Client thread/INFO]: [CHAT] lock [skillName] [player] - removes an ability OP
+[10:40:48] [Server thread/INFO]: Saving and pausing game...
+[10:40:48] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[10:40:48] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[10:40:48] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[10:40:53] [Client thread/INFO]: [CHAT] §4That is not a correct sub command or one hasn't been inputted!
+[10:40:56] [Server thread/INFO]: Saving and pausing game...
+[10:40:56] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[10:40:56] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[10:40:56] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[10:40:58] [Server thread/INFO]: Stopping server
+[10:40:58] [Server thread/INFO]: Saving players
+[10:40:58] [Server thread/INFO]: Saving worlds
+[10:40:58] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[10:40:58] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[10:40:58] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[10:40:59] [Client thread/INFO]: Stopping!
