@@ -53,6 +53,23 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
+     * Sets the player's current Gauge. Used to fill it, i.e. by hitting things.
+     * Prints the Gauge every 5%.
+     * @param newVal - Value of the new Gauge.
+     */
+    public void setCurrGauge(int newVal){
+        if (newVal > gaugeCapacity){
+            newVal = gaugeCapacity; // Caps the Gauge if you go over max
+        }
+        else if (newVal % 50 == 0){
+            double percent = ((double)newVal / getGaugeCapacity()) * 100;
+            String chatGauge = printGauge();
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + percent + " Percent Capacity."));
+        }
+        currGauge = newVal;
+    }
+
+    /**
      * Prints a display version of the Spirit Gauge. Used for display to players.
      * I.e. {======----} = 69%
      * @return String version of Spirit Gauge.
