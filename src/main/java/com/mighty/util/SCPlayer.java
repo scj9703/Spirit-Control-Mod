@@ -32,8 +32,48 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
      double currGauge = 0;
 
+    /** The Player's Super Attack 1.
+     * WIP!
+     */
+    String superAttack1 = null;
+
+    /** The Player's Super Attack 2.
+     * WIP!
+     */
+    String superAttack2 = null;
+
+    /** The Player's Ultimate Attack.
+     * WIP!
+     */
+    String ultimateAttack = null;
+
+    /** The Player's Passive Ability.
+     * WIP!
+     */
+    String passiveAbility = null;
+
+    // Gets the Player's equipped SA 1.
+    public String getSuperAttack1(){
+        if (superAttack1 == null){ return "None"; }
+        return superAttack1; }
+
+    // Gets the Player's equipped SA 2.
+    public String getSuperAttack2(){
+        if (superAttack2 == null){ return "None"; }
+        return superAttack2; }
+
+    // Gets the Player's equipped Ultimate.
+    public String getUltimateAttack(){
+        if (ultimateAttack == null){ return "None"; }
+        return ultimateAttack; }
+
+    // Gets the Player's equipped Passive.
+    public String getPassiveAbility(){
+        if (passiveAbility == null){ return "None"; }
+        return passiveAbility; }
+
     /**
-     * Returns the maximum Spirit Gauge Capacity
+     * Returns the maximum Spirit Gauge Capacity.
      * @return int max capacity
      */
     public double getGaugeCapacity() {
