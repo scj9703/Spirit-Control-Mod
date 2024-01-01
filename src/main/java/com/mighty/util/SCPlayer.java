@@ -1,19 +1,15 @@
 package com.mighty.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.mighty.zsspiritcontrol.zsspiritcontrol;
-
+import java.text.DecimalFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+
 /** Extended Player for Spirit Control **/
 public class SCPlayer implements IExtendedEntityProperties {
     /**
@@ -29,18 +25,18 @@ public class SCPlayer implements IExtendedEntityProperties {
     /**
      * The Spirit Gauge's default max capacity.
      */
-    int gaugeCapacity = 1000;
+    double gaugeCapacity = 1000;
 
     /**
      * The Spirit Gauge's current capacity
      */
-     int currGauge = 0;
+     double currGauge = 0;
 
     /**
      * Returns the maximum Spirit Gauge Capacity
      * @return int max capacity
      */
-    public int getGaugeCapacity() {
+    public double getGaugeCapacity() {
         return gaugeCapacity;
     }
 
@@ -48,7 +44,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Returns the current Spirit Gauge capacity.
      * @return int curr capacity
      */
-    public int getCurrGauge(){
+    public double getCurrGauge(){
         return currGauge;
     }
 
@@ -57,14 +53,16 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Prints the Gauge every 5%.
      * @param newVal - Value of the new Gauge.
      */
-    public void setCurrGauge(int newVal){
+    public void setCurrGauge(double newVal){
         if (newVal > gaugeCapacity){
             newVal = gaugeCapacity; // Caps the Gauge if you go over max
         }
         else if (newVal % 50 == 0){
-            double percent = ((double)newVal / getGaugeCapacity()) * 100;
+            double percent = (newVal / getGaugeCapacity()) * 100;
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            String formattedPercent = decimalFormat.format(percent);
             String chatGauge = printGauge();
-            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + percent + " Percent Capacity."));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
         }
         currGauge = newVal;
     }
@@ -75,9 +73,9 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @return String version of Spirit Gauge.
      */
     public String printGauge(){
-        int gauge = getCurrGauge();
-        int cap = getGaugeCapacity();
-        int oneTenth = cap/10;
+        double gauge = getCurrGauge();
+        double cap = getGaugeCapacity();
+        double oneTenth = cap/10;
         String gaugeString = "{"; // Left Border
         // Displays the 'fullness' of the Spirit Gauge.
         // Every 10% fills the meter's display
