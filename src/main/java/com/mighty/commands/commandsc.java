@@ -1,10 +1,8 @@
 package com.mighty.commands;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DecimalFormat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
@@ -63,18 +61,17 @@ public class commandsc extends CommandBase {
      */
     private void subCom(EntityPlayer player, SCPlayer ex) {
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GOLD + "Spirit Control cmd is a WIP!"));
-        int gauge = ex.getCurrGauge();
-        int cap = ex.getGaugeCapacity();
-        double percent = ((double)gauge / cap) * 100;
-        System.out.println(gauge);
-        System.out.println(cap);
-        System.out.println(percent);
+        double gauge = ex.getCurrGauge();
+        double cap = ex.getGaugeCapacity();
+        double percent = (gauge / cap) * 100;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String formattedPercent = decimalFormat.format(percent);
         String chatGauge = ex.printGauge();
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Your Spirit Control Loadout"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + percent + " Percent Capacity."));
+        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Do /sc help for a full list of commands!"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
@@ -88,7 +85,7 @@ public class commandsc extends CommandBase {
     private void subComHelp(EntityPlayer player) {
         for (String s : commandList) {
             if (isOp(player) || !isOpCommand(s)) {
-                player.addChatComponentMessage(new ChatComponentTranslation(s));
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "" + s));
             }
         }
     }

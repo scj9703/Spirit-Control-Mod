@@ -1,19 +1,11 @@
 package com.mighty.events;
 
-import com.mighty.zsspiritcontrol.zsspiritcontrol;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import com.mighty.util.SCPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 public class EventSystem {
     /**
@@ -28,19 +20,51 @@ public class EventSystem {
     }
 
     /**
-     * Adds Spirit to the Player's Gauge on attack.
-     * @param event
+     * Adds Spirit to the Player's Gauge on attack or when hit.
+     * @param event - Event when a living entity is attacked.
      */
     @SubscribeEvent
     public void onEntityHit(LivingAttackEvent event) {
+        // If the player is the CAUSE of the attack
         if (event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             SCPlayer ex = SCPlayer.getPlayer(player);
-            int gauge = ex.getCurrGauge();
-            int cap = ex.getGaugeCapacity();
+            double gauge = ex.getCurrGauge();
+            double cap = ex.getGaugeCapacity();
             if (gauge < cap) {
                 gauge = gauge + 1;
                 ex.setCurrGauge(gauge);
+            }
+        }
+
+        // If the player is the RECIPIENT of the attack
+        if (event.entity instanceof EntityPlayer){
+            EntityPlayer player = (EntityPlayer) event.entity;
+            SCPlayer ex = SCPlayer.getPlayer(player);
+            double gauge = ex.getCurrGauge();
+            double cap = ex.getGaugeCapacity();
+            if (gauge < cap) {
+                gauge = gauge + 1;
+                ex.setCurrGauge(gauge);
+            }
+        }
+    }
+
+    /**
+     * Fills Spirit Gauge on update. Used in a few passive skills only.
+     * @param event - Entity update event.
+     */
+    @SubscribeEvent
+    public void onEntityTick(LivingUpdateEvent event){
+        if (event.entity instanceof EntityPlayer){
+            EntityPlayer player = (EntityPlayer) event.entity;
+            SCPlayer ex = SCPlayer.getPlayer(player);
+            double gauge = ex.getCurrGauge();
+            double cap = ex.getGaugeCapacity();
+            if (gauge < cap) {
+                // gauge = gauge + 0.01; Un-Comment this to test it.
+                // Otherwise, leave it commented out until passives work.
+                // ex.setCurrGauge(gauge);
             }
         }
     }
