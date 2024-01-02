@@ -3,19 +3,19 @@ package com.mighty.zsspiritcontrol;
 /** Class for Spirit Control Passive Abilities **/
 public class PassiveAbility {
     // Unique name used to identify ability
-    String name = null;
+    String name;
     // ID of the race required to activate it (-1 = no req)
-    int raceId = -1;
+    int raceId;
     // ID of the form required to activate it (-1 = no req)
-    int formId = -1;
+    int formId;
     // Multiplier for how quickly Spirit Gauge is filled on activation
-    double gaugeModifier = 1.0;
+    double gaugeModifier;
     // Multiplier for how much Capacity the player's Gauge has with this passive.
-    double gaugeBonus = 1.0;
+    double gaugeBonus;
     // Multiplier for how much Spirit Abilities cost with this passive.
-    double costModifier = 1.0;
+    double costModifier;
     // Description used for display to players.
-    String desc = null;
+    String desc;
 
     // Constructor
     public PassiveAbility(String name, int raceId, int formId, double gaugeModifier, double gaugeBonus, double costModifier, String desc) {
