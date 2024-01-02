@@ -72,13 +72,13 @@ public class commandsc extends CommandBase {
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + ex.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 1: " + ex.getSuperAttack1()));
+        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 1: " + ex.getSuperAttack1().getDesc()));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 2: " + ex.getSuperAttack2()));
+        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 2: " + ex.getSuperAttack2().getDesc()));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Ultimate Attack: " + ex.getUltimateAttack()));
+        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Ultimate Attack: " + ex.getUltimateAttack().getDesc()));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Passive Ability: " + ex.getPassiveAbility()));
+        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Passive Ability: " + ex.getPassiveAbility().getDesc()));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Do /sc help for a full list of commands!"));
         player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));

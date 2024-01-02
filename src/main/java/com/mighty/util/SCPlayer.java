@@ -1,6 +1,9 @@
 package com.mighty.util;
 
+import com.mighty.zsspiritcontrol.AbilityDatabase;
+import com.mighty.zsspiritcontrol.PassiveAbility;
 import com.mighty.zsspiritcontrol.zsspiritcontrol;
+import java.util.ArrayList;
 import java.text.DecimalFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +12,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import com.mighty.zsspiritcontrol.Attack;
 
 /** Extended Player for Spirit Control **/
 public class SCPlayer implements IExtendedEntityProperties {
@@ -22,6 +26,8 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     EntityPlayer player = null;
 
+    AbilityDatabase abilityDatabase = new AbilityDatabase();
+
     /**
      * The Spirit Gauge's default max capacity.
      */
@@ -32,44 +38,57 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
      double currGauge = 0;
 
-    /** The Player's Super Attack 1.
+    /** The Player's Equipped Super Attack 1.
      * WIP!
      */
-    String superAttack1 = null;
+    Attack superAttack1;
 
-    /** The Player's Super Attack 2.
+    /** The Player's Equipped Super Attack 2.
      * WIP!
      */
-    String superAttack2 = null;
+    Attack superAttack2;
 
-    /** The Player's Ultimate Attack.
+    /** The Player's Equipped Ultimate Attack.
      * WIP!
      */
-    String ultimateAttack = null;
+    Attack ultimateAttack;
 
-    /** The Player's Passive Ability.
+    /** The Player's Equipped Passive Ability.
      * WIP!
      */
-    String passiveAbility = null;
+    PassiveAbility passiveAbility;
+
+    // The Player's unlocked attacks
+    ArrayList<Attack> attacks = new ArrayList<>();
+    // The Player's unlocked passives
+    ArrayList<PassiveAbility> passives = new ArrayList<>();
+
+    // Constructor
+    public SCPlayer(){
+        // Default abilities
+        this.attacks.add(abilityDatabase.getKiAttack());
+        this.attacks.add(abilityDatabase.getEnergyWave());
+        this.passives.add(abilityDatabase.getVirtuousSpirit());
+        this.superAttack1 = abilityDatabase.getKiAttack();
+        this.superAttack2 = abilityDatabase.getKiAttack();
+        this.ultimateAttack = abilityDatabase.getEnergyWave();
+        this.passiveAbility = abilityDatabase.getVirtuousSpirit();
+    }
 
     // Gets the Player's equipped SA 1.
-    public String getSuperAttack1(){
-        if (superAttack1 == null){ return "None"; }
+    public Attack getSuperAttack1(){
         return superAttack1; }
 
     // Gets the Player's equipped SA 2.
-    public String getSuperAttack2(){
-        if (superAttack2 == null){ return "None"; }
+    public Attack getSuperAttack2(){
         return superAttack2; }
 
     // Gets the Player's equipped Ultimate.
-    public String getUltimateAttack(){
-        if (ultimateAttack == null){ return "None"; }
+    public Attack getUltimateAttack(){
         return ultimateAttack; }
 
     // Gets the Player's equipped Passive.
-    public String getPassiveAbility(){
-        if (passiveAbility == null){ return "None"; }
+    public PassiveAbility getPassiveAbility(){
         return passiveAbility; }
 
     /**
