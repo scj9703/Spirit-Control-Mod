@@ -63,7 +63,62 @@ public class AbilityDatabase {
     public Attack getBurningAttack(){
         return new Attack("BurningAttack",1,8,5,1,1.0,1.0,1.0,"Burning Attack!","Burning Attack - Protect the future with Trunks' signature blast.",false,0.0);
     }
-    
+
+    // Passive
+    public PassiveAbility getForcedSpiritFission(){
+        return new PassiveAbility("ForcedSpiritFission",-1,-1,1.0,1.0,1.0,"Forced Spirit Fission - Drawing Spirit from your opponents fills your Spirit Gauge x as fast.");
+    }
+
+    // Passive
+    public PassiveAbility getPowerOfEgo(){
+        return new PassiveAbility("PowerOfEgo",-1,-1,1.0,1.0,1.0,"Power of Ego - Your Spirit Gauge now fills upon taking damage.");
+    }
+
+    // Passive
+    public PassiveAbility getSaiyanBeyondGod(){
+        return new PassiveAbility("SaiyanBeyondGod",-1,-1,1.0,1.0,1.0,"Saiyan Beyond God - As a Full/Half Saiyan, Mystic fills your gauge x as fast, while Blue/Rose fill it x as fast.");
+    }
+
+    // Passive
+    public PassiveAbility getTrueUltraInstinct(){
+        return new PassiveAbility("TrueUltraInstinct",-1,-1,1.0,1.0,1.0,"True Ultra Instinct - As a Full/Half Saiyan, UI fills your gauge x as fast, while SSJ4 fills it x as fast.");
+    }
+
+    // Passive
+    public PassiveAbility getOverflowingEnergy(){
+        return new PassiveAbility("OverflowingEnergy",-1,-1,1.0,1.0,1.0,"Overflowing Energy - While using SSJ1, gain Spirit passively over time.");
+    }
+
+    // Passive
+    public PassiveAbility getCalmMind(){
+        return new PassiveAbility("CalmMind",-1,-1,1.0,1.0,1.0,"Calm Mind - Gain Spirit while charging Ki.");
+    }
+
+    // Passive
+    public PassiveAbility getSuperRegeneration(){
+        return new PassiveAbility("SuperRegeneration",-1,-1,1.0,1.0,1.0,"Super Regeneration - Greatly replenish your Spirit while regenerating as a Majin.");
+    }
+
+    // Passive
+    public PassiveAbility getMaxPower(){
+        return new PassiveAbility("MaxPower",-1,-1,1.0,1.0,1.0,"Max Power - As a Human, using buffed form fills your Spirit Gauge x as fast.");
+    }
+
+    // Passive
+    public PassiveAbility getFlameOfHope(){
+        return new PassiveAbility("FlameOfHope",-1,-1,1.0,1.0,1.0,"Flame of Hope - Your Spirit Gauge fills x as fast while using SSG.");
+    }
+
+    // Passive
+    public PassiveAbility getHonedMind(){
+        return new PassiveAbility("HonedMind",-1,-1,1.0,1.0,1.0,"Honed Mind - Your Spirit Gauge Capacity increases by x.");
+    }
+
+    // Passive
+    public PassiveAbility getUltimateEvolution(){
+        return new PassiveAbility("UltimateEvolution",-1,-1,1.0,1.0,1.0,"Ultimate Evolution - Your Spirit Gauge fills x as fast while using Arco Ultimate or Godform.");
+    }
+
     //Type: 0 = Wave, 1 = Blast, 2 = Disk, 3 = laser, 4 = spiral, 5 = large blast,  6 = barrage, 7 = shield
 
     //Color: 0 = purple, 1 = white, 2 = blue, 3 = purple, 4 = red, 5 = black, 6 = green, 7 = yellow, 8 = orange
