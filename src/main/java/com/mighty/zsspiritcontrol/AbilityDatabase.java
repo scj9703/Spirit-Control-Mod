@@ -119,6 +119,36 @@ public class AbilityDatabase {
         return new PassiveAbility("UltimateEvolution",-1,-1,1.0,1.0,1.0,"Ultimate Evolution - Your Spirit Gauge fills x as fast while using Arco Ultimate or Godform.");
     }
 
+    // Ultimate Attack
+    public Attack getGTKamehameha(){
+        return new Attack("GTKamehameha",0,4,5,0,1.0,1.0,1.0,"KAMEHAMEHA! TIME TEEEEN!","Kamehameha x10 - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0);
+    }
+
+    // Ultimate Attack
+    public Attack getFinalShine(){
+        return new Attack("FinalShine",0,6,5,0,1.0,1.0,1.0,"FINAL SHINE ATTACK!","Final Shine - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0);
+    }
+
+    // Ultimate Attack
+    public Attack getHakai(){
+        return new Attack("Hakai",1,4,5,1,1.0,1.0,1.0,"HAKAI!","Hakai - Destroy your opponent with this limited-edition Ultimate.",true,1.0);
+    }
+
+    // Ultimate Attack
+    public Attack getGammaBurstFlash(){
+        return new Attack("GammaBurstFlash",0,3,5,1,1.0,1.0,1.0,"GAMMA BURST FLASH!","Gamma Burst Flash - Save the Future with this limited-edition Ultimate.",true,1.0);
+    }
+
+    // Ultimate Attack
+    public Attack getBigBangKamehameha(){
+        return new Attack("BigBangKamehameha",0,2,5,1,1.0,1.0,1.0,"BIG BANG... KAMEHAMEHA!","Big Bang Kamehameha - Take your place as the Ultimate Warrior with this limited-edition Ultimate.",true,1.0);
+    }
+
+    // Ultimate Attack
+    public Attack getFinalKamehameha(){
+        return new Attack("FinalKamehameha",0,2,5,1,1.0,1.0,1.0,"Final... KAMEHAMEHA!","Final Kamehameha - Take your place as the Ultimate Warrior with this limited-edition Ultimate.",true,1.0);
+    }
+
     //Type: 0 = Wave, 1 = Blast, 2 = Disk, 3 = laser, 4 = spiral, 5 = large blast,  6 = barrage, 7 = shield
 
     //Color: 0 = purple, 1 = white, 2 = blue, 3 = purple, 4 = red, 5 = black, 6 = green, 7 = yellow, 8 = orange
