@@ -91,6 +91,26 @@ public class SCPlayer implements IExtendedEntityProperties {
     public PassiveAbility getPassiveAbility(){
         return passiveAbility; }
 
+    // Gets the Player's unlocked Attacks.
+    public ArrayList<Attack> getAttacks() {
+        return attacks;
+    }
+
+    // Gets the Player's unlocked Passives.
+    public ArrayList<PassiveAbility> getPassives() {
+        return passives;
+    }
+
+    // Sets the Player's unlocked Attacks.
+    public void setAttacks(ArrayList<Attack> attacks) {
+        this.attacks = attacks;
+    }
+
+    // Sets the Player's unlocked Passives.
+    public void setPassives(ArrayList<PassiveAbility> passives) {
+        this.passives = passives;
+    }
+
     /**
      * Returns the maximum Spirit Gauge Capacity.
      * @return int max capacity
