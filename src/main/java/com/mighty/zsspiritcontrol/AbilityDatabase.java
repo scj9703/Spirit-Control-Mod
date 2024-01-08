@@ -4,6 +4,40 @@ import com.mighty.zsspiritcontrol.PassiveAbility;
 
 /** Stores all Spirit Control Abilities **/
 public class AbilityDatabase {
+
+    /** Returns all attack names. Used in commands such as 'unlock.'
+     *
+     * @return String[] of all attack names.
+     */
+    public String[] getAllAttackNames() {
+        // Bless me Lord for I have sinned
+        String[] attackNames = {
+                "KiAttack", "EnergyWave", "GalickGun", "FinalFlash", "BigBangAttack",
+                "SuperSpiritBomb", "MouthBlast", "SpecialBeamCannon", "CandyBeam",
+                "Kamehameha", "BurningAttack", "GTKamehameha", "FinalShine",
+                "Hakai", "GammaBurstFlash", "BigBangKamehameha", "FinalKamehameha"
+        };
+
+        return attackNames;
+    }
+
+    /** Returns all passive names. Used in commands such as 'unlock.'
+     *
+     * @return String[] of all passive names.
+     */
+    public String[] getAllPassiveNames() {
+        // Bless me Lord for I have sinned
+        String[] passiveNames = {
+                "VirtuousSpirit", "ForcedSpiritFission", "PowerOfEgo", "SaiyanBeyondGod",
+                "TrueUltraInstinct", "OverflowingEnergy", "CalmMind", "SuperRegeneration",
+                "MaxPower", "FlameOfHope", "HonedMind", "UltimateEvolution"
+        };
+
+        return passiveNames;
+    }
+
+
+
     // DEFAULT SUPER ATTACK
     public Attack getKiAttack(){
     return new Attack("KiAttack",6,7,5,0,1.0,1.0,1.0,"Hyaa!","Ki Attack - Let loose the Spirit you've stored in a small blast.",false,0.0);
@@ -153,4 +187,82 @@ public class AbilityDatabase {
 
     //Color: 0 = purple, 1 = white, 2 = blue, 3 = purple, 4 = red, 5 = black, 6 = green, 7 = yellow, 8 = orange
 
+    /**
+     * Given an Attack name, returns the attack in question.
+     * @param attackName - Name query
+     * @return Attack or null.
+     */
+    public Attack getAttackByName(String attackName) {
+        // I'm a bad programmer
+        switch (attackName) {
+            case "KiAttack":
+                return getKiAttack();
+            case "EnergyWave":
+                return getEnergyWave();
+            case "GalickGun":
+                return getGalickGun();
+            case "FinalFlash":
+                return getFinalFlash();
+            case "BigBangAttack":
+                return getBigBangAttack();
+            case "SuperSpiritBomb":
+                return getSuperSpiritBomb();
+            case "MouthBlast":
+                return getMouthBlast();
+            case "SpecialBeamCannon":
+                return getSpecialBeamCannon();
+            case "CandyBeam":
+                return getCandyBeam();
+            case "Kamehameha":
+                return getKamehameha();
+            case "BurningAttack":
+                return getBurningAttack();
+            case "GTKamehameha":
+                return getGTKamehameha();
+            case "FinalShine":
+                return getFinalShine();
+            case "Hakai":
+                return getHakai();
+            case "GammaBurstFlash":
+                return getGammaBurstFlash();
+            case "BigBangKamehameha":
+                return getBigBangKamehameha();
+            case "FinalKamehameha":
+                return getFinalKamehameha();
+            default:
+                return null;
+        }
+    }
+
+    // Function to get a PassiveAbility by name
+    public PassiveAbility getPassiveByName(String passiveName) {
+        switch (passiveName) {
+            case "VirtuousSpirit":
+                return getVirtuousSpirit();
+            case "ForcedSpiritFission":
+                return getForcedSpiritFission();
+            case "PowerOfEgo":
+                return getPowerOfEgo();
+            case "SaiyanBeyondGod":
+                return getSaiyanBeyondGod();
+            case "TrueUltraInstinct":
+                return getTrueUltraInstinct();
+            case "OverflowingEnergy":
+                return getOverflowingEnergy();
+            case "CalmMind":
+                return getCalmMind();
+            case "SuperRegeneration":
+                return getSuperRegeneration();
+            case "MaxPower":
+                return getMaxPower();
+            case "FlameOfHope":
+                return getFlameOfHope();
+            case "HonedMind":
+                return getHonedMind();
+            case "UltimateEvolution":
+                return getUltimateEvolution();
+            default:
+                return null;
+        }
+    }
 }

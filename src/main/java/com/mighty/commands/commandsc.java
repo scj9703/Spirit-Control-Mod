@@ -1,5 +1,13 @@
 package com.mighty.commands;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import com.mighty.zsspiritcontrol.AbilityDatabase;
+import com.mighty.zsspiritcontrol.Attack;
+import com.mighty.zsspiritcontrol.PassiveAbility;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import com.mighty.util.SCPlayer;
+import org.lwjgl.Sys;
 
 public class commandsc extends CommandBase {
 
@@ -49,6 +58,8 @@ public class commandsc extends CommandBase {
 
             if (args[0].equalsIgnoreCase("help")) {
                 subComHelp(player);
+            } else if (args[0].equalsIgnoreCase("unlock")) {
+                sumComUnlock(player, args[1], args[2]);
             }
 
         }
@@ -93,6 +104,46 @@ public class commandsc extends CommandBase {
         for (String s : commandList) {
             if (isOp(player) || !isOpCommand(s)) {
                 player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "" + s));
+            }
+        }
+    }
+
+    /**
+     * The sub-command for unlocking an ability for a player.
+     * @param player - Player running the command
+     * @param targetPlayer - The target of the command
+     */
+    private void sumComUnlock(EntityPlayer player, String ability, String targetPlayer){
+        EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
+        if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
+            SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
+            AbilityDatabase abilities = new AbilityDatabase();
+            String[] attackList = abilities.getAllAttackNames();
+            String[] passiveList = abilities.getAllPassiveNames();
+            List<String> list = Arrays.asList(attackList);
+            if (player != null && list.contains(ability)) {
+                Attack unlockedAttack = abilities.getAttackByName(ability);
+                if (unlockedAttack != null) {
+                    ArrayList<Attack> playerAttacks = ex.getAttacks();
+                    playerAttacks.add(unlockedAttack);
+                    ex.setAttacks(playerAttacks);
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
+                }
+            }
+            List<String> list2 = Arrays.asList(passiveList);
+            if (player != null && list2.contains(ability)){
+                PassiveAbility unlockedPassive = abilities.getPassiveByName(ability);
+                if (unlockedPassive != null){
+                    ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                    playerPassives.add(unlockedPassive);
+                    ex.setPassives(playerPassives);
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
+                }
+            }
+            if (player != null && !list.contains(ability) && !list2.contains(ability)){
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Something went wrong. Ability names are case-sensitive and are capitalized, i.e. 'BigBangAttack'"));
             }
         }
     }
@@ -159,5 +210,7 @@ public class commandsc extends CommandBase {
 
         return false;
     }
+
+
 
 }
