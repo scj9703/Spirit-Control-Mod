@@ -170,27 +170,37 @@ public class commandsc extends CommandBase {
                 ArrayList<Attack> playerAttacks = ex.getAttacks();
                 ArrayList<Attack> newPlayerAttacks = new ArrayList<>();
                 for (Attack attack : playerAttacks){
-                    if (!attack.getName().equals(ability)){
+                    if (!attack.getName().equals(ability) || ability.equals("KiAttack") || ability.equals("EnergyWave")){
                         newPlayerAttacks.add(attack);
                     }
                 }
                 ex.setAttacks(newPlayerAttacks);
                 System.out.println(newPlayerAttacks);
-                player.addChatComponentMessage(new ChatComponentTranslation(
-                        EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
+                if (ability.equals("KiAttack") || ability.equals("EnergyWave")){
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.GOLD + "Default Abilities cannot be locked!"));
+                } else {
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
+                }
             }
             if (player != null && list2.contains(ability)){
                 ArrayList<PassiveAbility> playerPassives = ex.getPassives();
                 ArrayList<PassiveAbility> newPlayerPassives = new ArrayList<>();
                 for (PassiveAbility passive:playerPassives){
-                    if (!passive.getName().equals(ability)){
+                    if (!passive.getName().equals(ability) || ability.equals("VirtuousSpirit")){
                         newPlayerPassives.add(passive);
                     }
                 }
                 ex.setPassives(newPlayerPassives);
                 System.out.println(newPlayerPassives);
-                player.addChatComponentMessage(new ChatComponentTranslation(
-                        EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
+                if (ability.equals("VirtuousSpirit")){
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.GOLD + "Default Abilities cannot be locked!"));
+                } else {
+                    player.addChatComponentMessage(new ChatComponentTranslation(
+                            EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
+                }
             }
             if (player != null && !list.contains(ability) && !list2.contains(ability)){
                 player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Something went wrong. Ability names are case-sensitive and are capitalized, i.e. 'BigBangAttack'"));
