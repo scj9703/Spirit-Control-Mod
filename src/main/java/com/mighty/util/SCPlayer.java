@@ -13,6 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import com.mighty.zsspiritcontrol.Attack;
+import org.lwjgl.Sys;
 
 /** Extended Player for Spirit Control **/
 public class SCPlayer implements IExtendedEntityProperties {
@@ -103,12 +104,28 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     // Sets the Player's unlocked Attacks.
     public void setAttacks(ArrayList<Attack> attacks) {
-        this.attacks = attacks;
+        ArrayList<String> dupeChecker = new ArrayList<>();
+        ArrayList<Attack> attacksWithoutDupes = new ArrayList<>();
+        for (Attack attack : attacks){
+            if (!dupeChecker.contains(attack.getName())){
+                dupeChecker.add(attack.getName());
+                attacksWithoutDupes.add(attack);
+            }
+        }
+        this.attacks = attacksWithoutDupes;
     }
 
     // Sets the Player's unlocked Passives.
     public void setPassives(ArrayList<PassiveAbility> passives) {
-        this.passives = passives;
+        ArrayList<String> dupeChecker = new ArrayList<>();
+        ArrayList<PassiveAbility> passivesWithoutDupes = new ArrayList<>();
+        for (PassiveAbility passive : passives){
+            if (!dupeChecker.contains(passive.getName())){
+                dupeChecker.add(passive.getName());
+                passivesWithoutDupes.add(passive);
+            }
+        }
+        this.passives = passivesWithoutDupes;
     }
 
     /**
