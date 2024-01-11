@@ -59,7 +59,9 @@ public class commandsc extends CommandBase {
             if (args[0].equalsIgnoreCase("help")) {
                 subComHelp(player);
             } else if (args[0].equalsIgnoreCase("unlock")) {
-                sumComUnlock(player, args[1], args[2]);
+                subComUnlock(player, args[1], args[2]);
+            } else if (args[0].equalsIgnoreCase("lock")) {
+                subComLock(player, args[1], args[2]);
             }
 
         }
@@ -113,7 +115,7 @@ public class commandsc extends CommandBase {
      * @param player - Player running the command
      * @param targetPlayer - The target of the command
      */
-    private void sumComUnlock(EntityPlayer player, String ability, String targetPlayer){
+    private void subComUnlock(EntityPlayer player, String ability, String targetPlayer){
         EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
         if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
             SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
@@ -127,6 +129,7 @@ public class commandsc extends CommandBase {
                     ArrayList<Attack> playerAttacks = ex.getAttacks();
                     playerAttacks.add(unlockedAttack);
                     ex.setAttacks(playerAttacks);
+                    System.out.println(playerAttacks);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
@@ -138,9 +141,56 @@ public class commandsc extends CommandBase {
                     ArrayList<PassiveAbility> playerPassives = ex.getPassives();
                     playerPassives.add(unlockedPassive);
                     ex.setPassives(playerPassives);
+                    System.out.println(playerPassives);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
+            }
+            if (player != null && !list.contains(ability) && !list2.contains(ability)){
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Something went wrong. Ability names are case-sensitive and are capitalized, i.e. 'BigBangAttack'"));
+            }
+        }
+    }
+
+    /**
+     * The sub-command for locking an ability from a player.
+     * @param player - Player running the command
+     * @param targetPlayer - The target of the command
+     */
+    private void subComLock(EntityPlayer player, String ability, String targetPlayer){
+        EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
+        if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
+            SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
+            AbilityDatabase abilities = new AbilityDatabase();
+            String[] attackList = abilities.getAllAttackNames();
+            String[] passiveList = abilities.getAllPassiveNames();
+            List<String> list = Arrays.asList(attackList);
+            List<String> list2 = Arrays.asList(passiveList);
+            if (player != null && list.contains(ability)){
+                ArrayList<Attack> playerAttacks = ex.getAttacks();
+                ArrayList<Attack> newPlayerAttacks = new ArrayList<>();
+                for (Attack attack : playerAttacks){
+                    if (!attack.getName().equals(ability)){
+                        newPlayerAttacks.add(attack);
+                    }
+                }
+                ex.setAttacks(newPlayerAttacks);
+                System.out.println(newPlayerAttacks);
+                player.addChatComponentMessage(new ChatComponentTranslation(
+                        EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
+            }
+            if (player != null && list2.contains(ability)){
+                ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                ArrayList<PassiveAbility> newPlayerPassives = new ArrayList<>();
+                for (PassiveAbility passive:playerPassives){
+                    if (!passive.getName().equals(ability)){
+                        newPlayerPassives.add(passive);
+                    }
+                }
+                ex.setPassives(newPlayerPassives);
+                System.out.println(newPlayerPassives);
+                player.addChatComponentMessage(new ChatComponentTranslation(
+                        EnumChatFormatting.BLUE + ability + " has been locked for " + targetPlayer));
             }
             if (player != null && !list.contains(ability) && !list2.contains(ability)){
                 player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Something went wrong. Ability names are case-sensitive and are capitalized, i.e. 'BigBangAttack'"));
