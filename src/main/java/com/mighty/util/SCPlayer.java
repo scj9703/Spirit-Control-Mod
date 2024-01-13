@@ -80,17 +80,37 @@ public class SCPlayer implements IExtendedEntityProperties {
     public Attack getSuperAttack1(){
         return superAttack1; }
 
+    // Sets/Equips SA1.
+    public void setSuperAttack1(Attack superAttack1){
+        this.superAttack1 = superAttack1;
+    }
+
     // Gets the Player's equipped SA 2.
     public Attack getSuperAttack2(){
         return superAttack2; }
+
+    // Sets/Equips SA2.
+    public void setSuperAttack2(Attack superAttack2){
+        this.superAttack2 = superAttack2;
+    }
 
     // Gets the Player's equipped Ultimate.
     public Attack getUltimateAttack(){
         return ultimateAttack; }
 
+    // Sets/Equips Ultimate.
+    public void setUltimateAttack(Attack ultimateAttack){
+        this.ultimateAttack = ultimateAttack;
+    }
+
     // Gets the Player's equipped Passive.
     public PassiveAbility getPassiveAbility(){
         return passiveAbility; }
+
+    // Sets/Equips Passive.
+    public void setPassiveAbility(PassiveAbility passiveAbility){
+        this.passiveAbility = passiveAbility;
+    }
 
     // Gets the Player's unlocked Attacks.
     public ArrayList<Attack> getAttacks() {
