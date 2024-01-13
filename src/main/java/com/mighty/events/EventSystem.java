@@ -29,11 +29,14 @@ public class EventSystem {
         if (event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             SCPlayer ex = SCPlayer.getPlayer(player);
-            double gauge = ex.getCurrGauge();
-            double cap = ex.getGaugeCapacity();
-            if (gauge < cap) {
-                gauge = gauge + 1;
-                ex.setCurrGauge(gauge);
+            boolean hasUnlocked = ex.isEnabled();
+            if (hasUnlocked) {
+                double gauge = ex.getCurrGauge();
+                double cap = ex.getGaugeCapacity();
+                if (gauge < cap) {
+                    gauge = gauge + 1;
+                    ex.setCurrGauge(gauge);
+                }
             }
         }
 
@@ -41,11 +44,14 @@ public class EventSystem {
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
             SCPlayer ex = SCPlayer.getPlayer(player);
-            double gauge = ex.getCurrGauge();
-            double cap = ex.getGaugeCapacity();
-            if (gauge < cap) {
-                gauge = gauge + 1;
-                ex.setCurrGauge(gauge);
+            boolean hasUnlocked = ex.isEnabled();
+            if (hasUnlocked) {
+                double gauge = ex.getCurrGauge();
+                double cap = ex.getGaugeCapacity();
+                if (gauge < cap) {
+                    gauge = gauge + 1;
+                    ex.setCurrGauge(gauge);
+                }
             }
         }
     }
@@ -59,12 +65,15 @@ public class EventSystem {
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
             SCPlayer ex = SCPlayer.getPlayer(player);
-            double gauge = ex.getCurrGauge();
-            double cap = ex.getGaugeCapacity();
-            if (gauge < cap) {
-                // gauge = gauge + 0.01; Un-Comment this to test it.
-                // Otherwise, leave it commented out until passives work.
-                // ex.setCurrGauge(gauge);
+            boolean hasUnlocked = ex.isEnabled();
+            if (hasUnlocked) {
+                double gauge = ex.getCurrGauge();
+                double cap = ex.getGaugeCapacity();
+                if (gauge < cap) {
+                    // gauge = gauge + 0.01; Un-Comment this to test it.
+                    // Otherwise, leave it commented out until passives work.
+                    // ex.setCurrGauge(gauge);
+                }
             }
         }
     }

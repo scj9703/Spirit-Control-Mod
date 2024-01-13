@@ -1,4 +1,5 @@
 package com.mighty.commands;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
@@ -69,6 +70,8 @@ public class commandsc extends CommandBase {
                 subComDisable(player, args[1]);
             } else if (args[0].equalsIgnoreCase("check")) {
                 subComCheck(player, args[1]);
+            } else if (args[0].equalsIgnoreCase("skills")){
+                subComSkills(player);
             }
 
         }
@@ -137,7 +140,25 @@ public class commandsc extends CommandBase {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                // Todo: Display all super/ultimate/passives
+                ArrayList<Attack> unlockedAttacks = ex.getAttacks();
+                ArrayList<PassiveAbility> unlockedPassives = ex.getPassives();
+                String supers = "Unlocked Super Attacks:";
+                String ultimates = "Unlocked Ultimate Attacks:";
+                String passives = "Unlocked Passive Attacks:";
+                for (Attack atk:unlockedAttacks){
+                    if (atk.isUltimate()){
+                        ultimates = ultimates + " " + atk.getName();
+                    } else {
+                        supers = supers + " " + atk.getName();
+                    }
+                }
+                for (PassiveAbility passive:unlockedPassives){
+                    passives = passives + " " + passive.getName();
+                }
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "These ability names are used in commands such as /sc equip."));
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + supers));
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ultimates));
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + passives));
             } else {
                 player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
             }
@@ -192,8 +213,6 @@ public class commandsc extends CommandBase {
                 AbilityDatabase abilityDatabase = new AbilityDatabase();
                 ArrayList<Attack> playerAttacks = ex.getAttacks();
                 ArrayList<PassiveAbility> playerPassives = ex.getPassives();
-                Attack attackToEquip = abilityDatabase.getAttackByName(ability);
-                PassiveAbility passiveToEquip = abilityDatabase.getPassiveByName(ability);
                 if (loadoutSlot.equals("Super1")) {
                     for (Attack attack : playerAttacks) {
                         if (attack.getName().equals(ability)) {
