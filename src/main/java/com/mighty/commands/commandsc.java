@@ -67,6 +67,8 @@ public class commandsc extends CommandBase {
                 subComEnable(player, args[1]);
             } else if (args[0].equalsIgnoreCase("disable")){
                 subComDisable(player, args[1]);
+            } else if (args[0].equalsIgnoreCase("check")) {
+                subComCheck(player, args[1]);
             }
 
         }
@@ -123,6 +125,56 @@ public class commandsc extends CommandBase {
             }
         } else {
             player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
+        }
+    }
+
+    /**
+     * Displays all ability-names to the player.
+     * @param player
+     */
+    private void subComSkills(EntityPlayer player){
+        if (player != null) {
+            SCPlayer ex = SCPlayer.getPlayer(player);
+            boolean hasUnlocked = ex.isEnabled();
+            if (hasUnlocked) {
+                // Todo: Display all super/ultimate/passives
+            } else {
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
+            }
+        }
+    }
+
+    /**
+     * Displays gauge, loadout, and unlocked skills of target player.
+     * Priority is the information, not making the display pretty.
+     * @param player
+     */
+    private void subComCheck(EntityPlayer player, String targetPlayer){
+        EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
+        if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
+            SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
+            double gauge = ex.getCurrGauge();
+            double cap = ex.getGaugeCapacity();
+            Attack superAttack1 = ex.getSuperAttack1();
+            Attack superAttack2 = ex.getSuperAttack2();
+            Attack ultimate = ex.getUltimateAttack();
+            PassiveAbility passiveAbility = ex.getPassiveAbility();
+            ArrayList<Attack> unlockedAttacks = ex.getAttacks();
+            ArrayList<PassiveAbility> unlockedPassives = ex.getPassives();
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Checking player " + targetPlayer));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Spirit Gauge: " + gauge + " out of " + cap + " Spirit"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Super1: " + superAttack1.getName() + " Super2: " + superAttack2.getName()));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Ultimate: " + ultimate.getName() + " Passive: " + passiveAbility.getName()));
+            String attackList = "Unlocked Attacks:";
+            String passiveList = "Unlocked Passives:";
+            for (Attack atk:unlockedAttacks){
+                attackList = attackList + " " + atk.getName();
+            }
+            for (PassiveAbility passive:unlockedPassives){
+                passiveList = passiveList + " " + passive.getName();
+            }
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + attackList));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + passiveList));
         }
     }
 
