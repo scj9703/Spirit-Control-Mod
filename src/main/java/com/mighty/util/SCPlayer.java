@@ -13,7 +13,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import com.mighty.zsspiritcontrol.Attack;
-import org.lwjgl.Sys;
 
 /** Extended Player for Spirit Control **/
 public class SCPlayer implements IExtendedEntityProperties {
@@ -27,6 +26,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     EntityPlayer player = null;
 
+    // Contains all abilities
     AbilityDatabase abilityDatabase = new AbilityDatabase();
 
     /**
@@ -40,22 +40,18 @@ public class SCPlayer implements IExtendedEntityProperties {
      double currGauge = 0;
 
     /** The Player's Equipped Super Attack 1.
-     * WIP!
      */
     Attack superAttack1;
 
     /** The Player's Equipped Super Attack 2.
-     * WIP!
      */
     Attack superAttack2;
 
     /** The Player's Equipped Ultimate Attack.
-     * WIP!
      */
     Attack ultimateAttack;
 
     /** The Player's Equipped Passive Ability.
-     * WIP!
      */
     PassiveAbility passiveAbility;
 
@@ -64,7 +60,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     // The Player's unlocked passives
     ArrayList<PassiveAbility> passives = new ArrayList<>();
 
-    boolean hasSpiritControl;
+    boolean hasSpiritControl; // I.e., did the player unlock the mod's features
 
     // Constructor
     public SCPlayer(){
@@ -88,6 +84,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void toggleSpiritControl(boolean toggle){
         this.hasSpiritControl = toggle; // True or false
     }
+
     // Gets the Player's equipped SA 1.
     public Attack getSuperAttack1(){
         return superAttack1; }
@@ -134,7 +131,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         return passives;
     }
 
-    // Sets the Player's unlocked Attacks.
+    // Sets the Player's unlocked Attacks, preventing duplicates.
     public void setAttacks(ArrayList<Attack> attacks) {
         ArrayList<String> dupeChecker = new ArrayList<>();
         ArrayList<Attack> attacksWithoutDupes = new ArrayList<>();
