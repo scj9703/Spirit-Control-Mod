@@ -1,5 +1,4 @@
 package com.mighty.commands;
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import com.mighty.util.SCPlayer;
-import org.lwjgl.Sys;
 
+// Spirit Control Commands and command-utilities
 public class commandsc extends CommandBase {
 
     /**
@@ -83,7 +82,7 @@ public class commandsc extends CommandBase {
         if (hasUnlocked) {
             double gauge = ex.getCurrGauge();
             double cap = ex.getGaugeCapacity();
-            double percent = (gauge / cap) * 100;
+            double percent = (gauge / cap) * 100; // For gauge display
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
             String formattedPercent = decimalFormat.format(percent);
             player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
@@ -110,7 +109,7 @@ public class commandsc extends CommandBase {
 
     /**
      * The sub-command for displaying the sub-commands to the player
-     *
+     * OP commands displayed only to operators.
      * @param player
      */
     private void subComHelp(EntityPlayer player) {
@@ -127,6 +126,12 @@ public class commandsc extends CommandBase {
         }
     }
 
+    /**
+     * Equips an ability to the player's loadout. Used only by the ability owner.
+     * @param player
+     * @param loadoutSlot - 'Super1' 'Super2' 'Ultimate' 'Passive'
+     * @param ability - SC Ability name. Found also with getName().
+     */
     private void subComEquip(EntityPlayer player, String loadoutSlot, String ability){
         if (player != null) {
             SCPlayer ex = SCPlayer.getPlayer(player);
@@ -175,7 +180,7 @@ public class commandsc extends CommandBase {
     }
 
     /**
-     * The sub-command for unlocking an ability for a player.
+     * The sub-command for unlocking an ability for a player - OP
      * @param player - Player running the command
      * @param targetPlayer - The target of the command
      */
@@ -193,7 +198,6 @@ public class commandsc extends CommandBase {
                     ArrayList<Attack> playerAttacks = ex.getAttacks();
                     playerAttacks.add(unlockedAttack);
                     ex.setAttacks(playerAttacks);
-                    System.out.println(playerAttacks);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
@@ -205,7 +209,6 @@ public class commandsc extends CommandBase {
                     ArrayList<PassiveAbility> playerPassives = ex.getPassives();
                     playerPassives.add(unlockedPassive);
                     ex.setPassives(playerPassives);
-                    System.out.println(playerPassives);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
@@ -217,7 +220,9 @@ public class commandsc extends CommandBase {
     }
 
     /**
-     * The sub-command for locking an ability from a player.
+     * The sub-command for locking an ability from a player - OP
+     * Default abilities cannot be locked.
+     * If an equipped ability is locked, it is replaced by a default.
      * @param player - Player running the command
      * @param targetPlayer - The target of the command
      */
@@ -288,7 +293,7 @@ public class commandsc extends CommandBase {
         }
     }
 
-    // Enables Spirit Control for the target player
+    // Enables Spirit Control for the target player - OP
     private void subComEnable(EntityPlayer player, String targetPlayer){
         EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
         if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
@@ -298,7 +303,7 @@ public class commandsc extends CommandBase {
         }
     }
 
-    // Disables Spirit Control for Target Player
+    // Disables Spirit Control for Target Player - OP
     private void subComDisable(EntityPlayer player, String targetPlayer){
         EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
         if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
