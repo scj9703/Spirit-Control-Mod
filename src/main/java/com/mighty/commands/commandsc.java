@@ -79,29 +79,34 @@ public class commandsc extends CommandBase {
      * @param player
      */
     private void subCom(EntityPlayer player, SCPlayer ex) {
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GOLD + "Spirit Control cmd is a WIP!"));
-        double gauge = ex.getCurrGauge();
-        double cap = ex.getGaugeCapacity();
-        double percent = (gauge / cap) * 100;
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String formattedPercent = decimalFormat.format(percent);
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Your Spirit Control Loadout"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + ex.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 1: " + ex.getSuperAttack1().getDesc()));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 2: " + ex.getSuperAttack2().getDesc()));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Ultimate Attack: " + ex.getUltimateAttack().getDesc()));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Passive Ability: " + ex.getPassiveAbility().getDesc()));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Do /sc help for a full list of commands!"));
-        player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
+        boolean hasUnlocked = ex.isEnabled();
+        if (hasUnlocked) {
+            double gauge = ex.getCurrGauge();
+            double cap = ex.getGaugeCapacity();
+            double percent = (gauge / cap) * 100;
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            String formattedPercent = decimalFormat.format(percent);
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Your Spirit Control Loadout"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + ex.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 1: " + ex.getSuperAttack1().getDesc()));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Super Attack 2: " + ex.getSuperAttack2().getDesc()));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Ultimate Attack: " + ex.getUltimateAttack().getDesc()));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Passive Ability: " + ex.getPassiveAbility().getDesc()));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + ">"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> Do /sc help for a full list of commands!"));
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
+        } else {
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
+        }
     }
+
 
     /**
      * The sub-command for displaying the sub-commands to the player
@@ -109,51 +114,62 @@ public class commandsc extends CommandBase {
      * @param player
      */
     private void subComHelp(EntityPlayer player) {
-        for (String s : commandList) {
-            if (isOp(player) || !isOpCommand(s)) {
-                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "" + s));
+        SCPlayer ex = SCPlayer.getPlayer(player);
+        boolean hasUnlocked = ex.isEnabled();
+        if (hasUnlocked) {
+            for (String s : commandList) {
+                if (isOp(player) || !isOpCommand(s)) {
+                    player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "" + s));
+                }
             }
+        } else {
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
         }
     }
 
     private void subComEquip(EntityPlayer player, String loadoutSlot, String ability){
-        if (player != null){
+        if (player != null) {
             SCPlayer ex = SCPlayer.getPlayer(player);
-            AbilityDatabase abilityDatabase = new AbilityDatabase();
-            ArrayList<Attack> playerAttacks = ex.getAttacks();
-            ArrayList<PassiveAbility> playerPassives = ex.getPassives();
-            Attack attackToEquip = abilityDatabase.getAttackByName(ability);
-            PassiveAbility passiveToEquip = abilityDatabase.getPassiveByName(ability);
-            if (loadoutSlot.equals("Super1")){
-                for (Attack attack : playerAttacks) {
-                    if (attack.getName().equals(ability)) {
-                        ex.setSuperAttack1(attack);
+            boolean hasUnlocked = ex.isEnabled();
+            if (hasUnlocked) {
+                AbilityDatabase abilityDatabase = new AbilityDatabase();
+                ArrayList<Attack> playerAttacks = ex.getAttacks();
+                ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                Attack attackToEquip = abilityDatabase.getAttackByName(ability);
+                PassiveAbility passiveToEquip = abilityDatabase.getPassiveByName(ability);
+                if (loadoutSlot.equals("Super1")) {
+                    for (Attack attack : playerAttacks) {
+                        if (attack.getName().equals(ability)) {
+                            ex.setSuperAttack1(attack);
+                        }
                     }
-                }
-                subCom(player, ex);
-            } else if (loadoutSlot.equals("Super2")) {
-                for (Attack attack : playerAttacks) {
-                    if (attack.getName().equals(ability)) {
-                        ex.setSuperAttack2(attack);
+                    subCom(player, ex);
+                } else if (loadoutSlot.equals("Super2")) {
+                    for (Attack attack : playerAttacks) {
+                        if (attack.getName().equals(ability)) {
+                            ex.setSuperAttack2(attack);
+                        }
                     }
-                }
-                subCom(player, ex);
-            } else if (loadoutSlot.equals("Ultimate")) {
-                for (Attack attack : playerAttacks) {
-                    if (attack.getName().equals(ability)) {
-                        ex.setUltimateAttack(attack);
+                    subCom(player, ex);
+                } else if (loadoutSlot.equals("Ultimate")) {
+                    for (Attack attack : playerAttacks) {
+                        if (attack.getName().equals(ability)) {
+                            ex.setUltimateAttack(attack);
+                        }
                     }
-                }
-                subCom(player, ex);
-            } else if (loadoutSlot.equals("Passive")) {
-                for (PassiveAbility passive:playerPassives){
-                    if (passive.getName().equals(ability)){
-                        ex.setPassiveAbility(passive);
+                    subCom(player, ex);
+                } else if (loadoutSlot.equals("Passive")) {
+                    for (PassiveAbility passive : playerPassives) {
+                        if (passive.getName().equals(ability)) {
+                            ex.setPassiveAbility(passive);
+                        }
                     }
+                    subCom(player, ex);
+                } else {
+                    player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Error: Valid slotNames are: Super1, Super2, Ultimate, Passive. Note capitalization."));
                 }
-                subCom(player, ex);
             } else {
-                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Error: Valid slotNames are: Super1, Super2, Ultimate, Passive. Note capitalization."));
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "You haven't learned how to use Spirit Control! Seek training on Yardrat!"));
             }
         }
     }
