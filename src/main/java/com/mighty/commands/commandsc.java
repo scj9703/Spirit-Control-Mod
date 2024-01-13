@@ -62,6 +62,8 @@ public class commandsc extends CommandBase {
                 subComUnlock(player, args[1], args[2]);
             } else if (args[0].equalsIgnoreCase("lock")) {
                 subComLock(player, args[1], args[2]);
+            } else if (args[0].equalsIgnoreCase("equip")) {
+                subComEquip(player, args[1], args[2]);
             }
 
         }
@@ -106,6 +108,48 @@ public class commandsc extends CommandBase {
         for (String s : commandList) {
             if (isOp(player) || !isOpCommand(s)) {
                 player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "" + s));
+            }
+        }
+    }
+
+    private void subComEquip(EntityPlayer player, String loadoutSlot, String ability){
+        if (player != null){
+            SCPlayer ex = SCPlayer.getPlayer(player);
+            AbilityDatabase abilityDatabase = new AbilityDatabase();
+            ArrayList<Attack> playerAttacks = ex.getAttacks();
+            ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+            Attack attackToEquip = abilityDatabase.getAttackByName(ability);
+            PassiveAbility passiveToEquip = abilityDatabase.getPassiveByName(ability);
+            if (loadoutSlot.equals("Super1")){
+                for (Attack attack : playerAttacks) {
+                    if (attack.getName().equals(ability)) {
+                        ex.setSuperAttack1(attack);
+                    }
+                }
+                subCom(player, ex);
+            } else if (loadoutSlot.equals("Super2")) {
+                for (Attack attack : playerAttacks) {
+                    if (attack.getName().equals(ability)) {
+                        ex.setSuperAttack2(attack);
+                    }
+                }
+                subCom(player, ex);
+            } else if (loadoutSlot.equals("Ultimate")) {
+                for (Attack attack : playerAttacks) {
+                    if (attack.getName().equals(ability)) {
+                        ex.setUltimateAttack(attack);
+                    }
+                }
+                subCom(player, ex);
+            } else if (loadoutSlot.equals("Passive")) {
+                for (PassiveAbility passive:playerPassives){
+                    if (passive.getName().equals(ability)){
+                        ex.setPassiveAbility(passive);
+                    }
+                }
+                subCom(player, ex);
+            } else {
+                player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Error: Valid slotNames are: Super1, Super2, Ultimate, Passive. Note capitalization."));
             }
         }
     }
