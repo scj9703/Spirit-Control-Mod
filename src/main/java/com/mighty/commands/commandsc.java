@@ -220,6 +220,18 @@ public class commandsc extends CommandBase {
                 }
                 ex.setAttacks(newPlayerAttacks);
                 System.out.println(newPlayerAttacks);
+                Attack currSuper1 = ex.getSuperAttack1();
+                Attack currSuper2 = ex.getSuperAttack2();
+                Attack currUltimate = ex.getUltimateAttack();
+                if (currSuper1.getName().equals(ability)){
+                    ex.setSuperAttack1(abilities.getKiAttack());
+                }
+                if (currSuper2.getName().equals(ability)){
+                    ex.setSuperAttack2(abilities.getKiAttack());
+                }
+                if (currUltimate.getName().equals(ability)){
+                    ex.setUltimateAttack(abilities.getEnergyWave());
+                }
                 if (ability.equals("KiAttack") || ability.equals("EnergyWave")){
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.GOLD + "Default Abilities cannot be locked!"));
@@ -238,6 +250,10 @@ public class commandsc extends CommandBase {
                 }
                 ex.setPassives(newPlayerPassives);
                 System.out.println(newPlayerPassives);
+                PassiveAbility currPassive = ex.getPassiveAbility();
+                if (currPassive.getName().equals(ability)){
+                    ex.setPassiveAbility(abilities.getVirtuousSpirit());
+                }
                 if (ability.equals("VirtuousSpirit")){
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.GOLD + "Default Abilities cannot be locked!"));
