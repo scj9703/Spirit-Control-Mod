@@ -64,6 +64,10 @@ public class commandsc extends CommandBase {
                 subComLock(player, args[1], args[2]);
             } else if (args[0].equalsIgnoreCase("equip")) {
                 subComEquip(player, args[1], args[2]);
+            } else if (args[0].equalsIgnoreCase("enable")){
+                subComEnable(player, args[1]);
+            } else if (args[0].equalsIgnoreCase("disable")){
+                subComDisable(player, args[1]);
             }
 
         }
@@ -268,6 +272,25 @@ public class commandsc extends CommandBase {
         }
     }
 
+    // Enables Spirit Control for the target player
+    private void subComEnable(EntityPlayer player, String targetPlayer){
+        EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
+        if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
+            SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
+            ex.toggleSpiritControl(true);
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.DARK_BLUE + "Spirit Control Enabled for " + targetPlayer));
+        }
+    }
+
+    // Disables Spirit Control for Target Player
+    private void subComDisable(EntityPlayer player, String targetPlayer){
+        EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
+        if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
+            SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
+            ex.toggleSpiritControl(false);
+            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.DARK_BLUE + "Spirit Control Disabled for " + targetPlayer));
+        }
+    }
     /**
      * Checks whether the player is an operator of the server
      *

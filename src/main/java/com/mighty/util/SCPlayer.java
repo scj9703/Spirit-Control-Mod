@@ -64,6 +64,8 @@ public class SCPlayer implements IExtendedEntityProperties {
     // The Player's unlocked passives
     ArrayList<PassiveAbility> passives = new ArrayList<>();
 
+    boolean hasSpiritControl;
+
     // Constructor
     public SCPlayer(){
         // Default abilities
@@ -74,8 +76,18 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.superAttack2 = abilityDatabase.getKiAttack();
         this.ultimateAttack = abilityDatabase.getEnergyWave();
         this.passiveAbility = abilityDatabase.getVirtuousSpirit();
+        this.hasSpiritControl = false;
     }
 
+    // Returns whether the player unlocked Spirit Control.
+    public boolean isEnabled(){
+        return hasSpiritControl;
+    }
+
+    // Enables/Disables Spirit Control.
+    public void toggleSpiritControl(boolean toggle){
+        this.hasSpiritControl = toggle; // True or false
+    }
     // Gets the Player's equipped SA 1.
     public Attack getSuperAttack1(){
         return superAttack1; }
