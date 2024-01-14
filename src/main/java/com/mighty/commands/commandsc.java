@@ -17,7 +17,7 @@ import net.minecraft.util.EnumChatFormatting;
 import com.mighty.util.SCPlayer;
 
 // Spirit Control Commands and command-utilities
-public class commandsc extends CommandBase {
+public class    commandsc extends CommandBase {
 
     /**
      * Contains the various sub-commands, with a descriptor for how they work
@@ -210,7 +210,6 @@ public class commandsc extends CommandBase {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                AbilityDatabase abilityDatabase = new AbilityDatabase();
                 ArrayList<Attack> playerAttacks = ex.getAttacks();
                 ArrayList<PassiveAbility> playerPassives = ex.getPassives();
                 if (loadoutSlot.equals("Super1")) {
@@ -259,12 +258,11 @@ public class commandsc extends CommandBase {
         EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
         if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
             SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
-            AbilityDatabase abilities = new AbilityDatabase();
-            String[] attackList = abilities.getAllAttackNames();
-            String[] passiveList = abilities.getAllPassiveNames();
+            String[] attackList = AbilityDatabase.getAllAttackNames();
+            String[] passiveList = AbilityDatabase.getAllPassiveNames();
             List<String> list = Arrays.asList(attackList);
             if (player != null && list.contains(ability)) {
-                Attack unlockedAttack = abilities.getAttackByName(ability);
+                Attack unlockedAttack = AbilityDatabase.getAttackByName(ability);
                 if (unlockedAttack != null) {
                     ArrayList<Attack> playerAttacks = ex.getAttacks();
                     playerAttacks.add(unlockedAttack);
@@ -275,7 +273,7 @@ public class commandsc extends CommandBase {
             }
             List<String> list2 = Arrays.asList(passiveList);
             if (player != null && list2.contains(ability)){
-                PassiveAbility unlockedPassive = abilities.getPassiveByName(ability);
+                PassiveAbility unlockedPassive = AbilityDatabase.getPassiveByName(ability);
                 if (unlockedPassive != null){
                     ArrayList<PassiveAbility> playerPassives = ex.getPassives();
                     playerPassives.add(unlockedPassive);
@@ -301,9 +299,8 @@ public class commandsc extends CommandBase {
         EntityPlayer otherPlayer = MinecraftServer.getServer().getConfigurationManager().func_152612_a(targetPlayer);
         if (player == null || process(player, otherPlayer != null, "That player doesn't exist!")) {
             SCPlayer ex = SCPlayer.getPlayer(otherPlayer);
-            AbilityDatabase abilities = new AbilityDatabase();
-            String[] attackList = abilities.getAllAttackNames();
-            String[] passiveList = abilities.getAllPassiveNames();
+            String[] attackList = AbilityDatabase.getAllAttackNames();
+            String[] passiveList = AbilityDatabase.getAllPassiveNames();
             List<String> list = Arrays.asList(attackList);
             List<String> list2 = Arrays.asList(passiveList);
             if (player != null && list.contains(ability)){
@@ -320,13 +317,13 @@ public class commandsc extends CommandBase {
                 Attack currSuper2 = ex.getSuperAttack2();
                 Attack currUltimate = ex.getUltimateAttack();
                 if (currSuper1.getName().equals(ability)){
-                    ex.setSuperAttack1(abilities.getKiAttack());
+                    ex.setSuperAttack1(AbilityDatabase.getKiAttack());
                 }
                 if (currSuper2.getName().equals(ability)){
-                    ex.setSuperAttack2(abilities.getKiAttack());
+                    ex.setSuperAttack2(AbilityDatabase.getKiAttack());
                 }
                 if (currUltimate.getName().equals(ability)){
-                    ex.setUltimateAttack(abilities.getEnergyWave());
+                    ex.setUltimateAttack(AbilityDatabase.getEnergyWave());
                 }
                 if (ability.equals("KiAttack") || ability.equals("EnergyWave")){
                     player.addChatComponentMessage(new ChatComponentTranslation(
@@ -348,7 +345,7 @@ public class commandsc extends CommandBase {
                 System.out.println(newPlayerPassives);
                 PassiveAbility currPassive = ex.getPassiveAbility();
                 if (currPassive.getName().equals(ability)){
-                    ex.setPassiveAbility(abilities.getVirtuousSpirit());
+                    ex.setPassiveAbility(AbilityDatabase.getVirtuousSpirit());
                 }
                 if (ability.equals("VirtuousSpirit")){
                     player.addChatComponentMessage(new ChatComponentTranslation(

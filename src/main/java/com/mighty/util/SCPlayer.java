@@ -15,7 +15,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import com.mighty.zsspiritcontrol.Attack;
 
 /** Extended Player for Spirit Control **/
-public class SCPlayer implements IExtendedEntityProperties {
+    public class SCPlayer implements IExtendedEntityProperties {
     /**
      * The Player's SC Data.
      */
@@ -25,9 +25,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      * The player who this data belongs to
      */
     EntityPlayer player = null;
-
-    // Contains all abilities
-    AbilityDatabase abilityDatabase = new AbilityDatabase();
 
     /**
      * The Spirit Gauge's default max capacity.
@@ -65,13 +62,13 @@ public class SCPlayer implements IExtendedEntityProperties {
     // Constructor
     public SCPlayer(){
         // Default abilities
-        this.attacks.add(abilityDatabase.getKiAttack());
-        this.attacks.add(abilityDatabase.getEnergyWave());
-        this.passives.add(abilityDatabase.getVirtuousSpirit());
-        this.superAttack1 = abilityDatabase.getKiAttack();
-        this.superAttack2 = abilityDatabase.getKiAttack();
-        this.ultimateAttack = abilityDatabase.getEnergyWave();
-        this.passiveAbility = abilityDatabase.getVirtuousSpirit();
+        this.attacks.add(AbilityDatabase.getKiAttack());
+        this.attacks.add(AbilityDatabase.getEnergyWave());
+        this.passives.add(AbilityDatabase.getVirtuousSpirit());
+        this.superAttack1 = AbilityDatabase.getKiAttack();
+        this.superAttack2 = AbilityDatabase.getKiAttack();
+        this.ultimateAttack = AbilityDatabase.getEnergyWave();
+        this.passiveAbility = AbilityDatabase.getVirtuousSpirit();
         this.hasSpiritControl = false;
     }
 
