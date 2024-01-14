@@ -1,10 +1,6 @@
 package com.mighty.commands;
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.mighty.util.SCPlayer;
 import com.mighty.zsspiritcontrol.AbilityDatabase;
 import com.mighty.zsspiritcontrol.Attack;
 import com.mighty.zsspiritcontrol.PassiveAbility;
@@ -14,10 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
-import com.mighty.util.SCPlayer;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // Spirit Control Commands and command-utilities
-public class    commandsc extends CommandBase {
+public class commandsc extends CommandBase {
 
     /**
      * Contains the various sub-commands, with a descriptor for how they work
@@ -317,13 +317,13 @@ public class    commandsc extends CommandBase {
                 Attack currSuper2 = ex.getSuperAttack2();
                 Attack currUltimate = ex.getUltimateAttack();
                 if (currSuper1.getName().equals(ability)){
-                    ex.setSuperAttack1(AbilityDatabase.getKiAttack());
+                    ex.setSuperAttack1(AbilityDatabase.getAttackByName("KiAttack"));
                 }
                 if (currSuper2.getName().equals(ability)){
-                    ex.setSuperAttack2(AbilityDatabase.getKiAttack());
+                    ex.setSuperAttack2(AbilityDatabase.getAttackByName("KiAttack"));
                 }
                 if (currUltimate.getName().equals(ability)){
-                    ex.setUltimateAttack(AbilityDatabase.getEnergyWave());
+                    ex.setUltimateAttack(AbilityDatabase.getAttackByName("EnergyWave"));
                 }
                 if (ability.equals("KiAttack") || ability.equals("EnergyWave")){
                     player.addChatComponentMessage(new ChatComponentTranslation(
@@ -345,7 +345,7 @@ public class    commandsc extends CommandBase {
                 System.out.println(newPlayerPassives);
                 PassiveAbility currPassive = ex.getPassiveAbility();
                 if (currPassive.getName().equals(ability)){
-                    ex.setPassiveAbility(AbilityDatabase.getVirtuousSpirit());
+                    ex.setPassiveAbility(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
                 }
                 if (ability.equals("VirtuousSpirit")){
                     player.addChatComponentMessage(new ChatComponentTranslation(

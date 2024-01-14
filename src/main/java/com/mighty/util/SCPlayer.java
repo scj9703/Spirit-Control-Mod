@@ -62,13 +62,13 @@ import com.mighty.zsspiritcontrol.Attack;
     // Constructor
     public SCPlayer(){
         // Default abilities
-        this.attacks.add(AbilityDatabase.getKiAttack());
-        this.attacks.add(AbilityDatabase.getEnergyWave());
-        this.passives.add(AbilityDatabase.getVirtuousSpirit());
-        this.superAttack1 = AbilityDatabase.getKiAttack();
-        this.superAttack2 = AbilityDatabase.getKiAttack();
-        this.ultimateAttack = AbilityDatabase.getEnergyWave();
-        this.passiveAbility = AbilityDatabase.getVirtuousSpirit();
+        this.attacks.add(AbilityDatabase.getAttackByName("KiAttack"));
+        this.attacks.add(AbilityDatabase.getAttackByName("EnergyWave"));
+        this.passives.add(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
+        this.superAttack1 = AbilityDatabase.getAttackByName("KiAttack");
+        this.superAttack2 = AbilityDatabase.getAttackByName("KiAttack");
+        this.ultimateAttack = AbilityDatabase.getAttackByName("EnergyWave");
+        this.passiveAbility = AbilityDatabase.getPassiveByName("VirtuousSpirit");
         this.hasSpiritControl = false;
     }
 
@@ -198,31 +198,29 @@ import com.mighty.zsspiritcontrol.Attack;
         double gauge = getCurrGauge();
         double cap = getGaugeCapacity();
         double oneTenth = cap/10;
-        String gaugeString = "{"; // Left Border
+        StringBuilder gaugeString = new StringBuilder("{"); // Left Border
         // Displays the 'fullness' of the Spirit Gauge.
         // Every 10% fills the meter's display
         for (int i = 1; i <= 10; i++){
             if (gauge < oneTenth*i){
-                gaugeString = gaugeString + "-";
+                gaugeString.append("-");
             }
             else {
-                gaugeString = gaugeString + "=";
+                gaugeString.append("=");
             }
         }
-        gaugeString = gaugeString + "}"; // Right Border
-        return gaugeString;
+        gaugeString.append("}"); // Right Border
+        return gaugeString.toString();
     }
     @Override
     public void saveNBTData(NBTTagCompound compound) {
-        // Saves the player's SC Data
-        return;
+        // Saves the player's SC Datareturn;
 
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
         // Loads the player's SC Data
-        return;
     }
 
     @Override
