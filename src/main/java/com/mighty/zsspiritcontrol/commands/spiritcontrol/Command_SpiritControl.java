@@ -2,6 +2,7 @@ package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.commands.SubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
+import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import net.minecraft.command.CommandBase;
@@ -67,7 +68,7 @@ public class Command_SpiritControl extends CommandBase {
                 SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
                 if(!extPlayer.isEnabled()){
-                    sender.addChatMessage(new ChatComponentText("You haven't learned how to use Spirit Control! Seek training on \u00a75\u00a7lYardrat!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                    sender.addChatMessage(ChatUtil.getMessage("You haven't learned how to use Spirit Control! Seek training on \u00a75\u00a7lYardrat!", EnumChatFormatting.AQUA));
                     return;
                 }
                 /**
@@ -80,31 +81,31 @@ public class Command_SpiritControl extends CommandBase {
                 double percent = (gauge / cap) * 100; // For gauge display
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 String formattedPercent = decimalFormat.format(percent);
-                sender.addChatMessage(new ChatComponentTranslation("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Your Spirit Control Loadout").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> " + extPlayer.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Super Attack 1: " + extPlayer.getSuperAttack1().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Super Attack 2: " + extPlayer.getSuperAttack2().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Ultimate Attack: " + extPlayer.getUltimateAttack().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Passive Ability: " + extPlayer.getPassiveAbility().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("==> Do /sc help for a full list of commands!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
-                sender.addChatMessage(new ChatComponentTranslation("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(ChatUtil.getMessage("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Your Spirit Control Loadout", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> " + extPlayer.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity.", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 1: " + extPlayer.getSuperAttack1().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 2: " + extPlayer.getSuperAttack2().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Ultimate Attack: " + extPlayer.getUltimateAttack().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Passive Ability: " + extPlayer.getPassiveAbility().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Do /sc help for a full list of commands!", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", EnumChatFormatting.AQUA));
             }else{
-                sender.addChatMessage(new ChatComponentText("You have to be a player to run this command.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+                sender.addChatMessage(ChatUtil.getMessage("You have to be a player to run this command.", EnumChatFormatting.RED));
             }
         } else {
             SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
             if(subCommand != null)
                 subCommand.processCommand(sender, args);
             else
-                sender.addChatMessage(new ChatComponentText("A subcommand by this name doesn't exist.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+                sender.addChatMessage(ChatUtil.getMessage("A subcommand by this name doesn't exist.", EnumChatFormatting.RED));
         }
     }
 
