@@ -56,19 +56,19 @@ import net.minecraftforge.common.util.Constants;
     PassiveAbility passiveAbility;
 
     // The Player's unlocked attacks
-    ArrayList<Attack> attacks = new ArrayList<>();
+    ArrayList<Attack> unlockedAttacks = new ArrayList<>();
     // The Player's unlocked passives
-    ArrayList<PassiveAbility> passives = new ArrayList<>();
+    ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>();
 
     boolean hasSpiritControl; // I.e., did the player unlock the mod's features
 
     // Constructor
     public SCPlayer(EntityPlayer player){
         // Default abilities
-        this.attacks.add(AbilityDatabase.getAttackByName("KiAttack"));
-        this.attacks.add(AbilityDatabase.getAttackByName("EnergyWave"));
+        this.unlockedAttacks.add(AbilityDatabase.getAttackByName("KiAttack"));
+        this.unlockedAttacks.add(AbilityDatabase.getAttackByName("EnergyWave"));
 
-        this.passives.add(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
+        this.unlockedPassives.add(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
 
         this.superAttack1 = AbilityDatabase.getAttackByName("KiAttack");
         this.superAttack2 = AbilityDatabase.getAttackByName("KiAttack");
@@ -127,39 +127,39 @@ import net.minecraftforge.common.util.Constants;
     }
 
     // Gets the Player's unlocked Attacks.
-    public ArrayList<Attack> getAttacks() {
-        return attacks;
+    public ArrayList<Attack> getUnlockedAttacks() {
+        return unlockedAttacks;
     }
 
     // Gets the Player's unlocked Passives.
-    public ArrayList<PassiveAbility> getPassives() {
-        return passives;
+    public ArrayList<PassiveAbility> getUnlockedPassives() {
+        return unlockedPassives;
     }
 
     // Sets the Player's unlocked Attacks, preventing duplicates.
-    public void setAttacks(ArrayList<Attack> attacks) {
+    public void setUnlockedAttacks(ArrayList<Attack> unlockedAttacks) {
         ArrayList<String> dupeChecker = new ArrayList<>();
         ArrayList<Attack> attacksWithoutDupes = new ArrayList<>();
-        for (Attack attack : attacks){
+        for (Attack attack : unlockedAttacks){
             if (!dupeChecker.contains(attack.getName())){
                 dupeChecker.add(attack.getName());
                 attacksWithoutDupes.add(attack);
             }
         }
-        this.attacks = attacksWithoutDupes;
+        this.unlockedAttacks = attacksWithoutDupes;
     }
 
     // Sets the Player's unlocked Passives.
-    public void setPassives(ArrayList<PassiveAbility> passives) {
+    public void setUnlockedPassives(ArrayList<PassiveAbility> unlockedPassives) {
         ArrayList<String> dupeChecker = new ArrayList<>();
         ArrayList<PassiveAbility> passivesWithoutDupes = new ArrayList<>();
-        for (PassiveAbility passive : passives){
+        for (PassiveAbility passive : unlockedPassives){
             if (!dupeChecker.contains(passive.getName())){
                 dupeChecker.add(passive.getName());
                 passivesWithoutDupes.add(passive);
             }
         }
-        this.passives = passivesWithoutDupes;
+        this.unlockedPassives = passivesWithoutDupes;
     }
 
     /**
@@ -237,13 +237,13 @@ import net.minecraftforge.common.util.Constants;
         scTag.setString("selectedPassive", passiveAbility.getName());
 
         NBTTagList attackList = new NBTTagList();
-        for(Attack att : getAttacks()){
+        for(Attack att : getUnlockedAttacks()){
             attackList.appendTag(new NBTTagString(att.getName()));
         }
         scTag.setTag("unlockedAttacks", attackList);
 
         NBTTagList passiveList = new NBTTagList();
-        for(PassiveAbility pass : getPassives()){
+        for(PassiveAbility pass : getUnlockedPassives()){
             passiveList.appendTag(new NBTTagString(pass.getName()));
         }
         scTag.setTag("unlockedPassives", passiveList);
@@ -285,14 +285,14 @@ import net.minecraftforge.common.util.Constants;
         for(int i = 0; i < attackList.tagCount(); i++){
             newAbilities.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
         }
-        this.setAttacks(newAbilities);
+        this.setUnlockedAttacks(newAbilities);
 
         NBTTagList passiveList = scTag.getTagList("unlockedPassives", Constants.NBT.TAG_STRING);
         ArrayList<PassiveAbility> newPassives = new ArrayList<>();
         for(int i = 0; i < passiveList.tagCount(); i++){
             newPassives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
         }
-        this.setPassives(newPassives);
+        this.setUnlockedPassives(newPassives);
     }
 
     @Override
@@ -319,5 +319,36 @@ import net.minecraftforge.common.util.Constants;
         NBTTagCompound nbt = new NBTTagCompound();
         otherPlayer.saveNBTData(nbt);
         this.loadNBTData(nbt);
+    }
+
+    /**
+     * Decides if the player gets access to an ability or not
+     * @param ability ability name
+     * @param setAccessible if it should be accessible to the player or not
+     */
+    public void setAbilityAccess(String ability, boolean setAccessible) {
+        Attack attack = AbilityDatabase.getAttackByName(ability);
+        PassiveAbility passive = AbilityDatabase.getPassiveByName(ability);
+
+        setAbilityAccess(attack, setAccessible);
+
+        setAbilityAccess(passive, setAccessible);
+    }
+
+    public void setAbilityAccess(Attack attack, boolean setAccessible){
+        if(attack != null){
+            if(setAccessible && !unlockedAttacks.contains(attack))
+                unlockedAttacks.add(attack);
+            else
+                unlockedAttacks.remove(attack);
+        }
+    }
+
+    public void setAbilityAccess(PassiveAbility passive, boolean setAccessible){
+        if(passive != null)
+            if(setAccessible && !unlockedPassives.contains(passive))
+                unlockedPassives.add(passive);
+            else
+                unlockedPassives.remove(passive);
     }
 }
