@@ -31,6 +31,10 @@ public class EventSystem {
      */
     @SubscribeEvent
     public void onEntityHit(LivingAttackEvent event) {
+        if(event.entity.worldObj.isRemote){ //Return if even ran on client
+            return;
+        }
+
         // If the player is the CAUSE of the attack
         if (event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
@@ -68,6 +72,10 @@ public class EventSystem {
      */
     @SubscribeEvent
     public void onEntityTick(LivingUpdateEvent event){
+        if(event.entity.worldObj.isRemote){
+            return;
+        }
+
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
             SCPlayer ex = SCPlayer.getPlayer(player);
