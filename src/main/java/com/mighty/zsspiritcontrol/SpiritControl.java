@@ -16,7 +16,7 @@ import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.SidedProxy;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION)
+@Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION, name="Spirit Control Plugin")
 public class SpiritControl
 {
     public static final String MODID = "ZSSpiritcontrol";
