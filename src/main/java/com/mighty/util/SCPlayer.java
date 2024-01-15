@@ -233,14 +233,14 @@ import net.minecraftforge.common.util.Constants;
         scTag.setString("selectedPassive", passiveAbility.getName());
 
         NBTTagList attackList = new NBTTagList();
-        for(Attack att : attacks){
+        for(Attack att : getAttacks()){
             attackList.appendTag(new NBTTagString(att.getName()));
         }
         scTag.setTag("unlockedAttacks", attackList);
 
         NBTTagList passiveList = new NBTTagList();
-        for(PassiveAbility passive : passives){
-            passiveList.appendTag(new NBTTagString(passive.getName()));
+        for(PassiveAbility pass : getPassives()){
+            passiveList.appendTag(new NBTTagString(pass.getName()));
         }
         scTag.setTag("unlockedPassives", passiveList);
 
@@ -257,7 +257,7 @@ import net.minecraftforge.common.util.Constants;
 
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
-        hasSpiritControl = compound.getBoolean("hasSpiritControl");
+        hasSpiritControl = scTag.getBoolean("hasSpiritControl");
 
         gaugeCapacity = scTag.getDouble("gaugeCapacity");
         currGauge = scTag.getDouble("currGauge");
@@ -277,15 +277,18 @@ import net.minecraftforge.common.util.Constants;
 
 
         NBTTagList attackList = scTag.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        ArrayList<Attack> newAbilities = new ArrayList<>();
         for(int i = 0; i < attackList.tagCount(); i++){
-            attacks.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
+            newAbilities.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
         }
+        this.setAttacks(newAbilities);
 
-        NBTTagList passiveList = scTag.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        NBTTagList passiveList = scTag.getTagList("unlockedPassives", Constants.NBT.TAG_STRING);
+        ArrayList<PassiveAbility> newPassives = new ArrayList<>();
         for(int i = 0; i < passiveList.tagCount(); i++){
-            passives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
+            newPassives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
         }
-
+        this.setPassives(newPassives);
     }
 
     @Override
@@ -307,6 +310,6 @@ import net.minecraftforge.common.util.Constants;
     }
 
     public static void register(EntityPlayer player) {
-        player.registerExtendedProperties("ZSSpiritcontrol", new SCPlayer());
+        player.registerExtendedProperties(zsspiritcontrol.MODID, new SCPlayer(player));
     }
 }
