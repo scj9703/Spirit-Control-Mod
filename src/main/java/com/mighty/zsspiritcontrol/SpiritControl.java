@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class zsspiritcontrol
 {
     public static final String MODID = "ZSSpiritcontrol";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.0.0";
 
     public static Logger LOGGER;
 
