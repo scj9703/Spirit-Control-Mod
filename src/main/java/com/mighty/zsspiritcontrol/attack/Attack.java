@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol;
+package com.mighty.zsspiritcontrol.attack;
 
 /** Super and Ultimate Attacks **/
 public class Attack {

@@ -1,6 +1,6 @@
-package com.mighty.events;
+package com.mighty.zsspiritcontrol.events;
 
-import com.mighty.commands.commandsc;
+import com.mighty.zsspiritcontrol.commands.commandsc;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
