@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import com.mighty.util.SCPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class EventSystem {
     /**
@@ -14,9 +15,14 @@ public class EventSystem {
      */
     @SubscribeEvent
     public void entityConstructing(EntityConstructing event) {
-        if (event.entity instanceof EntityPlayer) {
+        if (event.entity instanceof EntityPlayer && SCPlayer.getPlayer((EntityPlayer) event.entity) == null) {
             SCPlayer.register((EntityPlayer)event.entity);
         }
+    }
+
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event){
+        SCPlayer.getPlayer(event.entityPlayer).copy(SCPlayer.getPlayer(event.original));
     }
 
     /**
