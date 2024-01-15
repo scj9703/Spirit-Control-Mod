@@ -64,15 +64,20 @@ import net.minecraftforge.common.util.Constants;
     boolean hasSpiritControl; // I.e., did the player unlock the mod's features
 
     // Constructor
-    public SCPlayer(){
+    public SCPlayer(EntityPlayer player){
         // Default abilities
         this.attacks.add(AbilityDatabase.getAttackByName("KiAttack"));
         this.attacks.add(AbilityDatabase.getAttackByName("EnergyWave"));
+
         this.passives.add(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
+
         this.superAttack1 = AbilityDatabase.getAttackByName("KiAttack");
         this.superAttack2 = AbilityDatabase.getAttackByName("KiAttack");
         this.ultimateAttack = AbilityDatabase.getAttackByName("EnergyWave");
+
         this.passiveAbility = AbilityDatabase.getPassiveByName("VirtuousSpirit");
+
+        this.player = player;
         this.hasSpiritControl = false;
     }
 
@@ -300,16 +305,20 @@ import net.minecraftforge.common.util.Constants;
      * @return The sc properties of player 'p'
      */
     public static SCPlayer getPlayer(EntityPlayer p) {
-        SCPlayer ex = (SCPlayer) p.getExtendedProperties(zsspiritcontrol.MODID);
-
-        if (ex.player == null) {
-            ex.player = p;
-        }
-
-        return ex;
+        return (SCPlayer) p.getExtendedProperties(zsspiritcontrol.MODID);
     }
 
     public static void register(EntityPlayer player) {
         player.registerExtendedProperties(zsspiritcontrol.MODID, new SCPlayer(player));
+    }
+
+    /**
+     * Copy over data from a player provided in the argument
+     * @param otherPlayer SCPlayer of the player you want to copy data of
+     */
+    public void copy(SCPlayer otherPlayer) {
+        NBTTagCompound nbt = new NBTTagCompound();
+        otherPlayer.saveNBTData(nbt);
+        this.loadNBTData(nbt);
     }
 }
