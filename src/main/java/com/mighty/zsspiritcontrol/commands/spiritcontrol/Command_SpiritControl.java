@@ -37,7 +37,7 @@ public class Command_SpiritControl extends CommandBase {
         }
     }
     public Command_SpiritControl(){
-//        subCommandMap.put("help", new SubCommand_Help());
+        subCommandMap.put("help", new SubCommand_Help());
 //        subCommandMap.put("skills", new SubCommand_Skills());
 //        subCommandMap.put("enable", new SubCommand_Enable().addPerms(EnumPermission.SPIRITCONTROL_TOGGLE, EnumPermission.SPIRITCONTROL_ENABLE));
 //        subCommandMap.put("disable", new SubCommand_Disable().addPerms(EnumPermission.SPIRITCONTROL_TOGGLE, EnumPermission.SPIRITCONTROL_DISABLE));
