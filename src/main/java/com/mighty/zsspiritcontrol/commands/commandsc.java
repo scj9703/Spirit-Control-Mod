@@ -140,8 +140,8 @@ public class commandsc extends CommandBase {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                ArrayList<Attack> unlockedAttacks = ex.getAttacks();
-                ArrayList<PassiveAbility> unlockedPassives = ex.getPassives();
+                ArrayList<Attack> unlockedAttacks = ex.getUnlockedAttacks();
+                ArrayList<PassiveAbility> unlockedPassives = ex.getUnlockedPassives();
                 String supers = "Unlocked Super Attacks:";
                 String ultimates = "Unlocked Ultimate Attacks:";
                 String passives = "Unlocked Passive Attacks:";
@@ -180,8 +180,8 @@ public class commandsc extends CommandBase {
             Attack superAttack2 = ex.getSuperAttack2();
             Attack ultimate = ex.getUltimateAttack();
             PassiveAbility passiveAbility = ex.getPassiveAbility();
-            ArrayList<Attack> unlockedAttacks = ex.getAttacks();
-            ArrayList<PassiveAbility> unlockedPassives = ex.getPassives();
+            ArrayList<Attack> unlockedAttacks = ex.getUnlockedAttacks();
+            ArrayList<PassiveAbility> unlockedPassives = ex.getUnlockedPassives();
             player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Checking player " + targetPlayer));
             player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Spirit Gauge: " + gauge + " out of " + cap + " Spirit"));
             player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.GRAY + "Super1: " + superAttack1.getName() + " Super2: " + superAttack2.getName()));
@@ -210,8 +210,8 @@ public class commandsc extends CommandBase {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                ArrayList<Attack> playerAttacks = ex.getAttacks();
-                ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                ArrayList<Attack> playerAttacks = ex.getUnlockedAttacks();
+                ArrayList<PassiveAbility> playerPassives = ex.getUnlockedPassives();
                 if (loadoutSlot.equals("Super1")) {
                     for (Attack attack : playerAttacks) {
                         if (attack.getName().equals(ability)) {
@@ -264,9 +264,9 @@ public class commandsc extends CommandBase {
             if (player != null && list.contains(ability)) {
                 Attack unlockedAttack = AbilityDatabase.getAttackByName(ability);
                 if (unlockedAttack != null) {
-                    ArrayList<Attack> playerAttacks = ex.getAttacks();
+                    ArrayList<Attack> playerAttacks = ex.getUnlockedAttacks();
                     playerAttacks.add(unlockedAttack);
-                    ex.setAttacks(playerAttacks);
+                    ex.setUnlockedAttacks(playerAttacks);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
@@ -275,9 +275,9 @@ public class commandsc extends CommandBase {
             if (player != null && list2.contains(ability)){
                 PassiveAbility unlockedPassive = AbilityDatabase.getPassiveByName(ability);
                 if (unlockedPassive != null){
-                    ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                    ArrayList<PassiveAbility> playerPassives = ex.getUnlockedPassives();
                     playerPassives.add(unlockedPassive);
-                    ex.setPassives(playerPassives);
+                    ex.setUnlockedPassives(playerPassives);
                     player.addChatComponentMessage(new ChatComponentTranslation(
                             EnumChatFormatting.BLUE + targetPlayer + " has unlocked " + ability));
                 }
@@ -304,14 +304,14 @@ public class commandsc extends CommandBase {
             List<String> list = Arrays.asList(attackList);
             List<String> list2 = Arrays.asList(passiveList);
             if (player != null && list.contains(ability)){
-                ArrayList<Attack> playerAttacks = ex.getAttacks();
+                ArrayList<Attack> playerAttacks = ex.getUnlockedAttacks();
                 ArrayList<Attack> newPlayerAttacks = new ArrayList<>();
                 for (Attack attack : playerAttacks){
                     if (!attack.getName().equals(ability) || ability.equals("KiAttack") || ability.equals("EnergyWave")){
                         newPlayerAttacks.add(attack);
                     }
                 }
-                ex.setAttacks(newPlayerAttacks);
+                ex.setUnlockedAttacks(newPlayerAttacks);
                 System.out.println(newPlayerAttacks);
                 Attack currSuper1 = ex.getSuperAttack1();
                 Attack currSuper2 = ex.getSuperAttack2();
@@ -334,14 +334,14 @@ public class commandsc extends CommandBase {
                 }
             }
             if (player != null && list2.contains(ability)){
-                ArrayList<PassiveAbility> playerPassives = ex.getPassives();
+                ArrayList<PassiveAbility> playerPassives = ex.getUnlockedPassives();
                 ArrayList<PassiveAbility> newPlayerPassives = new ArrayList<>();
                 for (PassiveAbility passive:playerPassives){
                     if (!passive.getName().equals(ability) || ability.equals("VirtuousSpirit")){
                         newPlayerPassives.add(passive);
                     }
                 }
-                ex.setPassives(newPlayerPassives);
+                ex.setUnlockedPassives(newPlayerPassives);
                 System.out.println(newPlayerPassives);
                 PassiveAbility currPassive = ex.getPassiveAbility();
                 if (currPassive.getName().equals(ability)){
