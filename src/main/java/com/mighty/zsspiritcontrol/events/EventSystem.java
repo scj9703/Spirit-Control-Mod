@@ -3,7 +3,7 @@ package com.mighty.zsspiritcontrol.events;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import com.mighty.zsspiritcontrol.util.SCPlayer;
+import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
