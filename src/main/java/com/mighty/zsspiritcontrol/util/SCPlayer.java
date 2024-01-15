@@ -2,7 +2,7 @@ package com.mighty.zsspiritcontrol.util;
 
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
-import com.mighty.zsspiritcontrol.zsspiritcontrol;
+import com.mighty.zsspiritcontrol.SpiritControl;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
 import net.minecraft.entity.Entity;
@@ -304,11 +304,11 @@ import net.minecraftforge.common.util.Constants;
      * @return The sc properties of player 'p'
      */
     public static SCPlayer getPlayer(EntityPlayer p) {
-        return (SCPlayer) p.getExtendedProperties(zsspiritcontrol.MODID);
+        return (SCPlayer) p.getExtendedProperties(SpiritControl.MODID);
     }
 
     public static void register(EntityPlayer player) {
-        player.registerExtendedProperties(zsspiritcontrol.MODID, new SCPlayer(player));
+        player.registerExtendedProperties(SpiritControl.MODID, new SCPlayer(player));
     }
 
     /**
