@@ -1,6 +1,6 @@
 package com.mighty.zsspiritcontrol.commands;
 
-import com.mighty.zsspiritcontrol.util.SCPlayer;
+import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;

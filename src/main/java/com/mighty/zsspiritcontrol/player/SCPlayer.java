@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.util;
+package com.mighty.zsspiritcontrol.player;
 
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
