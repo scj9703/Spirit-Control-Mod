@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import com.mighty.zsspiritcontrol.Attack;
+import net.minecraftforge.common.util.Constants;
 
 /** Extended Player for Spirit Control **/
     public class SCPlayer implements IExtendedEntityProperties {
@@ -214,13 +218,63 @@ import com.mighty.zsspiritcontrol.Attack;
     }
     @Override
     public void saveNBTData(NBTTagCompound compound) {
-        // Saves the player's SC Datareturn;
+        // Saves the player's SC Data
 
+        compound.setBoolean("hasSpiritControl", hasSpiritControl);
+
+        compound.setDouble("gaugeCapacity", gaugeCapacity);
+        compound.setDouble("currGauge", currGauge);
+
+        compound.setString("selectedAttack1", superAttack1.getName());
+        compound.setString("selectedAttack2", superAttack2.getName());
+        compound.setString("selectedUltimate", ultimateAttack.getName());
+        compound.setString("selectedPassive", passiveAbility.getName());
+
+        NBTTagList attackList = new NBTTagList();
+        for(Attack att : attacks){
+            attackList.appendTag(new NBTTagString(att.getName()));
+        }
+        compound.setTag("unlockedAttacks", attackList);
+
+        NBTTagList passiveList = new NBTTagList();
+        for(PassiveAbility passive : passives){
+            passiveList.appendTag(new NBTTagString(passive.getName()));
+        }
+        compound.setTag("unlockedPassives", passiveList);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
-        // Loads the player's SC Data
+        //Loads a players data
+
+        hasSpiritControl = compound.getBoolean("hasSpiritControl");
+        gaugeCapacity = compound.getDouble("gaugeCapacity");
+        currGauge = compound.getDouble("currGauge");
+
+
+        Attack att1 = AbilityDatabase.getAttackByName(compound.getString("selectedAttack1"));
+        superAttack1 = att1 != null ? att1 : superAttack1;
+
+        Attack att2 = AbilityDatabase.getAttackByName(compound.getString("selectedAttack2"));
+        superAttack2 = att2 != null ? att2 : superAttack2;
+
+        Attack attUlt = AbilityDatabase.getAttackByName(compound.getString("selectedUltimate"));
+        ultimateAttack = attUlt != null ? attUlt : ultimateAttack;
+
+        PassiveAbility pass = AbilityDatabase.getPassiveByName(compound.getString("selectedPassive"));
+        passiveAbility = pass != null ? pass : passiveAbility;
+
+
+        NBTTagList attackList = compound.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        for(int i = 0; i < attackList.tagCount(); i++){
+            attacks.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
+        }
+
+        NBTTagList passiveList = compound.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        for(int i = 0; i < passiveList.tagCount(); i++){
+            passives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
+        }
+
     }
 
     @Override
