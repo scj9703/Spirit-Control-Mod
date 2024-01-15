@@ -1,7 +1,10 @@
 package com.mighty.zsspiritcontrol.events;
 
-import com.mighty.zsspiritcontrol.commands.commandsc;
+import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
+import com.mighty.zsspiritcontrol.commands.SpiritControl.CommandSc;
 
+import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
+import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -16,6 +19,8 @@ import net.minecraftforge.common.MinecraftForge;
 public class CommonProxy {
 
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+        //Loads the class so permissions are properly registered before listing them out
+        EnumPermission.init();
     }
 
     public void fmlLifeCycleEvent(FMLInitializationEvent event) {
@@ -26,6 +31,8 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {
+        //Attempts to find Bukkit and list out all permissions
+        BukkitWrapper.init();
     }
 
     public void fmlLifeCycleEvent(FMLServerAboutToStartEvent event) {
@@ -43,7 +50,10 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
-        event.registerServerCommand(new commandsc());
+
+
+        //event.registerServerCommand(new commandsc());
+        event.registerServerCommand(new CommandSc());
     }
 
 }
