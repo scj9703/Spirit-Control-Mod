@@ -1,7 +1,7 @@
 package com.mighty.zsspiritcontrol.events;
 
-import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
-import com.mighty.zsspiritcontrol.commands.SpiritControl.CommandSc;
+import com.mighty.zsspiritcontrol.commands.commandsc;
+import com.mighty.zsspiritcontrol.commands.spiritcontrol.Command_SpiritControl;
 
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
@@ -52,8 +52,8 @@ public class CommonProxy {
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
 
 
-        //event.registerServerCommand(new commandsc());
-        event.registerServerCommand(new CommandSc());
+        event.registerServerCommand(new commandsc());
+        event.registerServerCommand(new Command_SpiritControl());
     }
 
 }
