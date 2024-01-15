@@ -33,18 +33,43 @@ public class BukkitWrapper {
         }
     }
 
+    /**
+     * Checks if a player has a permission
+     * @param player Player Entity
+     * @param permission Permission Node from the Enum
+     * @return true if they have the permission, otherwise false
+     */
     public static boolean hasPermission(EntityPlayer player, EnumPermission permission){
         return hasPermission(player, permission.permNode);
     }
 
+    /**
+     * Checks if a player has a permission
+     * @param player Player Entity
+     * @param permission Permission Node
+     * @return true if they have the permission, otherwise false
+     */
     public static boolean hasPermission(EntityPlayer player, Permission permission){
         return hasPermission(player, permission.name, permission.isOp);
     }
 
+    /**
+     * Checks if a player has a permission
+     * @param player Player Entity
+     * @param permission Permission String
+     * @return true if they have the permission, otherwise false
+     */
     public static boolean hasPermission(EntityPlayer player, String permission){
         return hasPermission(player, permission, false);
     }
 
+    /**
+     * Checks if a player has a permission
+     * @param player Player Entity
+     * @param permission Permission String
+     * @param isOpPermission if the permission should be accessible to OPs by default
+     * @return true if they have the permission, otherwise false
+     */
     public static boolean hasPermission(EntityPlayer player, String permission, boolean isOpPermission){
         if(isLoaded){
             try {
@@ -64,7 +89,7 @@ public class BukkitWrapper {
         return MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
     }
 
-    public static class Permission{
+    public static class Permission {
         private static ArrayList<String> permList = new ArrayList<>();
         public String name;
         public boolean isOp = true;
