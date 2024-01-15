@@ -1,13 +1,12 @@
-package com.mighty.util;
+package com.mighty.zsspiritcontrol.util;
 
-import com.mighty.zsspiritcontrol.AbilityDatabase;
-import com.mighty.zsspiritcontrol.PassiveAbility;
+import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
+import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import com.mighty.zsspiritcontrol.zsspiritcontrol;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -15,7 +14,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import com.mighty.zsspiritcontrol.Attack;
+import com.mighty.zsspiritcontrol.attack.Attack;
 import net.minecraftforge.common.util.Constants;
 
 /** Extended Player for Spirit Control **/

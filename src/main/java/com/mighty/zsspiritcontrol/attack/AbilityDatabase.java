@@ -1,4 +1,6 @@
-package com.mighty.zsspiritcontrol;
+package com.mighty.zsspiritcontrol.attack;
+
+import com.mighty.zsspiritcontrol.zsspiritcontrol;
 
 import java.util.HashMap;
 
