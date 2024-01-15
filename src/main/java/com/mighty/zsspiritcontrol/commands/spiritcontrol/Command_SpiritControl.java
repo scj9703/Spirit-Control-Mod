@@ -97,14 +97,14 @@ public class Command_SpiritControl extends CommandBase {
                 sender.addChatMessage(new ChatComponentTranslation("==> Do /sc help for a full list of commands!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
                 sender.addChatMessage(new ChatComponentTranslation("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
             }else{
-                sender.addChatMessage((IChatComponent) new ChatComponentText("You have to be a player to run this command.").getChatStyle().setColor(EnumChatFormatting.RED));
+                sender.addChatMessage(new ChatComponentText("You have to be a player to run this command.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
             }
         } else {
             SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
             if(subCommand != null)
                 subCommand.processCommand(sender, args);
             else
-                sender.addChatMessage((IChatComponent) new ChatComponentText("A subcommand by this name doesn't exist.").getChatStyle().setColor(EnumChatFormatting.RED));
+                sender.addChatMessage(new ChatComponentText("A subcommand by this name doesn't exist.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
         }
     }
 
