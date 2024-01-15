@@ -9,7 +9,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,20 +65,46 @@ public class Command_SpiritControl extends CommandBase {
         if(args.length == 0){
             if(sender instanceof EntityPlayerMP){
                 SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
+
+                if(!extPlayer.isEnabled()){
+                    sender.addChatMessage(new ChatComponentText("You haven't learned how to use Spirit Control! Seek training on \u00a75\u00a7lYardrat!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                    return;
+                }
                 /**
                  * @TODO:
-                 * Write out player skills
+                 * Write out player skills (better than this)
+                 * for the record. I hate using ChatComponents like this T-T+
                  */
+                double gauge = extPlayer.getCurrGauge();
+                double cap = extPlayer.getGaugeCapacity();
+                double percent = (gauge / cap) * 100; // For gauge display
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                String formattedPercent = decimalFormat.format(percent);
+                sender.addChatMessage(new ChatComponentTranslation("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Your Spirit Control Loadout").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> " + extPlayer.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Super Attack 1: " + extPlayer.getSuperAttack1().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Super Attack 2: " + extPlayer.getSuperAttack2().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Ultimate Attack: " + extPlayer.getUltimateAttack().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Passive Ability: " + extPlayer.getPassiveAbility().getDesc()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation(">").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("==> Do /sc help for a full list of commands!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
+                sender.addChatMessage(new ChatComponentTranslation("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA)));
             }else{
-                /**
-                 * @TODO:
-                 * Add chat message that you have to be a player.
-                 */
+                sender.addChatMessage((IChatComponent) new ChatComponentText("You have to be a player to run this command.").getChatStyle().setColor(EnumChatFormatting.RED));
             }
         } else {
             SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
             if(subCommand != null)
                 subCommand.processCommand(sender, args);
+            else
+                sender.addChatMessage((IChatComponent) new ChatComponentText("A subcommand by this name doesn't exist.").getChatStyle().setColor(EnumChatFormatting.RED));
         }
     }
 
