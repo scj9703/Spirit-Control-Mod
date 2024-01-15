@@ -1,6 +1,7 @@
 package com.mighty.zsspiritcontrol.attack;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
 
@@ -57,6 +58,21 @@ public class AbilityDatabase {
     public static void registerPassive(PassiveAbility passive){
         passiveAbilityHashMap.put(passive.getName(), passive);
         SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getName());
+    }
+
+    private static boolean isAttack(String attName){
+        return attackHashMap.containsKey(attName);
+    }
+    private static boolean isPassive(String passiveName){
+        return passiveAbilityHashMap.containsKey(passiveName);
+    }
+    public static boolean isRegistered(String abilityName){
+        return isPassive(abilityName) || isAttack(abilityName);
+    }
+
+    public static String[] getRegisteredNames(){
+        String[] names = ArrayUtils.addAll(getAllAttackNames(), getAllPassiveNames());
+        return names;
     }
 
     /** Returns all attack names. Used in commands such as 'unlock.'
