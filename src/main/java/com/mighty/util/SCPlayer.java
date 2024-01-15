@@ -220,57 +220,68 @@ import net.minecraftforge.common.util.Constants;
     public void saveNBTData(NBTTagCompound compound) {
         // Saves the player's SC Data
 
-        compound.setBoolean("hasSpiritControl", hasSpiritControl);
+        NBTTagCompound scTag = new NBTTagCompound();
 
-        compound.setDouble("gaugeCapacity", gaugeCapacity);
-        compound.setDouble("currGauge", currGauge);
+        scTag.setBoolean("hasSpiritControl", hasSpiritControl);
 
-        compound.setString("selectedAttack1", superAttack1.getName());
-        compound.setString("selectedAttack2", superAttack2.getName());
-        compound.setString("selectedUltimate", ultimateAttack.getName());
-        compound.setString("selectedPassive", passiveAbility.getName());
+        scTag.setDouble("gaugeCapacity", gaugeCapacity);
+        scTag.setDouble("currGauge", currGauge);
+
+        scTag.setString("selectedAttack1", superAttack1.getName());
+        scTag.setString("selectedAttack2", superAttack2.getName());
+        scTag.setString("selectedUltimate", ultimateAttack.getName());
+        scTag.setString("selectedPassive", passiveAbility.getName());
 
         NBTTagList attackList = new NBTTagList();
         for(Attack att : attacks){
             attackList.appendTag(new NBTTagString(att.getName()));
         }
-        compound.setTag("unlockedAttacks", attackList);
+        scTag.setTag("unlockedAttacks", attackList);
 
         NBTTagList passiveList = new NBTTagList();
         for(PassiveAbility passive : passives){
             passiveList.appendTag(new NBTTagString(passive.getName()));
         }
-        compound.setTag("unlockedPassives", passiveList);
+        scTag.setTag("unlockedPassives", passiveList);
+
+        compound.setTag("SpiritControl", scTag);
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
         //Loads a players data
 
+        if(!compound.hasKey("SpiritControl")){
+            return;
+        }
+
+        NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
+
         hasSpiritControl = compound.getBoolean("hasSpiritControl");
-        gaugeCapacity = compound.getDouble("gaugeCapacity");
-        currGauge = compound.getDouble("currGauge");
+
+        gaugeCapacity = scTag.getDouble("gaugeCapacity");
+        currGauge = scTag.getDouble("currGauge");
 
 
-        Attack att1 = AbilityDatabase.getAttackByName(compound.getString("selectedAttack1"));
+        Attack att1 = AbilityDatabase.getAttackByName(scTag.getString("selectedAttack1"));
         superAttack1 = att1 != null ? att1 : superAttack1;
 
-        Attack att2 = AbilityDatabase.getAttackByName(compound.getString("selectedAttack2"));
+        Attack att2 = AbilityDatabase.getAttackByName(scTag.getString("selectedAttack2"));
         superAttack2 = att2 != null ? att2 : superAttack2;
 
-        Attack attUlt = AbilityDatabase.getAttackByName(compound.getString("selectedUltimate"));
+        Attack attUlt = AbilityDatabase.getAttackByName(scTag.getString("selectedUltimate"));
         ultimateAttack = attUlt != null ? attUlt : ultimateAttack;
 
-        PassiveAbility pass = AbilityDatabase.getPassiveByName(compound.getString("selectedPassive"));
+        PassiveAbility pass = AbilityDatabase.getPassiveByName(scTag.getString("selectedPassive"));
         passiveAbility = pass != null ? pass : passiveAbility;
 
 
-        NBTTagList attackList = compound.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        NBTTagList attackList = scTag.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
         for(int i = 0; i < attackList.tagCount(); i++){
             attacks.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
         }
 
-        NBTTagList passiveList = compound.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
+        NBTTagList passiveList = scTag.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
         for(int i = 0; i < passiveList.tagCount(); i++){
             passives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
         }
