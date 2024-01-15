@@ -50,9 +50,7 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
-
-
-        event.registerServerCommand(new commandsc());
+        //event.registerServerCommand(new commandsc());
         event.registerServerCommand(new Command_SpiritControl());
     }
 

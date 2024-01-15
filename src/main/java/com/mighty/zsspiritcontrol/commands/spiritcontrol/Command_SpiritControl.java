@@ -58,7 +58,7 @@ public class Command_SpiritControl extends CommandBase {
 
     @Override
     public List getCommandAliases() {
-        return Arrays.asList("newsc", "spiritcontrol");
+        return Arrays.asList("sc", "spiritcontrol");
     }
 
     @Override
