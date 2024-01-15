@@ -21,8 +21,8 @@ buildscript {
 }
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.Mighty.zsspiritcontrol" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.0.0"
+group= "com.mighty.zsspiritcontrol" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ZS-Spiritcontrol"
 
 minecraft {
