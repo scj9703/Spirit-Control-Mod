@@ -61,11 +61,21 @@ public class Command_SpiritControl extends SCCommandBase {
                 double percent = (gauge / cap) * 100; // For gauge display
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 String formattedPercent = decimalFormat.format(percent);
+
+                StringBuilder gaugeString = new StringBuilder(extPlayer.drawSpiritGauge());
+                int firstIndex, lastIndex;
+                firstIndex = gaugeString.indexOf("=");
+                if(firstIndex != -1) {
+                    gaugeString.insert(firstIndex, "<aqua>");
+                    lastIndex = gaugeString.lastIndexOf("=");
+                    gaugeString.insert(lastIndex + 1, "</aqua>");
+                }
+
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Your Spirit Control Loadout"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <gray><percent>%</gray> capacity.", "gauge", extPlayer.drawSpiritGauge(), "percent", formattedPercent));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <gray><percent>%</gray> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <gray>" + extPlayer.getAbilityFromSlot("super1").getDescription()));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
