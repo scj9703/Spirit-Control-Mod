@@ -11,11 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import tv.twitch.chat.Chat;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +53,14 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     private boolean unlockedSpiritControl = false;
 
+    /**
+     * Needed to check if the player has finished loading into the game before attempting to send messages.
+     * Otherwise, the game crashes.
+     */
+    private boolean canReceiveMessages;
+
     public SCPlayer(EntityPlayer player){
+        canReceiveMessages = false;
         this.player = player;
 
         Attack kiAttack = (Attack) AbilityDatabase.getAbilityByName("KiAttack");
@@ -70,6 +75,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(kiAttack, "super2");
         this.setAbilityAtSlot(energyWave, "ultimate");
         this.setAbilityAtSlot(virtuousSpirit, "passive");
+
     }
     public static SCPlayer getPlayer(EntityPlayer player){
         return (SCPlayer) player.getExtendedProperties(SpiritControl.MODID);
@@ -135,11 +141,15 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Ultimate")), "ultimate");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Passive")), "passive");
 
+        this.canReceiveMessages = true;
     }
 
     @Override
     public void init(Entity entity, World world) {
+    }
 
+    private boolean canReceiveMessages() {
+        return this.canReceiveMessages;
     }
 
     public void setUnlockedSpiritControl(boolean shouldUnlock){
@@ -245,23 +255,28 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         if(slot.equalsIgnoreCase("super1")){
             this.superAttack1 = attack;
-            player.addChatMessage(ChatUtil.getMessage("Equipped Super1: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+            if(this.canReceiveMessages())
+                player.addChatMessage(ChatUtil.getMessage("Equipped Super1: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
         }
         if(slot.equalsIgnoreCase("super2")){
-            this.superAttack1 = attack;
-            player.addChatMessage(ChatUtil.getMessage("Equipped Super2: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+            this.superAttack2 = attack;
+            if(this.canReceiveMessages())
+                player.addChatMessage(ChatUtil.getMessage("Equipped Super2: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
         }
 
     }
+
     private void selectUltimateAttack(Attack attack){
         if(!attack.isUltimate())
             return;
         this.ultimateAttack = attack;
-        player.addChatMessage(ChatUtil.getMessage("Equipped Ultimate: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+        if(this.canReceiveMessages())
+            player.addChatMessage(ChatUtil.getMessage("Equipped Ultimate: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
     }
     private void selectPassive(PassiveAbility passive){
         this.passiveAbility = passive;
-        player.addChatMessage(ChatUtil.getMessage("Equipped Passive: "+passive.getName(), EnumChatFormatting.DARK_AQUA));
+        if(this.canReceiveMessages())
+            player.addChatMessage(ChatUtil.getMessage("Equipped Passive: "+passive.getName(), EnumChatFormatting.DARK_AQUA));
     }
 
     public void addAbility(Ability ability){
@@ -275,7 +290,6 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.addPassive((PassiveAbility) ability);
     }
     public void removeAbility(Ability ability){
-        player.addChatMessage(new ChatComponentText(""+AbilityDatabase.isDefault(ability)));
         if(AbilityDatabase.isDefault(ability))
             return;
 
