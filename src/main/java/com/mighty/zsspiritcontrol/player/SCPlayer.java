@@ -1,210 +1,174 @@
 package com.mighty.zsspiritcontrol.player;
 
-import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
-import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import com.mighty.zsspiritcontrol.SpiritControl;
-import java.util.ArrayList;
-import java.text.DecimalFormat;
+import com.mighty.zsspiritcontrol.attack.Ability;
+import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
+import com.mighty.zsspiritcontrol.attack.Attack;
+import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import com.mighty.zsspiritcontrol.attack.Attack;
-import net.minecraftforge.common.util.Constants;
 
-/** Extended Player for Spirit Control **/
-    public class SCPlayer implements IExtendedEntityProperties {
-    /**
-     * The Player's SC Data.
-     */
-    public NBTTagCompound data = null;
+import java.util.HashSet;
+import java.util.Set;
+
+public class SCPlayer implements IExtendedEntityProperties {
 
     /**
-     * The player who this data belongs to
+     * Player reference
      */
-    EntityPlayer player = null;
+    private final EntityPlayer player;
 
     /**
-     * The Spirit Gauge's default max capacity.
+     * Gauge info
      */
-    double gaugeCapacity = 1000;
+    private double maxSpirit = 1000;
+    private double currentSpirit = 0;
 
     /**
-     * The Spirit Gauge's current capacity
+     * Selected abilities
      */
-     double currGauge = 0;
+    private Attack superAttack1;
+    private Attack superAttack2;
+    private Attack ultimateAttack;
+    private PassiveAbility passiveAbility;
 
-    /** The Player's Equipped Super Attack 1.
+    /**
+     * Unlocked abilities
+     * <p>
+     * Sets do not allow duplicate values.
      */
-    Attack superAttack1;
+    private Set<Attack> unlockedSuperAttacks = new HashSet<>();
+    private Set<Attack> unlockedUltimates = new HashSet<>();
+    private Set<PassiveAbility> unlockedPassives = new HashSet<>();
 
-    /** The Player's Equipped Super Attack 2.
+    /**
+     * Has unlocked Spirit Control yet?
      */
-    Attack superAttack2;
+    private boolean unlockedSpiritControl = false;
 
-    /** The Player's Equipped Ultimate Attack.
-     */
-    Attack ultimateAttack;
-
-    /** The Player's Equipped Passive Ability.
-     */
-    PassiveAbility passiveAbility;
-
-    // The Player's unlocked attacks
-    ArrayList<Attack> unlockedAttacks = new ArrayList<>();
-    // The Player's unlocked passives
-    ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>();
-
-    boolean hasSpiritControl; // I.e., did the player unlock the mod's features
-
-    // Constructor
     public SCPlayer(EntityPlayer player){
-        // Default abilities
-        this.unlockedAttacks.add(AbilityDatabase.getAttackByName("KiAttack"));
-        this.unlockedAttacks.add(AbilityDatabase.getAttackByName("EnergyWave"));
-
-        this.unlockedPassives.add(AbilityDatabase.getPassiveByName("VirtuousSpirit"));
-
-        this.superAttack1 = AbilityDatabase.getAttackByName("KiAttack");
-        this.superAttack2 = AbilityDatabase.getAttackByName("KiAttack");
-        this.ultimateAttack = AbilityDatabase.getAttackByName("EnergyWave");
-
-        this.passiveAbility = AbilityDatabase.getPassiveByName("VirtuousSpirit");
+        /**
+         * @TODO
+         */
 
         this.player = player;
-        this.hasSpiritControl = false;
+    }
+    public static SCPlayer getPlayer(EntityPlayer player){
+        return (SCPlayer) player.getExtendedProperties(SpiritControl.MODID);
+    }
+    public static void register(EntityPlayer player){
+        if(getPlayer(player) == null)
+            player.registerExtendedProperties(SpiritControl.MODID, new SCPlayer(player));
+    }
+    public void copy(SCPlayer otherPlayer){
+        NBTTagCompound nbt = new NBTTagCompound();
+        otherPlayer.saveNBTData(nbt);
+        this.loadNBTData(nbt);
     }
 
-    // Returns whether the player unlocked Spirit Control.
+    @Override
+    public void saveNBTData(NBTTagCompound compound) {
+        NBTTagCompound scTag = new NBTTagCompound();
+
+        scTag.setBoolean("hasUnlocked", this.isEnabled());
+
+        scTag.setDouble("maxSpirit", this.getMaxSpirit());
+        scTag.setDouble("currentSpirit", this.getSpirit());
+
+        scTag.setString("Super1", this.getAbilityFromSlot("Super1").getName());
+        scTag.setString("Super2", this.getAbilityFromSlot("Super2").getName());
+        scTag.setString("Ultimate", this.getAbilityFromSlot("Ultimate").getName());
+        scTag.setString("Passive", this.getAbilityFromSlot("Passive").getName());
+
+        NBTTagList superList = new NBTTagList();
+        for(Attack att : this.getAttacks())
+            superList.appendTag(new NBTTagString(att.getName()));
+        scTag.setTag("Supers", superList);
+
+        NBTTagList ultimateList = new NBTTagList();
+        for(Attack att : this.getUltimates())
+            ultimateList.appendTag(new NBTTagString(att.getName()));
+        scTag.setTag("Ultimates", ultimateList);
+
+        NBTTagList passiveList = new NBTTagList();
+        for(PassiveAbility passive : this.getPassives())
+            passiveList.appendTag(new NBTTagString(passive.getName()));
+        scTag.setTag("Passives", passiveList);
+
+        compound.setTag("SpiritControl", scTag);
+
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound compound) {
+        if(!compound.hasKey("SpiritControl")){
+            return;
+        }
+
+        NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
+
+        this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
+
+        this.setMaxSpirit(scTag.getDouble(""));
+        this.setSpirit(scTag.getDouble(""));
+
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super1")), "super1");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super2")), "super2");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Ultimate")), "ultimate");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Passive")), "passive");
+
+    }
+
+    @Override
+    public void init(Entity entity, World world) {
+
+    }
+
+    public void setUnlockedSpiritControl(boolean shouldUnlock){
+        this.unlockedSpiritControl = shouldUnlock;
+    }
+
     public boolean isEnabled(){
-        return hasSpiritControl;
+        return this.unlockedSpiritControl;
     }
 
-    // Enables/Disables Spirit Control.
-    public void toggleSpiritControl(boolean toggle){
-        this.hasSpiritControl = toggle; // True or false
+    public Set<Attack> getAttacks(){
+        return this.unlockedSuperAttacks;
+    }
+    public Set<Attack> getUltimates(){
+        return this.unlockedUltimates;
+    }
+    public Set<PassiveAbility> getPassives(){
+        return this.unlockedPassives;
     }
 
-    // Gets the Player's equipped SA 1.
-    public Attack getSuperAttack1(){
-        return superAttack1; }
-
-    // Sets/Equips SA1.
-    public void setSuperAttack1(Attack superAttack1){
-        this.superAttack1 = superAttack1;
+    public double getMaxSpirit(){
+        return this.maxSpirit;
+    }
+    public void setMaxSpirit(double max){
+        this.maxSpirit = max;
     }
 
-    // Gets the Player's equipped SA 2.
-    public Attack getSuperAttack2(){
-        return superAttack2; }
+    public double getSpirit(){
+        return this.currentSpirit;
+    }
+    public void setSpirit(double spirit){
+        if(spirit < 0)
+            spirit = 0;
+        if(spirit > this.getMaxSpirit())
+            spirit = this.getMaxSpirit();
 
-    // Sets/Equips SA2.
-    public void setSuperAttack2(Attack superAttack2){
-        this.superAttack2 = superAttack2;
+        this.currentSpirit = spirit;
     }
 
-    // Gets the Player's equipped Ultimate.
-    public Attack getUltimateAttack(){
-        return ultimateAttack; }
-
-    // Sets/Equips Ultimate.
-    public void setUltimateAttack(Attack ultimateAttack){
-        this.ultimateAttack = ultimateAttack;
-    }
-
-    // Gets the Player's equipped Passive.
-    public PassiveAbility getPassiveAbility(){
-        return passiveAbility; }
-
-    // Sets/Equips Passive.
-    public void setPassiveAbility(PassiveAbility passiveAbility){
-        this.passiveAbility = passiveAbility;
-    }
-
-    // Gets the Player's unlocked Attacks.
-    public ArrayList<Attack> getUnlockedAttacks() {
-        return unlockedAttacks;
-    }
-
-    // Gets the Player's unlocked Passives.
-    public ArrayList<PassiveAbility> getUnlockedPassives() {
-        return unlockedPassives;
-    }
-
-    // Sets the Player's unlocked Attacks, preventing duplicates.
-    public void setUnlockedAttacks(ArrayList<Attack> unlockedAttacks) {
-        ArrayList<String> dupeChecker = new ArrayList<>();
-        ArrayList<Attack> attacksWithoutDupes = new ArrayList<>();
-        for (Attack attack : unlockedAttacks){
-            if (!dupeChecker.contains(attack.getName())){
-                dupeChecker.add(attack.getName());
-                attacksWithoutDupes.add(attack);
-            }
-        }
-        this.unlockedAttacks = attacksWithoutDupes;
-    }
-
-    // Sets the Player's unlocked Passives.
-    public void setUnlockedPassives(ArrayList<PassiveAbility> unlockedPassives) {
-        ArrayList<String> dupeChecker = new ArrayList<>();
-        ArrayList<PassiveAbility> passivesWithoutDupes = new ArrayList<>();
-        for (PassiveAbility passive : unlockedPassives){
-            if (!dupeChecker.contains(passive.getName())){
-                dupeChecker.add(passive.getName());
-                passivesWithoutDupes.add(passive);
-            }
-        }
-        this.unlockedPassives = passivesWithoutDupes;
-    }
-
-    /**
-     * Returns the maximum Spirit Gauge Capacity.
-     * @return int max capacity
-     */
-    public double getGaugeCapacity() {
-        return gaugeCapacity;
-    }
-
-    /**
-     * Returns the current Spirit Gauge capacity.
-     * @return int curr capacity
-     */
-    public double getCurrGauge(){
-        return currGauge;
-    }
-
-    /**
-     * Sets the player's current Gauge. Used to fill it, i.e. by hitting things.
-     * Prints the Gauge every 5%.
-     * @param newVal - Value of the new Gauge.
-     */
-    public void setCurrGauge(double newVal){
-        if (newVal > gaugeCapacity){
-            newVal = gaugeCapacity; // Caps the Gauge if you go over max
-        }
-        else if (newVal % 50 == 0){
-            double percent = (newVal / getGaugeCapacity()) * 100;
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-            String formattedPercent = decimalFormat.format(percent);
-            String chatGauge = printGauge();
-            player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.AQUA + "==> " + chatGauge + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity."));
-        }
-        currGauge = newVal;
-    }
-
-    /**
-     * Prints a display version of the Spirit Gauge. Used for display to players.
-     * I.e. {======----} = 69%
-     * @return String version of Spirit Gauge.
-     */
-    public String printGauge(){
-        double gauge = getCurrGauge();
-        double cap = getGaugeCapacity();
+    public String drawSpiritGauge(){
+        double gauge = getSpirit();
+        double cap = getMaxSpirit();
         double oneTenth = cap/10;
         StringBuilder gaugeString = new StringBuilder("{"); // Left Border
         // Displays the 'fullness' of the Spirit Gauge.
@@ -220,135 +184,111 @@ import net.minecraftforge.common.util.Constants;
         gaugeString.append("}"); // Right Border
         return gaugeString.toString();
     }
-    @Override
-    public void saveNBTData(NBTTagCompound compound) {
-        // Saves the player's SC Data
 
-        NBTTagCompound scTag = new NBTTagCompound();
 
-        scTag.setBoolean("hasSpiritControl", hasSpiritControl);
+    public Ability getAbilityFromSlot(String slotName){
+        slotName = slotName.toUpperCase();
 
-        scTag.setDouble("gaugeCapacity", gaugeCapacity);
-        scTag.setDouble("currGauge", currGauge);
-
-        scTag.setString("selectedAttack1", superAttack1.getName());
-        scTag.setString("selectedAttack2", superAttack2.getName());
-        scTag.setString("selectedUltimate", ultimateAttack.getName());
-        scTag.setString("selectedPassive", passiveAbility.getName());
-
-        NBTTagList attackList = new NBTTagList();
-        for(Attack att : getUnlockedAttacks()){
-            attackList.appendTag(new NBTTagString(att.getName()));
+        switch(slotName){
+            case "SUPER1":
+                return this.superAttack1;
+            case "SUPER2":
+                return this.superAttack2;
+            case "ULTIMATE":
+                return this.ultimateAttack;
+            case "PASSIVE":
+                return this.passiveAbility;
+            default:
+                return null;
         }
-        scTag.setTag("unlockedAttacks", attackList);
-
-        NBTTagList passiveList = new NBTTagList();
-        for(PassiveAbility pass : getUnlockedPassives()){
-            passiveList.appendTag(new NBTTagString(pass.getName()));
-        }
-        scTag.setTag("unlockedPassives", passiveList);
-
-        compound.setTag("SpiritControl", scTag);
     }
 
-    @Override
-    public void loadNBTData(NBTTagCompound compound) {
-        //Loads a players data
+    public void setAbilityAtSlot(Ability ability, String slotName){
 
-        if(!compound.hasKey("SpiritControl")){
+        if(ability instanceof PassiveAbility && slotName.equalsIgnoreCase("passive")){
+            this.selectPassive((PassiveAbility) ability);
+        }
+
+        if(!(ability instanceof Attack))
             return;
-        }
 
-        NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
-
-        hasSpiritControl = scTag.getBoolean("hasSpiritControl");
-
-        gaugeCapacity = scTag.getDouble("gaugeCapacity");
-        currGauge = scTag.getDouble("currGauge");
-
-
-        Attack att1 = AbilityDatabase.getAttackByName(scTag.getString("selectedAttack1"));
-        superAttack1 = att1 != null ? att1 : superAttack1;
-
-        Attack att2 = AbilityDatabase.getAttackByName(scTag.getString("selectedAttack2"));
-        superAttack2 = att2 != null ? att2 : superAttack2;
-
-        Attack attUlt = AbilityDatabase.getAttackByName(scTag.getString("selectedUltimate"));
-        ultimateAttack = attUlt != null ? attUlt : ultimateAttack;
-
-        PassiveAbility pass = AbilityDatabase.getPassiveByName(scTag.getString("selectedPassive"));
-        passiveAbility = pass != null ? pass : passiveAbility;
-
-
-        NBTTagList attackList = scTag.getTagList("unlockedAttacks", Constants.NBT.TAG_STRING);
-        ArrayList<Attack> newAbilities = new ArrayList<>();
-        for(int i = 0; i < attackList.tagCount(); i++){
-            newAbilities.add(AbilityDatabase.getAttackByName(attackList.getStringTagAt(i)));
-        }
-        this.setUnlockedAttacks(newAbilities);
-
-        NBTTagList passiveList = scTag.getTagList("unlockedPassives", Constants.NBT.TAG_STRING);
-        ArrayList<PassiveAbility> newPassives = new ArrayList<>();
-        for(int i = 0; i < passiveList.tagCount(); i++){
-            newPassives.add(AbilityDatabase.getPassiveByName(passiveList.getStringTagAt(i)));
-        }
-        this.setUnlockedPassives(newPassives);
-    }
-
-    @Override
-    public void init(Entity entity, World world) {
-    }
-
-    /**
-     * @param p The player in question
-     * @return The sc properties of player 'p'
-     */
-    public static SCPlayer getPlayer(EntityPlayer p) {
-        return (SCPlayer) p.getExtendedProperties(SpiritControl.MODID);
-    }
-
-    public static void register(EntityPlayer player) {
-        player.registerExtendedProperties(SpiritControl.MODID, new SCPlayer(player));
-    }
-
-    /**
-     * Copy over data from a player provided in the argument
-     * @param otherPlayer SCPlayer of the player you want to copy data of
-     */
-    public void copy(SCPlayer otherPlayer) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        otherPlayer.saveNBTData(nbt);
-        this.loadNBTData(nbt);
-    }
-
-    /**
-     * Decides if the player gets access to an ability or not
-     * @param ability ability name
-     * @param setAccessible if it should be accessible to the player or not
-     */
-    public void setAbilityAccess(String ability, boolean setAccessible) {
-        Attack attack = AbilityDatabase.getAttackByName(ability);
-        PassiveAbility passive = AbilityDatabase.getPassiveByName(ability);
-
-        setAbilityAccess(attack, setAccessible);
-
-        setAbilityAccess(passive, setAccessible);
-    }
-
-    public void setAbilityAccess(Attack attack, boolean setAccessible){
-        if(attack != null){
-            if(setAccessible && !unlockedAttacks.contains(attack))
-                unlockedAttacks.add(attack);
-            else
-                unlockedAttacks.remove(attack);
+        Attack attack = (Attack) ability;
+        switch (slotName.toUpperCase()){
+            case "ULTIMATE":
+                this.selectUltimateAttack(attack);
+            case "SUPER1":
+            case "SUPER2":
+                this.selectSuperAttack(attack, slotName);
         }
     }
 
-    public void setAbilityAccess(PassiveAbility passive, boolean setAccessible){
-        if(passive != null)
-            if(setAccessible && !unlockedPassives.contains(passive))
-                unlockedPassives.add(passive);
-            else
-                unlockedPassives.remove(passive);
+    private void selectSuperAttack(Attack attack, String slot){
+        if(attack.isUltimate())
+            return;
+
+        if(slot.equalsIgnoreCase("super1"))
+            this.superAttack1 = attack;
+        if(slot.equalsIgnoreCase("super2"))
+            this.superAttack2 = attack;
+
+    }
+    private void selectUltimateAttack(Attack attack){
+        if(attack.isUltimate())
+            this.ultimateAttack = attack;
+    }
+    private void selectPassive(PassiveAbility passive){
+        this.passiveAbility = passive;
+    }
+
+    public void addAbility(Ability ability){
+        if(!AbilityDatabase.isRegistered(ability))
+            return;
+
+        if(ability instanceof Attack)
+            this.addAttack((Attack) ability);
+
+        if(ability instanceof PassiveAbility)
+            this.addPassive((PassiveAbility) ability);
+    }
+    public void removeAbility(Ability ability){
+        if(ability instanceof Attack)
+            this.removeAttack((Attack) ability);
+
+        if(ability instanceof PassiveAbility)
+            this.removePassive((PassiveAbility) ability);
+    }
+
+    private void addAttack(Attack attack){
+        if(attack.isUltimate())
+            this.addUltimate(attack);
+        else
+            this.addSuperAttack(attack);
+    }
+    private void removeAttack(Attack attack) {
+        if(attack.isUltimate())
+            this.removeUltimate(attack);
+        else
+            this.removeSuperAttack(attack);
+    }
+
+    private void addUltimate(Attack ultimateAttack){
+        this.unlockedUltimates.add(ultimateAttack);
+    }
+    private void removeUltimate(Attack ultimateAttack){
+        this.unlockedUltimates.remove(ultimateAttack);
+    }
+
+    private void addSuperAttack(Attack superAttack){
+        this.unlockedSuperAttacks.add(superAttack);
+    }
+    private void removeSuperAttack(Attack superAttack){
+        this.unlockedSuperAttacks.remove(superAttack);
+    }
+
+    public void addPassive(PassiveAbility passive){
+        this.unlockedPassives.add(passive);
+    }
+    public void removePassive(PassiveAbility passive){
+        this.unlockedPassives.remove(passive);
     }
 }
