@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
+import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.commands.SubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
@@ -27,9 +28,9 @@ public class SubCommand_Lock extends SubCommand {
         }
 
         EntityPlayerMP player = args.length == 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
-        String ability = args[1];
+        Ability ability = AbilityDatabase.getAbilityByName(args[1]);
 
-        if(!AbilityDatabase.isRegistered(ability)){
+        if(ability == null){
             throw new WrongUsageException("Given attack doesn't exist!");
         }
 
@@ -39,11 +40,11 @@ public class SubCommand_Lock extends SubCommand {
             return;
         }
 
-        extPlayer.removeAbility(AbilityDatabase.getAbilityByName(ability));
+        extPlayer.removeAbility(ability);
 
-        player.addChatMessage(ChatUtil.getMessage("You have lost "+ability, EnumChatFormatting.DARK_AQUA));
+        player.addChatMessage(ChatUtil.getMessage("You have forgotten "+ability.getName(), EnumChatFormatting.DARK_AQUA));
         if(sender != player){
-            sender.addChatMessage(ChatUtil.getMessage(player.getCommandSenderName()+" has lost "+ability, EnumChatFormatting.DARK_AQUA));
+            sender.addChatMessage(ChatUtil.getMessage(player.getCommandSenderName()+" has forgotten "+ability.getName(), EnumChatFormatting.DARK_AQUA));
         }
 
     }
