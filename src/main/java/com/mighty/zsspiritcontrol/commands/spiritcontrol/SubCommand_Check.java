@@ -4,11 +4,11 @@ import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.HashSet;
 import java.util.List;
@@ -48,20 +48,20 @@ public class SubCommand_Check extends SCSubCommand {
         unlockedAttacks.addAll(extPlayer.getUltimates());
         Set<PassiveAbility> unlockedPassives = extPlayer.getPassives();
 
-        sender.addChatMessage(ChatUtil.getMessage("Checking player " + player.getCommandSenderName(), EnumChatFormatting.GRAY));
-        sender.addChatMessage(ChatUtil.getMessage("Spirit Gauge: " + gauge + " out of " + cap + " Spirit", EnumChatFormatting.GRAY));
-        sender.addChatMessage(ChatUtil.getMessage("Super1: " + superAttack1.getName() + " Super2: " + superAttack2.getName(), EnumChatFormatting.GRAY));
-        sender.addChatMessage(ChatUtil.getMessage("Ultimate: " + ultimate.getName() + " Passive: " + passiveAbility.getName(), EnumChatFormatting.GRAY));
-        String attackList = "Unlocked Attacks:";
-        String passiveList = "Unlocked Passives:";
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge></gray> Spirit", "gauge", String.valueOf(gauge), "max_guage", String.valueOf(cap)));
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getName(), "ability2", superAttack2.getName()));
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getName(), "ability2", passiveAbility.getName()));
+        String attackList = "<dark_aqua>Unlocked Attacks:<gray>";
+        String passiveList = "<dark_aqua>Unlocked Passives:<gray>";
         for (Attack atk:unlockedAttacks){
             attackList += " " + atk.getName();
         }
         for (PassiveAbility passive:unlockedPassives){
             passiveList += " " + passive.getName();
         }
-        sender.addChatMessage(ChatUtil.getMessage(attackList, EnumChatFormatting.GRAY));
-        sender.addChatMessage(ChatUtil.getMessage(passiveList, EnumChatFormatting.GRAY));
+        sender.addChatMessage(MiniMessageParser.getFormat(attackList));
+        sender.addChatMessage(MiniMessageParser.getFormat(passiveList));
 
     }
 

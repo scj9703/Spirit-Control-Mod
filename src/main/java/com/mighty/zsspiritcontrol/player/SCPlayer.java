@@ -5,15 +5,16 @@ import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -144,6 +145,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.canReceiveMessages = true;
     }
 
+    public void addChatMessage(IChatComponent chatComponent){
+        if(this.canReceiveMessages)
+            player.addChatMessage(chatComponent);
+    }
+
     @Override
     public void init(Entity entity, World world) {
     }
@@ -255,13 +261,11 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         if(slot.equalsIgnoreCase("super1")){
             this.superAttack1 = attack;
-            if(this.canReceiveMessages())
-                player.addChatMessage(ChatUtil.getMessage("Equipped Super1: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+            this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super1: <aqua>"+attack));
         }
         if(slot.equalsIgnoreCase("super2")){
             this.superAttack2 = attack;
-            if(this.canReceiveMessages())
-                player.addChatMessage(ChatUtil.getMessage("Equipped Super2: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+            this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super2: <aqua>"+attack));
         }
 
     }
@@ -270,13 +274,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(!attack.isUltimate())
             return;
         this.ultimateAttack = attack;
-        if(this.canReceiveMessages())
-            player.addChatMessage(ChatUtil.getMessage("Equipped Ultimate: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+        this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Ultimate: <aqua>"+attack));
     }
     private void selectPassive(PassiveAbility passive){
         this.passiveAbility = passive;
-        if(this.canReceiveMessages())
-            player.addChatMessage(ChatUtil.getMessage("Equipped Passive: "+passive.getName(), EnumChatFormatting.DARK_AQUA));
+        this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+passive));
     }
 
     public void addAbility(Ability ability){

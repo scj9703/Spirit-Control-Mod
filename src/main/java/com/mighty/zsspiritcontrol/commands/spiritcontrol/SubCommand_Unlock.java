@@ -4,11 +4,11 @@ import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.List;
 
@@ -36,15 +36,14 @@ public class SubCommand_Unlock extends SCSubCommand {
 
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
         if(!extPlayer.isEnabled()){
-            sender.addChatMessage(ChatUtil.getMessage("This player hasn't unlocked spirit control", EnumChatFormatting.RED));
-            return;
+            throw new WrongUsageException("This player has not learned Spirit Control yet.");
         }
 
         extPlayer.addAbility(ability);
 
-        player.addChatMessage(ChatUtil.getMessage("You have learned "+ability.getName(), EnumChatFormatting.DARK_AQUA));
+        player.addChatMessage(MiniMessageParser.getFormat("<aqua>You have learned <gray><ability>", "ability", ability.getName()));
         if(sender != player){
-            sender.addChatMessage(ChatUtil.getMessage(player.getCommandSenderName()+" has learned "+ability.getName(), EnumChatFormatting.DARK_AQUA));
+            sender.addChatMessage(MiniMessageParser.getFormat("<gray><player><aqua> has learned <gray><ability>", "player", player.getCommandSenderName(), "ability", ability.getName()));
         }
     }
 

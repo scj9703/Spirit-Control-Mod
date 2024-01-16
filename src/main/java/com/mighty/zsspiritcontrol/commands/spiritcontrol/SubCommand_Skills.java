@@ -4,11 +4,12 @@ import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class SubCommand_Skills extends SCSubCommand {
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
             if(!extPlayer.isEnabled()){
-                sender.addChatMessage(ChatUtil.getMessage("You haven't learned how to use Spirit Control! Seek training on \u00a75\u00a7lYardrat!", EnumChatFormatting.AQUA));
+                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
 
@@ -33,9 +34,9 @@ public class SubCommand_Skills extends SCSubCommand {
             ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getAttacks());
             unlockedAttacks.addAll(extPlayer.getUltimates());
             ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>(extPlayer.getPassives());
-            String supers = "Unlocked Super Attacks:";
-            String ultimates = "Unlocked Ultimate Attacks:";
-            String passives = "Unlocked Passive Attacks:";
+            String supers = "<dark_aqua>Unlocked Super Attacks: <gray>";
+            String ultimates = "<dark_aqua>Unlocked Ultimate Attacks: <gray>";
+            String passives = "<dark_aqua>Unlocked Passive Attacks: <gray>";
             for (Attack atk:unlockedAttacks){
                 if (atk.isUltimate()){
                     ultimates += " " + atk.getName();
@@ -46,13 +47,13 @@ public class SubCommand_Skills extends SCSubCommand {
             for (PassiveAbility passive:unlockedPassives){
                 passives += " " + passive.getName();
             }
-            sender.addChatMessage(ChatUtil.getMessage("These ability names are used in commands such as /sc equip.", EnumChatFormatting.AQUA));
-            sender.addChatMessage(ChatUtil.getMessage(supers, EnumChatFormatting.AQUA));
-            sender.addChatMessage(ChatUtil.getMessage(ultimates, EnumChatFormatting.AQUA));
-            sender.addChatMessage(ChatUtil.getMessage(passives, EnumChatFormatting.AQUA));
+            sender.addChatMessage(MiniMessageParser.getFormat("These ability names are used in commands such as /sc equip."));
+            sender.addChatMessage(MiniMessageParser.getFormat(supers));
+            sender.addChatMessage(MiniMessageParser.getFormat(ultimates));
+            sender.addChatMessage(MiniMessageParser.getFormat(passives));
 
         }else{
-            sender.addChatMessage(ChatUtil.getMessage("You have to be a player to run this command.", EnumChatFormatting.RED));
+            throw new WrongUsageException("You have to be a player to run this command.");
         }
     }
 

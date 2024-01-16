@@ -6,12 +6,12 @@ import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ public class SubCommand_Equip extends SCSubCommand {
         if(sender instanceof EntityPlayerMP) {
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
-            if (!extPlayer.isEnabled()) {
-                sender.addChatMessage(ChatUtil.getMessage("You haven't learned how to use Spirit Control! Seek training on \u00a75\u00a7lYardrat!", EnumChatFormatting.AQUA));
+            if(!extPlayer.isEnabled()){
+                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
 
@@ -45,7 +45,7 @@ public class SubCommand_Equip extends SCSubCommand {
             extPlayer.setAbilityAtSlot(ability, args[1]);
 
         }else{
-            sender.addChatMessage(ChatUtil.getMessage("You have to be a player to run this command.", EnumChatFormatting.RED));
+            throw new WrongUsageException("You have to be a player to use this command.");
         }
     }
 
