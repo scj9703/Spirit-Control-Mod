@@ -86,9 +86,4 @@ public class SubCommand_Equip extends SCSubCommand {
         }
         return null;
     }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
 }

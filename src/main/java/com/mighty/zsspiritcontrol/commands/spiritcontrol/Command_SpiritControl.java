@@ -4,7 +4,6 @@ import com.mighty.zsspiritcontrol.commands.SCCommandBase;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
-import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
