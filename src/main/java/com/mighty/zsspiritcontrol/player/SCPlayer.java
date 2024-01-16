@@ -130,6 +130,8 @@ public class SCPlayer implements IExtendedEntityProperties {
             return;
         }
 
+        canReceiveMessages = false;
+
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
