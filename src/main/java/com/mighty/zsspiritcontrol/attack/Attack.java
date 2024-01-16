@@ -1,36 +1,31 @@
 package com.mighty.zsspiritcontrol.attack;
 
 /** Super and Ultimate Attacks **/
-public class Attack {
-    // Identifiable attack name for command use
-    String name;
+public class Attack extends Ability {
     // Type of Ki attack (wave, blast, etc)
-    int type;
+    private final int type;
     // Color of Ki attack
-    int color;
+    private final int color;
     // Speed of attack
-    int speed;
+    private final int speed;
     // Whether effect is on
-    int effect;
+    private final int effect;
     // Damage modifier of Attack
-    double dmgModifier;
+    private final double dmgModifier;
     // Gauge cost of attack
-    double cost;
+    private final double cost;
     // Casttime (in seconds?) of attack
-    double casttime;
+    private final double casttime;
     // Displays in chat when firing
-    String fireMessage;
+    private final String fireMessage;
     // Description displayed when viewed in /sc
-    String desc;
-    // Whether this attack is an Ultimate
-    boolean isUltimate;
+    private final boolean isUltimate;
     // How much fatigue (in minutes) the attack gives (Supers = 0)
-    double fatigue;
+    private final double fatigue;
 
-    // Constructor
-    public Attack(String name, int type, int color, int speed, int effect, double dmgModifier,
+    Attack(String name, int type, int color, int speed, int effect, double dmgModifier,
                   double cost, double casttime, String fireMessage, String desc, boolean isUltimate, double fatigue) {
-        this.name = name;
+        super(name, desc);
         this.type = type;
         this.color = color;
         this.speed = speed;
@@ -39,13 +34,8 @@ public class Attack {
         this.cost = cost;
         this.casttime = casttime;
         this.fireMessage = fireMessage;
-        this.desc = desc;
         this.isUltimate = isUltimate;
         this.fatigue = fatigue;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getType() {
@@ -78,10 +68,6 @@ public class Attack {
 
     public String getFireMessage() {
         return fireMessage;
-    }
-
-    public String getDesc() {
-        return desc;
     }
 
     public boolean isUltimate() {
