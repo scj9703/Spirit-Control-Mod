@@ -4,7 +4,7 @@ import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
@@ -16,7 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCommand_Equip extends SubCommand {
+public class SubCommand_Equip extends SCSubCommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if(sender instanceof EntityPlayerMP) {
@@ -61,7 +61,7 @@ public class SubCommand_Equip extends SubCommand {
 
 
         if(args.length == 2){
-            return getListOfStringMatchingLastWord(args, "Super1", "Super2", "Ultimate", "Passive");
+            return getListOfStringsMatchingLastWord(args, "Super1", "Super2", "Ultimate", "Passive");
         }
 
         ArrayList<String> tabCompletion = new ArrayList<>();
@@ -82,7 +82,7 @@ public class SubCommand_Equip extends SubCommand {
                             tabCompletion.add(att.getName());
                     break;
             }
-            return getListOfStringMatchingLastWord(args, tabCompletion.toArray(new String[0]));
+            return getListOfStringsMatchingLastWord(args, tabCompletion.toArray(new String[0]));
         }
         return null;
     }

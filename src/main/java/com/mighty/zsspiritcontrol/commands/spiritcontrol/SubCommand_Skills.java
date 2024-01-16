@@ -2,7 +2,7 @@ package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
@@ -13,7 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCommand_Skills extends SubCommand {
+public class SubCommand_Skills extends SCSubCommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {

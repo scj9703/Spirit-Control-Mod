@@ -1,6 +1,6 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
@@ -10,7 +10,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 
-public class SubCommand_Enable extends SubCommand {
+public class SubCommand_Enable extends SCSubCommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
@@ -42,7 +42,7 @@ public class SubCommand_Enable extends SubCommand {
         }
 
         if(args.length == 2)
-            return getListOfStringMatchingLastWord(args, getPlayers());
+            return getListOfStringsMatchingLastWord(args, getPlayers());
         return null;
     }
 

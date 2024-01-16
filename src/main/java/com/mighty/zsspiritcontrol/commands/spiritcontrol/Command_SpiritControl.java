@@ -1,42 +1,21 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCCommandBase;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-public class Command_SpiritControl extends CommandBase {
-
-    private final HashMap<String, SubCommand> subCommandMap = new HashMap<>();
-
-    private final ArrayList<BukkitWrapper.Permission> permsList = new ArrayList<>();
-
-    public Command_SpiritControl(Object... perms){
-        this();
-
-        for(Object permNode : perms){
-            if(permNode instanceof EnumPermission){
-                permsList.add(((EnumPermission) permNode).permNode);
-            }else if(permNode instanceof BukkitWrapper.Permission){
-                permsList.add((BukkitWrapper.Permission) permNode);
-            }else{
-                throw new IllegalArgumentException("Expected arguments of type EnumPermission or BukkitWrapper.Permission");
-            }
-        }
-    }
+public class Command_SpiritControl extends SCCommandBase {
     public Command_SpiritControl(){
         subCommandMap.put("help", new SubCommand_Help());
         subCommandMap.put("skills", new SubCommand_Skills());
@@ -102,7 +81,7 @@ public class Command_SpiritControl extends CommandBase {
                 sender.addChatMessage(ChatUtil.getMessage("You have to be a player to run this command.", EnumChatFormatting.RED));
             }
         } else {
-            SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
+            SCSubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
             if(subCommand != null)
                 subCommand.processCommand(sender, args);
             else
@@ -120,20 +99,8 @@ public class Command_SpiritControl extends CommandBase {
         if(args.length == 1){
             return getListOfStringsMatchingLastWord(args, filterCommandsByPerms(sender));
         }
-        SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
+        SCSubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
         return subCommand != null ? subCommand.addTabCompletionOptions(sender, args) : null;
-    }
-
-    private String[] filterCommandsByPerms(ICommandSender sender) {
-        ArrayList<String> filteredCommands = new ArrayList<>();
-
-        for(String name : subCommandMap.keySet()){
-            SubCommand cmd = subCommandMap.get(name);
-            if(cmd.hasPerms(sender))
-                filteredCommands.add(name);
-        }
-
-        return filteredCommands.toArray(new String[0]);
     }
 
     @Override
@@ -141,22 +108,10 @@ public class Command_SpiritControl extends CommandBase {
         if(args[0].isEmpty()){
             return false;
         }
-        SubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
+        SCSubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
         return subCommand != null && subCommand.isUsernameIndex(args, index);
     }
 
-    protected String[] getPlayers()
-    {
-        return MinecraftServer.getServer().getAllUsernames();
-    }
-
-    protected boolean hasPerms(EntityPlayer player){
-        for(BukkitWrapper.Permission permNode : permsList){
-            if(BukkitWrapper.hasPermission(player, permNode))
-                return true;
-        }
-        return permsList.isEmpty();
-    }
 
 
 }

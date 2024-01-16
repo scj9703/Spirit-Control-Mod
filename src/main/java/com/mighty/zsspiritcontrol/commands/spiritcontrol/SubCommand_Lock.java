@@ -2,7 +2,7 @@ package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
@@ -12,7 +12,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 
-public class SubCommand_Lock extends SubCommand {
+public class SubCommand_Lock extends SCSubCommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if(!hasPerms(sender)){
@@ -56,9 +56,9 @@ public class SubCommand_Lock extends SubCommand {
         }
 
         if(args.length == 3)
-            return getListOfStringMatchingLastWord(args, getPlayers());
+            return getListOfStringsMatchingLastWord(args, getPlayers());
         if(args.length == 2){
-            return getListOfStringMatchingLastWord(args, AbilityDatabase.getRegisteredNames());
+            return getListOfStringsMatchingLastWord(args, AbilityDatabase.getRegisteredNames());
         }
 
         return null;

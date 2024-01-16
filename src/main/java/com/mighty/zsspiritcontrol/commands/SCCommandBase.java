@@ -9,34 +9,28 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-public abstract class SubCommand {
+public abstract class SCCommandBase extends CommandBase {
+    protected final HashMap<String, SCSubCommand> subCommandMap = new HashMap<>();
 
-    private final List<BukkitWrapper.Permission> permsList = new ArrayList<>();
+    protected final ArrayList<BukkitWrapper.Permission> permsList = new ArrayList<>();
 
-    public abstract void processCommand(ICommandSender sender, String[] args);
+    protected String[] filterCommandsByPerms(ICommandSender sender) {
+        ArrayList<String> filteredCommands = new ArrayList<>();
 
+        for(String name : subCommandMap.keySet()){
+            SCSubCommand cmd = subCommandMap.get(name);
+            if(cmd.hasPerms(sender))
+                filteredCommands.add(name);
+        }
 
-    public abstract List<String> addTabCompletionOptions(ICommandSender sender, String[] args);
+        return filteredCommands.toArray(new String[0]);
+    }
 
-    public abstract boolean isUsernameIndex(String[] args, int index);
-
-    protected String[] getPlayers()
+    public static String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();
-    }
-
-    public static List<String> getListOfStringMatchingLastWord(String[] args, String... possibleMatches){
-        return CommandBase.getListOfStringsMatchingLastWord(args, possibleMatches);
-    }
-
-    public static EntityPlayerMP getPlayer(ICommandSender sender, String name){
-        return CommandBase.getPlayer(sender, name);
-    }
-
-    public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender sender){
-        return CommandBase.getCommandSenderAsPlayer(sender);
     }
 
     public boolean hasPerms(ICommandSender sender){
@@ -50,7 +44,7 @@ public abstract class SubCommand {
         return permsList.isEmpty();
     }
 
-    public SubCommand addPerms(Object... perms){
+    public SCCommandBase addPerms(Object... perms){
         for(Object permNode : perms){
             if(permNode instanceof EnumPermission){
                 permsList.add(((EnumPermission) permNode).permNode);
@@ -63,5 +57,4 @@ public abstract class SubCommand {
 
         return this;
     }
-
 }
