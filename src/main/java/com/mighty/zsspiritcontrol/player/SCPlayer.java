@@ -5,12 +5,14 @@ import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
+import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import tv.twitch.chat.Chat;
@@ -196,6 +198,10 @@ public class SCPlayer implements IExtendedEntityProperties {
         return gaugeString.toString();
     }
 
+    public boolean hasAbility(Ability ability){
+        return unlockedSuperAttacks.contains(ability) || unlockedUltimates.contains(ability) || unlockedPassives.contains(ability);
+    }
+
 
     public Ability getAbilityFromSlot(String slotName){
         slotName = slotName.toUpperCase();
@@ -237,18 +243,25 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(attack.isUltimate())
             return;
 
-        if(slot.equalsIgnoreCase("super1"))
+        if(slot.equalsIgnoreCase("super1")){
             this.superAttack1 = attack;
-        if(slot.equalsIgnoreCase("super2"))
-            this.superAttack2 = attack;
+            player.addChatMessage(ChatUtil.getMessage("Equipped Super1: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+        }
+        if(slot.equalsIgnoreCase("super2")){
+            this.superAttack1 = attack;
+            player.addChatMessage(ChatUtil.getMessage("Equipped Super2: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
+        }
 
     }
     private void selectUltimateAttack(Attack attack){
-        if(attack.isUltimate())
-            this.ultimateAttack = attack;
+        if(!attack.isUltimate())
+            return;
+        this.ultimateAttack = attack;
+        player.addChatMessage(ChatUtil.getMessage("Equipped Ultimate: "+attack.getName(), EnumChatFormatting.DARK_AQUA));
     }
     private void selectPassive(PassiveAbility passive){
         this.passiveAbility = passive;
+        player.addChatMessage(ChatUtil.getMessage("Equipped Passive: "+passive.getName(), EnumChatFormatting.DARK_AQUA));
     }
 
     public void addAbility(Ability ability){

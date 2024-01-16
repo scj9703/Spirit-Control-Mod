@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
+import com.mighty.zsspiritcontrol.attack.Ability;
 import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
@@ -33,53 +34,15 @@ public class SubCommand_Equip extends SubCommand {
                 throw new WrongUsageException("Not enough arguments!");
             }
 
-            String abilityName = args[2];
-            if(!AbilityDatabase.isRegistered(abilityName)){
-                throw new WrongUsageException("That ability doesn't exist!");
-            }
+            Ability ability = AbilityDatabase.getAbilityByName(args[2]);
+            if(ability == null)
+                throw new WrongUsageException("This ability doesn't exist!");
 
-            List<Attack> playerAttacks = new ArrayList<>(extPlayer.getAttacks());
-            List<PassiveAbility> playerPassives = new ArrayList<>(extPlayer.getPassives());
-
-            Attack attack = (Attack) AbilityDatabase.getAbilityByName(abilityName);
-            PassiveAbility passive = (PassiveAbility) AbilityDatabase.getAbilityByName(abilityName);
-
-            if(!(playerPassives.contains(passive) || playerAttacks.contains(attack))){
+            if(!extPlayer.hasAbility(ability)){
                 throw new WrongUsageException("You don't have that ability unlocked!");
             }
 
-            switch(args[1].toLowerCase()){
-                case "passive":
-                    if(passive == null){
-                        throw new WrongUsageException("That passive doesn't exist!");
-                    }
-                    extPlayer.setAbilityAtSlot(passive, "passive");
-                    sender.addChatMessage(ChatUtil.getMessage("Equipped "+passive.getName()+"as Passive", EnumChatFormatting.DARK_AQUA));
-                    break;
-                case "ultimate":
-                    if(attack == null || !attack.isUltimate()){
-                        throw new WrongUsageException("That ultimate doesn't exist!");
-                    }
-                    extPlayer.setAbilityAtSlot(attack, "ultimate");
-                    sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" as Ultimate", EnumChatFormatting.DARK_AQUA));
-                    break;
-                case "super1":
-                    if(attack == null || attack.isUltimate()){
-                        throw new WrongUsageException("That attack doesn't exist!");
-                    }
-                    extPlayer.setAbilityAtSlot(attack, "super1");
-                    sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" on slot 1", EnumChatFormatting.DARK_AQUA));
-                    break;
-                case "super2":
-                    if(attack == null || attack.isUltimate()){
-                        throw new WrongUsageException("That attack doesn't exist!");
-                    }
-                    extPlayer.setAbilityAtSlot(attack, "super2");
-                    sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" on slot 2", EnumChatFormatting.DARK_AQUA));
-                    break;
-                default:
-                    throw new WrongUsageException("That slot doesn't exist!");
-            }
+            extPlayer.setAbilityAtSlot(ability, args[1]);
 
         }else{
             sender.addChatMessage(ChatUtil.getMessage("You have to be a player to run this command.", EnumChatFormatting.RED));
@@ -106,20 +69,17 @@ public class SubCommand_Equip extends SubCommand {
         if(args.length == 3){
             switch(args[1].toLowerCase()) {
                 case "passive":
-                    for(PassiveAbility passive : extPlayer.getPassives()){
+                    for(PassiveAbility passive : extPlayer.getPassives())
                         tabCompletion.add(passive.getName());
-                    }
                     break;
                 case "ultimate":
-                    for(Attack att : extPlayer.getUltimates()){
+                    for(Attack att : extPlayer.getUltimates())
                             tabCompletion.add(att.getName());
-                    }
                     break;
                 case "super1":
                 case "super2":
-                    for(Attack att : extPlayer.getAttacks()){
+                    for(Attack att : extPlayer.getAttacks())
                             tabCompletion.add(att.getName());
-                    }
                     break;
             }
             return getListOfStringMatchingLastWord(args, tabCompletion.toArray(new String[0]));
