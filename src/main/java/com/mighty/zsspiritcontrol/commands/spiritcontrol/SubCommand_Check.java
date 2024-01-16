@@ -2,7 +2,7 @@ package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.attack.Attack;
 import com.mighty.zsspiritcontrol.attack.PassiveAbility;
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
@@ -10,12 +10,11 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SubCommand_Check extends SubCommand {
+public class SubCommand_Check extends SCSubCommand {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
@@ -67,13 +66,13 @@ public class SubCommand_Check extends SubCommand {
     }
 
     @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
+    public List addTabCompletionOptions(ICommandSender sender, String[] args) {
         if(!hasPerms(sender)){
             return null;
         }
 
         if(args.length == 2)
-            return getListOfStringMatchingLastWord(args, getPlayers());
+            return getListOfStringsMatchingLastWord(args, getPlayers());
         return null;
     }
 

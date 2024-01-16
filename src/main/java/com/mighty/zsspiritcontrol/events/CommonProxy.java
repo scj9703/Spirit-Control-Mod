@@ -1,18 +1,10 @@
 package com.mighty.zsspiritcontrol.events;
 
 import com.mighty.zsspiritcontrol.commands.spiritcontrol.Command_SpiritControl;
-
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.event.*;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
@@ -49,7 +41,6 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
-        //event.registerServerCommand(new commandsc());
         event.registerServerCommand(new Command_SpiritControl());
     }
 

@@ -1,15 +1,14 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SubCommand;
+import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
 import java.util.List;
 
-public class SubCommand_Help extends SubCommand {
+public class SubCommand_Help extends SCSubCommand {
     String[] commandList = {
             "help - shows a list of commands",
             "skills - displays all unlocked skill names and descriptions",
