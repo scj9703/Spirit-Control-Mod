@@ -39,7 +39,7 @@ public class SubCommand_Lock extends SubCommand {
             return;
         }
 
-        extPlayer.setAbilityAccess(ability, false);
+        extPlayer.removeAbility(AbilityDatabase.getAbilityByName(ability));
 
         player.addChatMessage(ChatUtil.getMessage("You have lost "+ability, EnumChatFormatting.DARK_AQUA));
         if(sender != player){

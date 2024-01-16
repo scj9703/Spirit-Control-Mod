@@ -39,7 +39,7 @@ public class SubCommand_Unlock extends SubCommand {
             return;
         }
 
-        extPlayer.setAbilityAccess(ability, true);
+        extPlayer.addAbility(AbilityDatabase.getAbilityByName(ability));
 
         player.addChatMessage(ChatUtil.getMessage("You have gained "+ability, EnumChatFormatting.DARK_AQUA));
         if(sender != player){

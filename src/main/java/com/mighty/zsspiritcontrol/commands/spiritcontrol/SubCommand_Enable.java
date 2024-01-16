@@ -26,7 +26,7 @@ public class SubCommand_Enable extends SubCommand {
         EntityPlayerMP player = args.length == 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
 
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
-        extPlayer.toggleSpiritControl(true);
+        extPlayer.setUnlockedSpiritControl(true);
 
         player.addChatMessage(ChatUtil.getMessage("You have gained Spirit Control :)", EnumChatFormatting.DARK_AQUA));
         if(sender != player){

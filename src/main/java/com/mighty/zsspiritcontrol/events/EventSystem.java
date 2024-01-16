@@ -73,12 +73,11 @@ public class EventSystem {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                if (hasUnlocked) {
-                    double gauge = ex.getSpirit();
-                    //ex.setSpirit(gauge+0.01);
-                    //Uncomment this to test
-                }
+                double gauge = ex.getSpirit();
+                //ex.setSpirit(gauge+0.01);
+                //Uncomment this to test
             }
+
         }
     }
 }
