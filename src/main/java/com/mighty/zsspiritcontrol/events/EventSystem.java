@@ -41,12 +41,8 @@ public class EventSystem {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                double gauge = ex.getCurrGauge();
-                double cap = ex.getGaugeCapacity();
-                if (gauge < cap) {
-                    gauge = gauge + 1;
-                    ex.setCurrGauge(gauge);
-                }
+                double gauge = ex.getSpirit();
+                ex.setSpirit(gauge+1);
             }
         }
 
@@ -56,12 +52,8 @@ public class EventSystem {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                double gauge = ex.getCurrGauge();
-                double cap = ex.getGaugeCapacity();
-                if (gauge < cap) {
-                    gauge = gauge + 1;
-                    ex.setCurrGauge(gauge);
-                }
+                double gauge = ex.getSpirit();
+                ex.setSpirit(gauge+1);
             }
         }
     }
@@ -81,12 +73,10 @@ public class EventSystem {
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
-                double gauge = ex.getCurrGauge();
-                double cap = ex.getGaugeCapacity();
-                if (gauge < cap) {
-                    // gauge = gauge + 0.01; Un-Comment this to test it.
-                    // Otherwise, leave it commented out until passives work.
-                    // ex.setCurrGauge(gauge);
+                if (hasUnlocked) {
+                    double gauge = ex.getSpirit();
+                    //ex.setSpirit(gauge+0.01);
+                    //Uncomment this to test
                 }
             }
         }

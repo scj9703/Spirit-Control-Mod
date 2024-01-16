@@ -8,6 +8,7 @@ import java.util.HashMap;
 /** Stores all Spirit Control Abilities **/
 public class AbilityDatabase {
     private static final HashMap<String, Attack> attackHashMap = new HashMap<>();
+    private static final HashMap<String, Attack> ultimateHashMap = new HashMap<>();
     private static final HashMap<String, PassiveAbility> passiveAbilityHashMap = new HashMap<>();
 
 
@@ -17,17 +18,20 @@ public class AbilityDatabase {
     static{
         //Register attacks
         registerAttack(new Attack("KiAttack",6,7,5,0,1.0,1.0,1.0,"Hyaa!","Ki Attack - Let loose the Spirit you've stored in a small blast.",false,0.0));
-        registerAttack(new Attack("EnergyWave",0,8,5,0,1.0,1.0,1.0,"TAKE THIS!","Full Power Energy Wave - Burn out your entire Spirit Gauge in a mighty wave.",true,1.0));
         registerAttack(new Attack("GalickGun",0,3,5,0,1.0,1.0,1.0,"GALICK GUN!","Galick Gun - Unleash Saiyan Pride with Vegeta's signature wave.",false,0.0));
-        registerAttack(new Attack("FinalFlash",0,7,5,0,1.0,1.0,1.0,"FINAL FLASH!","Final Flash - Let loose your entire gauge with Vegeta's finishing move.",true,1.0));
         registerAttack(new Attack("BigBangAttack",1,1,5,1,1.0,1.0,1.0,"BIG BANG ATTACK!","Big Bang Attack - Launch a ball of exploding Ki.",false,0.0));
         registerAttack(new Attack("SuperSpiritBomb",5,1,1,1,1.0,1.0,1.0,"I hope you come back someday... As a better person! See you later!","Super Spirit Bomb - Channel energy from across the Server into the ultimate weapon.",true,1.0));
         registerAttack(new Attack("MouthBlast",1,6,5,1,1.0,1.0,1.0,"HAA!","Mouth Blast - Shoots a Blast from (you guessed it) your mouth!",false,0.0));
         registerAttack(new Attack("SpecialBeamCannon",4,8,5,0,1.0,1.0,1.0,"SPECIAL BEAM CANNON!","Special Beam Cannon - Pierce enemies with Piccolo's signature attack.",true,1.0));
-        registerAttack(new Attack("SpecialBeamCannon",4,8,5,0,1.0,1.0,1.0,"SPECIAL BEAM CANNON!","Special Beam Cannon - Pierce enemies with Piccolo's signature attack.",true,1.0));
         registerAttack(new Attack("CandyBeam",3,3,5,0,1.0,1.0,1.0,"TURN INTO CHOCOLATE!","Candy Beam - Buu turn you into chocolate and eat you.",true,1.0));
         registerAttack(new Attack("Kamehameha",0,2,5,0,1.0,1.0,1.0,"KAME-HAME-HAAAA!","Kamehameha - Unleash the Turtle School's iconic Ki Wave.",false,0.0));
         registerAttack(new Attack("BurningAttack",1,8,5,1,1.0,1.0,1.0,"Burning Attack!","Burning Attack - Protect the future with Trunks' signature blast.",false,0.0));
+
+
+
+        registerAttack(new Attack("EnergyWave",0,8,5,0,1.0,1.0,1.0,"TAKE THIS!","Full Power Energy Wave - Burn out your entire Spirit Gauge in a mighty wave.",true,1.0));
+        registerAttack(new Attack("FinalFlash",0,7,5,0,1.0,1.0,1.0,"FINAL FLASH!","Final Flash - Let loose your entire gauge with Vegeta's finishing move.",true,1.0));
+        registerAttack(new Attack("SpecialBeamCannon",4,8,5,0,1.0,1.0,1.0,"SPECIAL BEAM CANNON!","Special Beam Cannon - Pierce enemies with Piccolo's signature attack.",true,1.0));
         registerAttack(new Attack("GTKamehameha",0,4,5,0,1.0,1.0,1.0,"KAMEHAMEHA! TIME TEEEEN!","Kamehameha x10 - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0));
         registerAttack(new Attack("FinalShine",0,6,5,0,1.0,1.0,1.0,"FINAL SHINE ATTACK!","Final Shine - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0));
         registerAttack(new Attack("Hakai",1,4,5,1,1.0,1.0,1.0,"HAKAI!","Hakai - Destroy your opponent with this limited-edition Ultimate.",true,1.0));
@@ -51,7 +55,11 @@ public class AbilityDatabase {
     }
 
     public static void registerAttack(Attack attack){
-        attackHashMap.put(attack.getName(), attack);
+        if(attack.isUltimate())
+            ultimateHashMap.put(attack.getName(), attack);
+        else
+            attackHashMap.put(attack.getName(), attack);
+
         SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getName());
     }
 
@@ -63,45 +71,63 @@ public class AbilityDatabase {
     private static boolean isAttack(String attName){
         return attackHashMap.containsKey(attName);
     }
+    private static boolean isUltimate(String ultName){
+        return ultimateHashMap.containsKey(ultName);
+    }
     private static boolean isPassive(String passiveName){
         return passiveAbilityHashMap.containsKey(passiveName);
     }
     public static boolean isRegistered(String abilityName){
-        return isPassive(abilityName) || isAttack(abilityName);
+        return isPassive(abilityName) || isAttack(abilityName) || isUltimate(abilityName);
     }
+    public static boolean isRegistered(Ability ability) {
+        return isRegistered(ability.getName());
+    }
+
 
     public static String[] getRegisteredNames(){
-        String[] names = ArrayUtils.addAll(getAllAttackNames(), getAllPassiveNames());
-        return names;
+        return (String[]) ArrayUtils.addAll(getAllAttackNames(), getAllUltimateNames(), getAllPassiveNames());
     }
 
-    /** Returns all attack names. Used in commands such as 'unlock.'
-     *
-     * @return String[] of all attack names.
+
+    /**
+     * Used in commands such as 'unlock.'
+     * @return String array of all ultimate names.
+     */
+    public static String[] getAllUltimateNames(){
+        return ultimateHashMap.keySet().toArray(new String[0]);
+    }
+
+    /**
+     * Used in commands such as 'unlock.'
+     * @return String array of all attack names.
      */
     public static String[] getAllAttackNames() {
         return attackHashMap.keySet().toArray(new String[0]);
     }
 
-    /** Returns all passive names. Used in commands such as 'unlock.'
-     *
-     * @return String[] of all passive names.
+    /**
+     * Used in commands such as 'unlock.'
+     * @return String array of all passive names.
      */
     public static String[] getAllPassiveNames() {
         return passiveAbilityHashMap.keySet().toArray(new String[0]);
     }
 
     /**
-     * Given an Attack name, returns the attack in question.
-     * @param attackName - Name query
-     * @return Attack or null.
+     * Used in finding attacks for example when loading playerdata.
+     * @param name name of the ability
+     * @return An instace of `Ability` if one was registered, otherwise null
      */
-    public static Attack getAttackByName(String attackName) {
-        return attackHashMap.getOrDefault(attackName, null);
+    public static Ability getAbilityByName(String name){
+        if(isPassive(name))
+            return passiveAbilityHashMap.get(name);
+        if(isAttack(name))
+            return attackHashMap.get(name);
+        if(isUltimate(name))
+            return ultimateHashMap.get(name);
+
+        return null;
     }
 
-    // Function to get a PassiveAbility by name
-    public static PassiveAbility getPassiveByName(String passiveName) {
-        return passiveAbilityHashMap.getOrDefault(passiveName, null);
-    }
 }
