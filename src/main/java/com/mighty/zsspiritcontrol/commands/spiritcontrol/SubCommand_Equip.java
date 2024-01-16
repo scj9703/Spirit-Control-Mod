@@ -38,8 +38,8 @@ public class SubCommand_Equip extends SubCommand {
                 throw new WrongUsageException("That ability doesn't exist!");
             }
 
-            List<Attack> playerAttacks = (List<Attack>) extPlayer.getAttacks();
-            List<PassiveAbility> playerPassives = (List<PassiveAbility>) extPlayer.getPassives();
+            List<Attack> playerAttacks = new ArrayList<>(extPlayer.getAttacks());
+            List<PassiveAbility> playerPassives = new ArrayList<>(extPlayer.getPassives());
 
             Attack attack = (Attack) AbilityDatabase.getAbilityByName(abilityName);
             PassiveAbility passive = (PassiveAbility) AbilityDatabase.getAbilityByName(abilityName);

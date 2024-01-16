@@ -68,6 +68,14 @@ public class AbilityDatabase {
         SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getName());
     }
 
+    public static boolean isDefault(Ability ability){
+        if(ability == getAbilityByName("VirtuousSpirit"))
+            return true;
+        if(ability == getAbilityByName("KiAttack"))
+            return true;
+        return ability == getAbilityByName("EnergyWave");
+    }
+
     private static boolean isAttack(String attName){
         return attackHashMap.containsKey(attName);
     }
@@ -86,7 +94,7 @@ public class AbilityDatabase {
 
 
     public static String[] getRegisteredNames(){
-        return (String[]) ArrayUtils.addAll(getAllAttackNames(), getAllUltimateNames(), getAllPassiveNames());
+        return ArrayUtils.addAll(ArrayUtils.addAll(getAllAttackNames(), getAllUltimateNames()), getAllPassiveNames());
     }
 
 
