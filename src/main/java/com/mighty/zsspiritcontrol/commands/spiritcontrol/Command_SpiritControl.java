@@ -77,8 +77,8 @@ public class Command_SpiritControl extends CommandBase {
                  * Write out player skills (better than this)
                  * for the record. I hate using ChatComponents like this T-T+
                  */
-                double gauge = extPlayer.getCurrGauge();
-                double cap = extPlayer.getGaugeCapacity();
+                double gauge = extPlayer.getSpirit();
+                double cap = extPlayer.getMaxSpirit();
                 double percent = (gauge / cap) * 100; // For gauge display
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 String formattedPercent = decimalFormat.format(percent);
@@ -86,15 +86,15 @@ public class Command_SpiritControl extends CommandBase {
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage("==> Your Spirit Control Loadout", EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
-                sender.addChatMessage(ChatUtil.getMessage("==> " + extPlayer.printGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity.", EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> " + extPlayer.drawSpiritGauge() + " Your Spirit Gauge is at " + formattedPercent + " Percent Capacity.", EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
-                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 1: " + extPlayer.getSuperAttack1().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 1: " + extPlayer.getAbilityFromSlot("super1").getDescription(), EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
-                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 2: " + extPlayer.getSuperAttack2().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Super Attack 2: " + extPlayer.getAbilityFromSlot("super2").getDescription(), EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
-                sender.addChatMessage(ChatUtil.getMessage("==> Ultimate Attack: " + extPlayer.getUltimateAttack().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Ultimate Attack: " + extPlayer.getAbilityFromSlot("ultimate").getDescription(), EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
-                sender.addChatMessage(ChatUtil.getMessage("==> Passive Ability: " + extPlayer.getPassiveAbility().getDesc(), EnumChatFormatting.AQUA));
+                sender.addChatMessage(ChatUtil.getMessage("==> Passive Ability: " + extPlayer.getAbilityFromSlot("passive").getDescription(), EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage(">", EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage("==> Do /sc help for a full list of commands!", EnumChatFormatting.AQUA));
                 sender.addChatMessage(ChatUtil.getMessage("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", EnumChatFormatting.AQUA));

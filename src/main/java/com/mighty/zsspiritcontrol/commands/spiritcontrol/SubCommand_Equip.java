@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SubCommand_Equip extends SubCommand {
@@ -39,11 +38,11 @@ public class SubCommand_Equip extends SubCommand {
                 throw new WrongUsageException("That ability doesn't exist!");
             }
 
-            List<Attack> playerAttacks = extPlayer.getUnlockedAttacks();
-            List<PassiveAbility> playerPassives = extPlayer.getUnlockedPassives();
+            List<Attack> playerAttacks = (List<Attack>) extPlayer.getAttacks();
+            List<PassiveAbility> playerPassives = (List<PassiveAbility>) extPlayer.getPassives();
 
-            Attack attack = AbilityDatabase.getAttackByName(abilityName);
-            PassiveAbility passive = AbilityDatabase.getPassiveByName(abilityName);
+            Attack attack = (Attack) AbilityDatabase.getAbilityByName(abilityName);
+            PassiveAbility passive = (PassiveAbility) AbilityDatabase.getAbilityByName(abilityName);
 
             if(!(playerPassives.contains(passive) || playerAttacks.contains(attack))){
                 throw new WrongUsageException("You don't have that ability unlocked!");
@@ -54,28 +53,28 @@ public class SubCommand_Equip extends SubCommand {
                     if(passive == null){
                         throw new WrongUsageException("That passive doesn't exist!");
                     }
-                    extPlayer.setPassiveAbility(passive);
+                    extPlayer.setAbilityAtSlot(passive, "passive");
                     sender.addChatMessage(ChatUtil.getMessage("Equipped "+passive.getName()+"as Passive", EnumChatFormatting.DARK_AQUA));
                     break;
                 case "ultimate":
                     if(attack == null || !attack.isUltimate()){
                         throw new WrongUsageException("That ultimate doesn't exist!");
                     }
-                    extPlayer.setUltimateAttack(attack);
+                    extPlayer.setAbilityAtSlot(attack, "ultimate");
                     sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" as Ultimate", EnumChatFormatting.DARK_AQUA));
                     break;
                 case "super1":
                     if(attack == null || attack.isUltimate()){
                         throw new WrongUsageException("That attack doesn't exist!");
                     }
-                    extPlayer.setSuperAttack1(attack);
+                    extPlayer.setAbilityAtSlot(attack, "super1");
                     sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" on slot 1", EnumChatFormatting.DARK_AQUA));
                     break;
                 case "super2":
                     if(attack == null || attack.isUltimate()){
                         throw new WrongUsageException("That attack doesn't exist!");
                     }
-                    extPlayer.setSuperAttack2(attack);
+                    extPlayer.setAbilityAtSlot(attack, "super2");
                     sender.addChatMessage(ChatUtil.getMessage("Equipped "+attack.getName()+" on slot 2", EnumChatFormatting.DARK_AQUA));
                     break;
                 default:
@@ -107,20 +106,18 @@ public class SubCommand_Equip extends SubCommand {
         if(args.length == 3){
             switch(args[1].toLowerCase()) {
                 case "passive":
-                    for(PassiveAbility passive : extPlayer.getUnlockedPassives()){
+                    for(PassiveAbility passive : extPlayer.getPassives()){
                         tabCompletion.add(passive.getName());
                     }
                     break;
                 case "ultimate":
-                    for(Attack att : extPlayer.getUnlockedAttacks()){
-                        if(att.isUltimate())
+                    for(Attack att : extPlayer.getUltimates()){
                             tabCompletion.add(att.getName());
                     }
                     break;
                 case "super1":
                 case "super2":
-                    for(Attack att : extPlayer.getUnlockedAttacks()){
-                        if(!att.isUltimate())
+                    for(Attack att : extPlayer.getAttacks()){
                             tabCompletion.add(att.getName());
                     }
                     break;

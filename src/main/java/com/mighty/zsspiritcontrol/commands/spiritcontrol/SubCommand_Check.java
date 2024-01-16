@@ -37,14 +37,15 @@ public class SubCommand_Check extends SubCommand {
         EntityPlayerMP player = getPlayer(sender, args[1]);
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
 
-        double gauge = extPlayer.getCurrGauge();
-        double cap = extPlayer.getGaugeCapacity();
-        Attack superAttack1 = extPlayer.getSuperAttack1();
-        Attack superAttack2 = extPlayer.getSuperAttack2();
-        Attack ultimate = extPlayer.getUltimateAttack();
-        PassiveAbility passiveAbility = extPlayer.getPassiveAbility();
-        ArrayList<Attack> unlockedAttacks = extPlayer.getUnlockedAttacks();
-        ArrayList<PassiveAbility> unlockedPassives = extPlayer.getUnlockedPassives();
+        double gauge = extPlayer.getSpirit();
+        double cap = extPlayer.getMaxSpirit();
+        Attack superAttack1 = (Attack) extPlayer.getAbilityFromSlot("super1");
+        Attack superAttack2 = (Attack) extPlayer.getAbilityFromSlot("super2");
+        Attack ultimate = (Attack) extPlayer.getAbilityFromSlot("ultimate");
+        PassiveAbility passiveAbility = (PassiveAbility) extPlayer.getAbilityFromSlot("passive");
+        ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getAttacks());
+        unlockedAttacks.addAll(extPlayer.getUltimates());
+        ArrayList<PassiveAbility> unlockedPassives = (ArrayList<PassiveAbility>) extPlayer.getPassives();
 
         sender.addChatMessage(ChatUtil.getMessage("Checking player " + player.getCommandSenderName(), EnumChatFormatting.GRAY));
         sender.addChatMessage(ChatUtil.getMessage("Spirit Gauge: " + gauge + " out of " + cap + " Spirit", EnumChatFormatting.GRAY));
