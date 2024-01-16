@@ -11,7 +11,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SubCommand_Check extends SubCommand {
 
@@ -43,9 +45,9 @@ public class SubCommand_Check extends SubCommand {
         Attack superAttack2 = (Attack) extPlayer.getAbilityFromSlot("super2");
         Attack ultimate = (Attack) extPlayer.getAbilityFromSlot("ultimate");
         PassiveAbility passiveAbility = (PassiveAbility) extPlayer.getAbilityFromSlot("passive");
-        ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getAttacks());
+        Set<Attack> unlockedAttacks = new HashSet<>(extPlayer.getUltimates());
         unlockedAttacks.addAll(extPlayer.getUltimates());
-        ArrayList<PassiveAbility> unlockedPassives = (ArrayList<PassiveAbility>) extPlayer.getPassives();
+        Set<PassiveAbility> unlockedPassives = extPlayer.getPassives();
 
         sender.addChatMessage(ChatUtil.getMessage("Checking player " + player.getCommandSenderName(), EnumChatFormatting.GRAY));
         sender.addChatMessage(ChatUtil.getMessage("Spirit Gauge: " + gauge + " out of " + cap + " Spirit", EnumChatFormatting.GRAY));

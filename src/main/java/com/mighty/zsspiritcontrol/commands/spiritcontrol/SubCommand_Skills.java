@@ -30,9 +30,9 @@ public class SubCommand_Skills extends SubCommand {
              * Revisit this and rewrite it
              */
 
-            ArrayList<Attack> unlockedAttacks = (ArrayList<Attack>) extPlayer.getAttacks();
+            ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getAttacks());
             unlockedAttacks.addAll(extPlayer.getUltimates());
-            ArrayList<PassiveAbility> unlockedPassives = (ArrayList<PassiveAbility>) extPlayer.getPassives();
+            ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>(extPlayer.getPassives());
             String supers = "Unlocked Super Attacks:";
             String ultimates = "Unlocked Ultimate Attacks:";
             String passives = "Unlocked Passive Attacks:";

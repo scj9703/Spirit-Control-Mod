@@ -10,8 +10,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import tv.twitch.chat.Chat;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,11 +54,20 @@ public class SCPlayer implements IExtendedEntityProperties {
     private boolean unlockedSpiritControl = false;
 
     public SCPlayer(EntityPlayer player){
-        /**
-         * @TODO
-         */
-
         this.player = player;
+
+        Attack kiAttack = (Attack) AbilityDatabase.getAbilityByName("KiAttack");
+        Attack energyWave = (Attack) AbilityDatabase.getAbilityByName("EnergyWave");
+        PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getAbilityByName("VirtuousSpirit");
+
+        this.addAbility(kiAttack);
+        this.addAbility(energyWave);
+        this.addAbility(virtuousSpirit);
+
+        this.setAbilityAtSlot(kiAttack, "super1");
+        this.setAbilityAtSlot(kiAttack, "super2");
+        this.setAbilityAtSlot(energyWave, "ultimate");
+        this.setAbilityAtSlot(virtuousSpirit, "passive");
     }
     public static SCPlayer getPlayer(EntityPlayer player){
         return (SCPlayer) player.getExtendedProperties(SpiritControl.MODID);
@@ -114,8 +125,8 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
 
-        this.setMaxSpirit(scTag.getDouble(""));
-        this.setSpirit(scTag.getDouble(""));
+        this.setMaxSpirit(scTag.getDouble("maxSpirit"));
+        this.setSpirit(scTag.getDouble("currentSpirit"));
 
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super1")), "super1");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super2")), "super2");
@@ -251,6 +262,10 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.addPassive((PassiveAbility) ability);
     }
     public void removeAbility(Ability ability){
+        player.addChatMessage(new ChatComponentText(""+AbilityDatabase.isDefault(ability)));
+        if(AbilityDatabase.isDefault(ability))
+            return;
+
         if(ability instanceof Attack)
             this.removeAttack((Attack) ability);
 
