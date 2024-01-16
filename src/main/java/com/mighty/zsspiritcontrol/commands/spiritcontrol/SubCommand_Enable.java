@@ -2,11 +2,11 @@ package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
-import com.mighty.zsspiritcontrol.player.chat.ChatUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.List;
 
@@ -28,9 +28,9 @@ public class SubCommand_Enable extends SCSubCommand {
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
         extPlayer.setUnlockedSpiritControl(true);
 
-        player.addChatMessage(ChatUtil.getMessage("You have gained Spirit Control :)", EnumChatFormatting.DARK_AQUA));
+        player.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You have learned Spirit Control :)"));
         if(sender != player){
-            sender.addChatMessage(ChatUtil.getMessage(player.getCommandSenderName()+" has gained Spirit Control.", EnumChatFormatting.DARK_AQUA));
+            sender.addChatMessage(MiniMessageParser.getFormat("<gray><player><dark_aqua> has learned Spirit Control.", "player", player.getCommandSenderName()));
         }
 
     }
