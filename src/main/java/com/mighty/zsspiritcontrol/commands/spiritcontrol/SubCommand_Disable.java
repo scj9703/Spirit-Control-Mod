@@ -44,9 +44,4 @@ public class SubCommand_Disable extends SCSubCommand {
             return getListOfStringsMatchingLastWord(args, getPlayers());
         return null;
     }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
 }

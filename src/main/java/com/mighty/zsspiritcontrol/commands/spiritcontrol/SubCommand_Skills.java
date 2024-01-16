@@ -60,9 +60,4 @@ public class SubCommand_Skills extends SCSubCommand {
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return null;
     }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
 }
