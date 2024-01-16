@@ -1,6 +1,5 @@
 package com.mighty.zsspiritcontrol.events;
 
-import com.mighty.zsspiritcontrol.commands.commandsc;
 import com.mighty.zsspiritcontrol.commands.spiritcontrol.Command_SpiritControl;
 
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
