@@ -1,6 +1,6 @@
 package com.mighty.zsspiritcontrol;
 
-import com.mighty.zsspiritcontrol.events.CommonProxy;
+import com.mighty.zsspiritcontrol.event.CommonProxy;
 
 import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.Mod;
@@ -24,7 +24,7 @@ public class SpiritControl
 
     public static Logger LOGGER;
 
-    @SidedProxy(clientSide = "com.mighty.zsspiritcontrol.events.ClientProxy", serverSide = "com.mighty.zsspiritcontrol.events.CommonProxy")
+    @SidedProxy(clientSide = "com.mighty.zsspiritcontrol.event.ClientProxy", serverSide = "com.mighty.zsspiritcontrol.event.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler
