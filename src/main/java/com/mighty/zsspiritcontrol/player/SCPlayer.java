@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.player;
 
+import JinRyuu.DragonBC.common.DBC;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
@@ -107,7 +108,12 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     @Override
     public void saveNBTData(NBTTagCompound compound) {
+        //Moved to ./ForgeData/SpiritControl so scripts can edit the data
+        NBTTagCompound forgeData = compound.getCompoundTag("ForgeData");
         NBTTagCompound scTag = new NBTTagCompound();
+
+        //Script support.
+        this.loadNBTData(compound);
 
         scTag.setBoolean("hasUnlocked", this.isEnabled());
 
@@ -134,19 +140,19 @@ public class SCPlayer implements IExtendedEntityProperties {
             passiveList.appendTag(new NBTTagString(passive.getName()));
         scTag.setTag("Passives", passiveList);
 
-        compound.setTag("SpiritControl", scTag);
+        forgeData.setTag("SpiritControl", scTag);
 
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
-        if(!compound.hasKey("SpiritControl")){
+        if(!compound.getCompoundTag("ForgeData").hasKey("SpiritControl")){
             return;
         }
 
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
 
-        NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
+        NBTTagCompound scTag = compound.getCompoundTag("ForgeData").getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
 
@@ -400,5 +406,9 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
     public void removePassive(PassiveAbility passive){
         this.unlockedPassives.remove(passive);
+    }
+
+    public boolean isFatigued(){
+        return dbcPlayer.isFatigued();
     }
 }
