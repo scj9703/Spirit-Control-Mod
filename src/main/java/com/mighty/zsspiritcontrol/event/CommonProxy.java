@@ -15,10 +15,10 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new EventSystem());
-        MinecraftForge.TERRAIN_GEN_BUS.register(new EventSystem());
-        MinecraftForge.ORE_GEN_BUS.register(new EventSystem());
-        FMLCommonHandler.instance().bus().register(new EventSystem());
+        MinecraftForge.EVENT_BUS.register(new SpiritControlEventHandler());
+        MinecraftForge.TERRAIN_GEN_BUS.register(new SpiritControlEventHandler());
+        MinecraftForge.ORE_GEN_BUS.register(new SpiritControlEventHandler());
+        FMLCommonHandler.instance().bus().register(new SpiritControlEventHandler());
     }
 
     public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {
