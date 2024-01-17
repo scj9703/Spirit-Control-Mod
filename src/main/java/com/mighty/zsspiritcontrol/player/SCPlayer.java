@@ -25,6 +25,13 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Player reference
      */
     private final EntityPlayer player;
+
+    /**
+     * DBCPlayerWrapper.
+     *
+     * Hopefully will move this to be a ZS lib class later on.
+     */
+    private final DBCPlayerWrapper dbcPlayer;
     /**
      * A check if the player can receieve messages.
      * <br><br>
@@ -43,8 +50,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Used for sending a message to the player every 5% gauge fill updates reliably.
      */
     private byte lastPercentPrinted = 0;
-
-    public boolean isFatigued = false;
 
     /**
      * Selected abilities
@@ -71,6 +76,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public SCPlayer(EntityPlayer player){
         canReceiveMessages = false;
         this.player = player;
+        this.dbcPlayer = new DBCPlayerWrapper(player);
 
         Attack kiAttack = (Attack) AbilityDatabase.getAbilityByName("KiAttack");
         Attack energyWave = (Attack) AbilityDatabase.getAbilityByName("EnergyWave");
