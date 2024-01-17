@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.attack;
+package com.mighty.zsspiritcontrol.ability;
 
 /** Class for Spirit Control Passive Abilities **/
 public class PassiveAbility extends Ability {

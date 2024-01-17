@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.attack;
+package com.mighty.zsspiritcontrol.ability;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
 import org.apache.commons.lang3.ArrayUtils;
