@@ -8,6 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import somehussar.minimessage.MiniMessageParser;
 
@@ -47,7 +48,8 @@ public class SubCommand_Skills extends SCSubCommand {
             for (PassiveAbility passive:unlockedPassives){
                 passives += " " + passive.getName();
             }
-            sender.addChatMessage(MiniMessageParser.getFormat("These ability names are used in commands such as /sc equip."));
+            sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
+            sender.addChatMessage(new ChatComponentText(""));
             sender.addChatMessage(MiniMessageParser.getFormat(supers));
             sender.addChatMessage(MiniMessageParser.getFormat(ultimates));
             sender.addChatMessage(MiniMessageParser.getFormat(passives));

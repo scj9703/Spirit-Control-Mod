@@ -5,19 +5,20 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import somehussar.minimessage.MiniMessageParser;
 
 import java.util.List;
 
 public class SubCommand_Help extends SCSubCommand {
     String[] commandList = {
-            "help - shows a list of commands",
-            "skills - displays all unlocked skill names and descriptions",
-            "equip <slotName> <skillName> - equips the selected skill onto your loadout",
-            "enable [player] - unlocks Spirit Control for a Player OP",
-            "disable [player] - locks Spirit Control for a Player OP",
-            "check [player] - shows a Player's Gauge, loadout, and all unlocked abilities OP",
-            "unlock <skillName> [player] - unlocks an ability OP",
-            "lock <skillName> [player] - removes an ability OP" };
+            "<aqua>help <dark_aqua>- shows a list of commands",
+            "<aqua>skills <dark_aqua>- displays all unlocked skill names and descriptions",
+            "<aqua>equip <slotName> <skillName> <dark_aqua>- equips the selected skill onto your loadout",
+            "<aqua>enable [player] <dark_aqua>- unlocks Spirit Control for a Player OP",
+            "<aqua>disable [player] <dark_aqua>- locks Spirit Control for a Player OP",
+            "<aqua>check [player] <dark_aqua>- shows a Player's Gauge, loadout, and all unlocked abilities OP",
+            "<aqua>unlock <skillName> [player] <dark_aqua>- unlocks an ability OP",
+            "<aqua>lock <skillName> [player] <dark_aqua>- removes an ability OP" };
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
@@ -26,7 +27,7 @@ public class SubCommand_Help extends SCSubCommand {
          * Change display
          */
         for (String s : commandList) {
-            sender.addChatMessage((new ChatComponentTranslation(s).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.AQUA))));
+            sender.addChatMessage(MiniMessageParser.getFormat(s));
         }
     }
 

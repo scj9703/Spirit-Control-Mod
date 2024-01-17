@@ -41,9 +41,9 @@ public class SubCommand_Lock extends SCSubCommand {
 
         extPlayer.removeAbility(ability);
 
-        player.addChatMessage(MiniMessageParser.getFormat("<aqua>You have forgotten <gray><ability>", "ability", ability.getName()));
+        player.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You have forgotten <aqua><ability>", "ability", ability.getName()));
         if(sender != player){
-            sender.addChatMessage(MiniMessageParser.getFormat("<gray><player><aqua> has forgotten <gray><ability>", "player", player.getCommandSenderName(), "ability", ability.getName()));
+            sender.addChatMessage(MiniMessageParser.getFormat("<aqua><player><dark_aqua> has forgotten <aqua><ability>", "player", player.getCommandSenderName(), "ability", ability.getName()));
         }
 
     }
