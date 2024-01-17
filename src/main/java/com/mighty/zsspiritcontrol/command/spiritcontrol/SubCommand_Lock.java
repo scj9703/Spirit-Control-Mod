@@ -34,7 +34,7 @@ public class SubCommand_Lock extends SCSubCommand {
         }
 
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
-        if(!extPlayer.isEnabled()){
+        if(!extPlayer.hasUnlockedSpiritControl()){
             throw new WrongUsageException("This player has not learned Spirit Control yet.");
         }
 

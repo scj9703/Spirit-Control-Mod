@@ -125,7 +125,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound scTag = new NBTTagCompound();
 
-        scTag.setBoolean("hasUnlocked", this.isEnabled());
+        scTag.setBoolean("hasUnlocked", this.hasUnlockedSpiritControl());
 
         scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
         scTag.setDouble("currentSpirit", this.getSpirit());
@@ -136,7 +136,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         scTag.setString("Passive", this.getAbilityFromSlot("Passive").getName());
 
         NBTTagList superList = new NBTTagList();
-        for(Attack att : this.getAttacks())
+        for(Attack att : this.getSuperAttacks())
             superList.appendTag(new NBTTagString(att.getName()));
         scTag.setTag("Supers", superList);
 
@@ -201,14 +201,14 @@ public class SCPlayer implements IExtendedEntityProperties {
     /**
      * @return if the player unlocked Spirit Control abilities
      */
-    public boolean isEnabled(){
+    public boolean hasUnlockedSpiritControl(){
         return this.unlockedSpiritControl;
     }
 
     /**
      * @return a set of super attacks the player unlocked
      */
-    public Set<Attack> getAttacks(){
+    public Set<Attack> getSuperAttacks(){
         return this.unlockedSuperAttacks;
     }
 

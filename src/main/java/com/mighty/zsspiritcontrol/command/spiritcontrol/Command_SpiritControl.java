@@ -47,7 +47,7 @@ public class Command_SpiritControl extends SCCommandBase {
             if(sender instanceof EntityPlayerMP){
                 SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
-                if(!extPlayer.isEnabled()){
+                if(!extPlayer.hasUnlockedSpiritControl()){
                     sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                     return;
                 }
