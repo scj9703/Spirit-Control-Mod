@@ -34,12 +34,15 @@ public class SpiritControlEventHandler {
         if(event.entity.worldObj.isRemote){ //Return if even ran on client
             return;
         }
+        if(event.isCanceled()){
+            return;
+        }
 
         // If the player is the CAUSE of the attack
         if (event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             SCPlayer ex = SCPlayer.getPlayer(player);
-            if (ex.isEnabled()) {
+            if (ex.hasUnlockedSpiritControl()) {
                 ex.addSpirit(1);
             }
         }
@@ -48,12 +51,8 @@ public class SpiritControlEventHandler {
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
 
-            if(event.isCanceled()){
-                return;
-            }
-
             SCPlayer ex = SCPlayer.getPlayer(player);
-            if (ex.isEnabled()) {
+            if (ex.hasUnlockedSpiritControl()) {
                 ex.addSpirit(1);
             }
         }
@@ -74,7 +73,7 @@ public class SpiritControlEventHandler {
             SCPlayer extPlayer = SCPlayer.getPlayer(player);
 
             //Return if player hasn't unlocked SC or they're fatigued
-            if(!extPlayer.isEnabled() || extPlayer.isFatigued()){
+            if(!extPlayer.hasUnlockedSpiritControl() || extPlayer.isFatigued()){
                 return;
             }
 

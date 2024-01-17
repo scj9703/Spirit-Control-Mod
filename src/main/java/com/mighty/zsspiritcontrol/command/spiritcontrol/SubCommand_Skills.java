@@ -21,7 +21,7 @@ public class SubCommand_Skills extends SCSubCommand {
         if(sender instanceof EntityPlayerMP){
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
-            if(!extPlayer.isEnabled()){
+            if(!extPlayer.hasUnlockedSpiritControl()){
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
@@ -31,7 +31,7 @@ public class SubCommand_Skills extends SCSubCommand {
              * Revisit this and rewrite it
              */
 
-            ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getAttacks());
+            ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getSuperAttacks());
             unlockedAttacks.addAll(extPlayer.getUltimates());
             ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>(extPlayer.getPassives());
             String supers = "<dark_aqua>Unlocked Super Attacks: <gray>";

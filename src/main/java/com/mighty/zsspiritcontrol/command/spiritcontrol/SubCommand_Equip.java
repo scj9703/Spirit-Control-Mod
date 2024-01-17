@@ -21,7 +21,7 @@ public class SubCommand_Equip extends SCSubCommand {
         if(sender instanceof EntityPlayerMP) {
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
-            if(!extPlayer.isEnabled()){
+            if(!extPlayer.hasUnlockedSpiritControl()){
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
@@ -55,7 +55,7 @@ public class SubCommand_Equip extends SCSubCommand {
 
         SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
-        if(!extPlayer.isEnabled())
+        if(!extPlayer.hasUnlockedSpiritControl())
             return null;
 
 
@@ -77,7 +77,7 @@ public class SubCommand_Equip extends SCSubCommand {
                     break;
                 case "super1":
                 case "super2":
-                    for(Attack att : extPlayer.getAttacks())
+                    for(Attack att : extPlayer.getSuperAttacks())
                             tabCompletion.add(att.getName());
                     break;
             }
