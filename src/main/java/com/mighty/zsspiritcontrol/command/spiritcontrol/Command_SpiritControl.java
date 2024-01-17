@@ -1,7 +1,7 @@
-package com.mighty.zsspiritcontrol.commands.spiritcontrol;
+package com.mighty.zsspiritcontrol.command.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SCCommandBase;
-import com.mighty.zsspiritcontrol.commands.SCSubCommand;
+import com.mighty.zsspiritcontrol.command.SCCommandBase;
+import com.mighty.zsspiritcontrol.command.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import net.minecraft.command.ICommandSender;

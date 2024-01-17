@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.commands;
+package com.mighty.zsspiritcontrol.command;
 
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;

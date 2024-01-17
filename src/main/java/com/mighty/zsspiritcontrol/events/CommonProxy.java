@@ -1,6 +1,6 @@
 package com.mighty.zsspiritcontrol.events;
 
-import com.mighty.zsspiritcontrol.commands.spiritcontrol.Command_SpiritControl;
+import com.mighty.zsspiritcontrol.command.spiritcontrol.Command_SpiritControl;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.FMLCommonHandler;
