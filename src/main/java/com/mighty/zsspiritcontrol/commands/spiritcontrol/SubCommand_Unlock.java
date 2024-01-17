@@ -41,9 +41,9 @@ public class SubCommand_Unlock extends SCSubCommand {
 
         extPlayer.addAbility(ability);
 
-        player.addChatMessage(MiniMessageParser.getFormat("<aqua>You have learned <gray><ability>", "ability", ability.getName()));
+        player.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You have learned <aqua><ability>", "ability", ability.getName()));
         if(sender != player){
-            sender.addChatMessage(MiniMessageParser.getFormat("<gray><player><aqua> has learned <gray><ability>", "player", player.getCommandSenderName(), "ability", ability.getName()));
+            sender.addChatMessage(MiniMessageParser.getFormat("<aqua><player><dark_aqua> has learned <aqua><ability>", "player", player.getCommandSenderName(), "ability", ability.getName()));
         }
     }
 
