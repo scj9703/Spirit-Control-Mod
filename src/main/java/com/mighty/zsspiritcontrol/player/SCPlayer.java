@@ -1,6 +1,5 @@
 package com.mighty.zsspiritcontrol.player;
 
-import JinRyuu.DragonBC.common.DBC;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
@@ -44,7 +43,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     /**
      * Gauge info
      */
-    private double maxSpirit = 1000;
+    private double maxBaseSpirit = 1000;
     private double currentSpirit = 0;
 
     /**
@@ -117,7 +116,7 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         scTag.setBoolean("hasUnlocked", this.isEnabled());
 
-        scTag.setDouble("maxSpirit", this.getMaxSpirit());
+        scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
         scTag.setDouble("currentSpirit", this.getSpirit());
 
         scTag.setString("Super1", this.getAbilityFromSlot("Super1").getName());
@@ -156,13 +155,13 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
 
-        this.setMaxSpirit(scTag.getDouble("maxSpirit"));
-        this.setSpirit(scTag.getDouble("currentSpirit"));
-
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super1")), "super1");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super2")), "super2");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Ultimate")), "ultimate");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Passive")), "passive");
+
+        this.setMaxBaseSpirit(scTag.getDouble("maxSpirit"));
+        this.setSpirit(scTag.getDouble("currentSpirit"));
 
         this.canReceiveMessages = true;
     }
@@ -194,17 +193,21 @@ public class SCPlayer implements IExtendedEntityProperties {
         return this.unlockedPassives;
     }
 
+    public double getMaxBaseSpirit(){
+        return this.maxBaseSpirit;
+    }
+    public void setMaxBaseSpirit(double max){
+        this.maxBaseSpirit = max;
+    }
+    public void addMaxBaseSpirit(double spirit){
+        this.setMaxBaseSpirit(this.getMaxBaseSpirit() + spirit);
+    }
+    public void removeMaxBaseSpirit(double spirit){
+        this.setMaxBaseSpirit(this.getMaxBaseSpirit() - spirit);
+    }
+
     public double getMaxSpirit(){
-        return this.maxSpirit;
-    }
-    public void setMaxSpirit(double max){
-        this.maxSpirit = max;
-    }
-    public void addMaxSpirit(double spirit){
-        this.setMaxSpirit(this.getMaxSpirit() + spirit);
-    }
-    public void removeMaxSpirit(double spirit){
-        this.setMaxSpirit(this.getMaxSpirit() - spirit);
+        return this.getMaxBaseSpirit() + passiveAbility.getSpiritBonus();
     }
 
     public double getSpirit(){
