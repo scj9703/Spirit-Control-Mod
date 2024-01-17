@@ -1,11 +1,10 @@
-package com.mighty.zsspiritcontrol.commands.spiritcontrol;
+package com.mighty.zsspiritcontrol.command.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SCSubCommand;
+import com.mighty.zsspiritcontrol.command.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumChatFormatting;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.util.List;

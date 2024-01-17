@@ -136,7 +136,7 @@ public class SCPlayer implements IExtendedEntityProperties {
             return;
         }
 
-        canReceiveMessages = false;
+        canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
 
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 

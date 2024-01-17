@@ -1,8 +1,8 @@
-package com.mighty.zsspiritcontrol.commands.spiritcontrol;
+package com.mighty.zsspiritcontrol.command.spiritcontrol;
 
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
-import com.mighty.zsspiritcontrol.commands.SCSubCommand;
+import com.mighty.zsspiritcontrol.command.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;

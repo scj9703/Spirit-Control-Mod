@@ -1,10 +1,7 @@
-package com.mighty.zsspiritcontrol.commands.spiritcontrol;
+package com.mighty.zsspiritcontrol.command.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.commands.SCSubCommand;
+import com.mighty.zsspiritcontrol.command.SCSubCommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.util.List;

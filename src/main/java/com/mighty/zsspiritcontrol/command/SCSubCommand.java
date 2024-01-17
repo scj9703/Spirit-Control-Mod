@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.commands;
+package com.mighty.zsspiritcontrol.command;
 
 import net.minecraft.command.ICommandSender;
 
