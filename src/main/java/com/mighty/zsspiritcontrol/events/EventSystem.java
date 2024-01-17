@@ -49,6 +49,11 @@ public class EventSystem {
         // If the player is the RECIPIENT of the attack
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
+
+            if(event.isCanceled()){
+                return;
+            }
+
             SCPlayer ex = SCPlayer.getPlayer(player);
             boolean hasUnlocked = ex.isEnabled();
             if (hasUnlocked) {
