@@ -34,24 +34,24 @@ public class SubCommand_Skills extends SCSubCommand {
             ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getSuperAttacks());
             unlockedAttacks.addAll(extPlayer.getUltimates());
             ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>(extPlayer.getPassives());
-            String supers = "<dark_aqua>Unlocked Super Attacks: <gray>";
-            String ultimates = "<dark_aqua>Unlocked Ultimate Attacks: <gray>";
-            String passives = "<dark_aqua>Unlocked Passive Attacks: <gray>";
+            StringBuilder supers = new StringBuilder("<dark_aqua>Unlocked Super Attacks: <gray>");
+            StringBuilder ultimates = new StringBuilder("<dark_aqua>Unlocked Ultimate Attacks: <gray>");
+            StringBuilder passives = new StringBuilder("<dark_aqua>Unlocked Passive Attacks: <gray>");
             for (Attack atk:unlockedAttacks){
                 if (atk.isUltimate()){
-                    ultimates += " " + atk.getName();
+                    ultimates.append(" ").append(atk.getName());
                 } else {
-                    supers += " " + atk.getName();
+                    supers.append(" ").append(atk.getName());
                 }
             }
             for (PassiveAbility passive:unlockedPassives){
-                passives += " " + passive.getName();
+                passives.append(" ").append(passive.getName());
             }
             sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
             sender.addChatMessage(new ChatComponentText(""));
-            sender.addChatMessage(MiniMessageParser.getFormat(supers));
-            sender.addChatMessage(MiniMessageParser.getFormat(ultimates));
-            sender.addChatMessage(MiniMessageParser.getFormat(passives));
+            sender.addChatMessage(MiniMessageParser.getFormat(supers.toString()));
+            sender.addChatMessage(MiniMessageParser.getFormat(ultimates.toString()));
+            sender.addChatMessage(MiniMessageParser.getFormat(passives.toString()));
 
         }else{
             throw new WrongUsageException("You have to be a player to run this command.");
