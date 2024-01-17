@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.events;
+package com.mighty.zsspiritcontrol.event;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
