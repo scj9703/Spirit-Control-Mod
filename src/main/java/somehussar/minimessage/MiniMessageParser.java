@@ -16,7 +16,13 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static somehussar.minimessage.Constants.*;
+
+import static somehussar.minimessage.Constants.CLICK;
+import static somehussar.minimessage.Constants.CLOSE_TAG;
+import static somehussar.minimessage.Constants.HOVER;
+import static somehussar.minimessage.Constants.SEPARATOR;
+import static somehussar.minimessage.Constants.TAG_END;
+import static somehussar.minimessage.Constants.TAG_START;
 
 /**
  * @INFO: BACKPORT OF https://github.com/KyoriPowered/adventure-text-minimessage/tree/MiniMessage-1.0.2
@@ -275,7 +281,12 @@ public class MiniMessageParser {
             throw new RuntimeException("Can't parse hover action (too few args) " + token);
         }
         HoverEvent.Action action = HoverEvent.Action.valueOf(args[1].toUpperCase());
-        return new HoverEvent(action, Util.fromArray(parseFormat(inner)));
+
+        //For some reason, hover events don't like unformatted text. Dirty fix for that.
+        //
+        // Will need a rewrite of the whole parser rather than a port.
+        IChatComponent comp = Util.fromArray(parseFormat("<white></white>" + inner));
+        return new HoverEvent(action, comp);
     }
 
     @Nonnull
