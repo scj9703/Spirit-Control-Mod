@@ -8,11 +8,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.*;
+import net.minecraft.util.IChatComponent;
 import somehussar.minimessage.MiniMessageParser;
 import somehussar.minimessage.util.Util;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,12 +28,12 @@ public class Command_SpiritControl extends SCCommandBase {
     }
     @Override
     public String getCommandName() {
-        return "spiritcontrol";
+        return "sc";
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/spiritcontrol";
+        return "/sc";
     }
 
     @Override
@@ -52,32 +51,19 @@ public class Command_SpiritControl extends SCCommandBase {
                     sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                     return;
                 }
-                /**
-                 * @TODO:
-                 * Write out player skills (better than this)
-                 * for the record. I hate using ChatComponents like this T-T+
-                 */
-                double gauge = extPlayer.getSpirit();
-                double cap = extPlayer.getMaxSpirit();
-                double percent = (gauge / cap) * 100; // For gauge display
-                DecimalFormat decimalFormat = new DecimalFormat("#.##");
-                String formattedPercent = decimalFormat.format(percent);
 
-                StringBuilder gaugeString = new StringBuilder(extPlayer.drawSpiritGauge());
-                //Colors the filled spirit gauge to aqua.
-                int firstIndex, lastIndex;
-                firstIndex = gaugeString.indexOf("=");
-                if(firstIndex != -1) {
-                    gaugeString.insert(firstIndex, "<aqua>");
-                    lastIndex = gaugeString.lastIndexOf("=");
-                    gaugeString.insert(lastIndex + 1, "</aqua>");
-                }
+                /**
+                 * @TODO
+                 * Write out this command better
+                 */
+
+                IChatComponent prettyGauge = extPlayer.drawPrettyGauge();
 
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Your Spirit Control Loadout"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent));
+                sender.addChatMessage(prettyGauge);
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("super1"))));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
