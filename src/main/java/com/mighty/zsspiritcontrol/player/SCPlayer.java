@@ -92,13 +92,29 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(virtuousSpirit, "passive");
 
     }
+
+    /**
+     * Get the extended player instance from player.
+     * @param player player which to extend
+     * @return a new instance of SCPlayer wrapping the inputted player
+     */
     public static SCPlayer getPlayer(EntityPlayer player){
         return (SCPlayer) player.getExtendedProperties(SpiritControl.MODID);
     }
+
+    /**
+     * Register a player entity for Spirit Control
+     * @param player player which to register
+     */
     public static void register(EntityPlayer player){
         if(getPlayer(player) == null)
             player.registerExtendedProperties(SpiritControl.MODID, new SCPlayer(player));
     }
+
+    /**
+     * Copy the Spirit Control values of that player.
+     * @param otherPlayer
+     */
     public void copy(SCPlayer otherPlayer){
         NBTTagCompound nbt = new NBTTagCompound();
         otherPlayer.saveNBTData(nbt);
@@ -161,8 +177,12 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.canReceiveMessages = true;
     }
 
+    /**
+     * Send a chat message to the player.
+     * @param chatComponent
+     */
     public void addChatMessage(IChatComponent chatComponent){
-        if(this.canReceiveMessages)
+        if(this.canReceiveMessages) // true unless the player is being reloaded or still joining.
             player.addChatMessage(chatComponent);
     }
 
@@ -170,27 +190,54 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void init(Entity entity, World world) {
     }
 
+    /**
+     * Enables or disable Spirit Control capabilities for the player
+     * @param shouldUnlock
+     */
     public void setUnlockedSpiritControl(boolean shouldUnlock){
         this.unlockedSpiritControl = shouldUnlock;
     }
 
+    /**
+     * @return if the player unlocked Spirit Control abilities
+     */
     public boolean isEnabled(){
         return this.unlockedSpiritControl;
     }
 
+    /**
+     * @return a set of super attacks the player unlocked
+     */
     public Set<Attack> getAttacks(){
         return this.unlockedSuperAttacks;
     }
+
+    /**
+     * @return a set of ultimate attacks the player unlocked
+     */
     public Set<Attack> getUltimates(){
         return this.unlockedUltimates;
     }
+
+    /**
+     * @return a set of passive abilities the player unlocked
+     */
     public Set<PassiveAbility> getPassives(){
         return this.unlockedPassives;
     }
 
-    public double getMaxBaseSpirit(){
+    /**
+     * Does NOT include passives
+     * @return Players max amount of spirit WITHOUT passive modifiers
+     */
+    private double getMaxBaseSpirit(){
         return this.maxBaseSpirit;
     }
+
+    /**
+     * Sets the max base spirit (without passive modifiers) to specified value
+     * @param max
+     */
     public void setMaxBaseSpirit(double max){
         this.maxBaseSpirit = max;
     }
@@ -201,15 +248,27 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setMaxBaseSpirit(this.getMaxBaseSpirit() - spirit);
     }
 
+    /**
+     * Includes passives
+     * @return Players max amount of spirit WITH passive modifiers
+     */
     public double getMaxSpirit(){
         return this.getMaxBaseSpirit() * (passiveAbility != null ? passiveAbility.getSpiritBonus() : 1);
     }
 
+    /**
+     * @return Players current spirit value
+     */
     public double getSpirit(){
         if(this.currentSpirit > this.getMaxSpirit())
             return this.getMaxSpirit();
         return this.currentSpirit;
     }
+
+    /**
+     * Sets the players spirit directly to the specified value
+     * @param spirit
+     */
     public void setSpirit(double spirit){
         if(spirit <= 0) {
             spirit = 0;
@@ -278,6 +337,10 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     }
 
+    /**
+     * Draws the spirit gauge as an uncolored String
+     * @return Spirit gauge
+     */
     public String drawSpiritGauge(){
         double gauge = getSpirit();
         double cap = getMaxSpirit();
@@ -297,11 +360,18 @@ public class SCPlayer implements IExtendedEntityProperties {
         return gaugeString.toString();
     }
 
+    /**
+     * Creates a color formatted gauge
+     * <br><br>
+     * Does NOT round the percentile to the nearest 5
+     * @return A chat component containing the prettified gauge!
+     */
     public IChatComponent drawPrettyGauge(){
         return this.drawPrettyGauge(false);
     }
 
     /**
+     * Creates a color formatted gauge
      * @param round Should it ~~floor~~ round it to the closest % divisible by 5
      * @return A Chat component containing the prettified gauge!
      */
@@ -326,11 +396,19 @@ public class SCPlayer implements IExtendedEntityProperties {
         return MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent);
     }
 
+    /**
+     * Does the player have this ability unlocked?
+     * @param ability
+     * @return True or False
+     */
     public boolean hasAbility(Ability ability){
         return unlockedSuperAttacks.contains(ability) || unlockedUltimates.contains(ability) || unlockedPassives.contains(ability);
     }
 
-
+    /**
+     * @param slotName Name of the slot that stores an attack (super1, super2, ultimate, passive)
+     * @return Ability stored in the slot
+     */
     public Ability getAbilityFromSlot(String slotName){
         slotName = slotName.toUpperCase();
 
@@ -348,6 +426,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         }
     }
 
+    /**
+     * Sets the ability at a slot
+     * @param ability
+     * @param slotName
+     */
     public void setAbilityAtSlot(Ability ability, String slotName){
 
         if(ability instanceof PassiveAbility && slotName.equalsIgnoreCase("passive")){
@@ -393,6 +476,10 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+passive));
     }
 
+    /**
+     * Adds an ability to the player's unlocked ability list
+     * @param ability Passive or Attack
+     */
     public void addAbility(Ability ability){
         if(!AbilityDatabase.isRegistered(ability))
             return;
@@ -403,6 +490,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(ability instanceof PassiveAbility)
             this.addPassive((PassiveAbility) ability);
     }
+
+    /**
+     * Removes an ability from the player
+     * @param ability Passive or Attack
+     */
     public void removeAbility(Ability ability){
         if(AbilityDatabase.isDefault(ability))
             return;
@@ -414,37 +506,23 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.removePassive((PassiveAbility) ability);
     }
 
-    private void addAttack(Attack attack){
+    public void addAttack(Attack attack){
         if(attack.isUltimate())
-            this.addUltimate(attack);
+            this.unlockedUltimates.add(attack);
         else
-            this.addSuperAttack(attack);
+            this.unlockedSuperAttacks.add(attack);
     }
     private void removeAttack(Attack attack) {
         if(attack.isUltimate())
-            this.removeUltimate(attack);
+            this.unlockedUltimates.remove(attack);
         else
-            this.removeSuperAttack(attack);
+            this.unlockedSuperAttacks.remove(attack);
     }
 
-    private void addUltimate(Attack ultimateAttack){
-        this.unlockedUltimates.add(ultimateAttack);
-    }
-    private void removeUltimate(Attack ultimateAttack){
-        this.unlockedUltimates.remove(ultimateAttack);
-    }
-
-    private void addSuperAttack(Attack superAttack){
-        this.unlockedSuperAttacks.add(superAttack);
-    }
-    private void removeSuperAttack(Attack superAttack){
-        this.unlockedSuperAttacks.remove(superAttack);
-    }
-
-    public void addPassive(PassiveAbility passive){
+    private void addPassive(PassiveAbility passive){
         this.unlockedPassives.add(passive);
     }
-    public void removePassive(PassiveAbility passive){
+    private void removePassive(PassiveAbility passive){
         this.unlockedPassives.remove(passive);
     }
 
