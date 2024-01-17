@@ -17,7 +17,7 @@ public class ComponentBuilder {
     private IChatComponent dummy;
 
     public ComponentBuilder(String text) {
-        this(new ChatComponentText(text));
+        this(new ChatComponentText(text).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.WHITE)));
     }
 
     public ComponentBuilder(IChatComponent chatComponentText) {
@@ -26,6 +26,8 @@ public class ComponentBuilder {
 
     public ComponentBuilder(IChatComponent[] parts) {
         for(IChatComponent base : parts){
+            if(base.getChatStyle() == null)
+                base.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.WHITE));
             this.parts.add(base.createCopy());
         }
         this.resetCursor();
