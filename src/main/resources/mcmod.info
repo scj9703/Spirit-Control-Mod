@@ -1,16 +1,21 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "ZSSpiritcontrol",
+  "name": "Spirit Control Plugin",
+  "description": "A plugin/serverside mod for the ZeroS DBC Server",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["@_jbug_", "@somehussar"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": [
+     "required-after:jinryuudragonblockc"
+  ],
+  "requiredMods" : [
+    "jinryuudragonblockc@[1.4.85,)"
+  ]
 }
 ]
