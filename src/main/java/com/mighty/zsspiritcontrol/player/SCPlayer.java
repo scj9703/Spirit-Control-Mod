@@ -107,12 +107,7 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     @Override
     public void saveNBTData(NBTTagCompound compound) {
-        //Moved to ./ForgeData/SpiritControl so scripts can edit the data
-        NBTTagCompound forgeData = compound.getCompoundTag("ForgeData");
         NBTTagCompound scTag = new NBTTagCompound();
-
-        //Script support.
-        this.loadNBTData(compound);
 
         scTag.setBoolean("hasUnlocked", this.isEnabled());
 
@@ -139,19 +134,19 @@ public class SCPlayer implements IExtendedEntityProperties {
             passiveList.appendTag(new NBTTagString(passive.getName()));
         scTag.setTag("Passives", passiveList);
 
-        forgeData.setTag("SpiritControl", scTag);
+        compound.setTag("SpiritControl", scTag);
 
     }
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
-        if(!compound.getCompoundTag("ForgeData").hasKey("SpiritControl")){
+        if(!compound.hasKey("SpiritControl")){
             return;
         }
 
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
 
-        NBTTagCompound scTag = compound.getCompoundTag("ForgeData").getCompoundTag("SpiritControl");
+        NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
 
