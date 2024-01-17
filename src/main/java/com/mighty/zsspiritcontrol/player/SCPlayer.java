@@ -1,10 +1,10 @@
 package com.mighty.zsspiritcontrol.player;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
-import com.mighty.zsspiritcontrol.attack.Ability;
-import com.mighty.zsspiritcontrol.attack.AbilityDatabase;
-import com.mighty.zsspiritcontrol.attack.Attack;
-import com.mighty.zsspiritcontrol.attack.PassiveAbility;
+import com.mighty.zsspiritcontrol.ability.Ability;
+import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
+import com.mighty.zsspiritcontrol.ability.Attack;
+import com.mighty.zsspiritcontrol.ability.PassiveAbility;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,7 +1,7 @@
 package com.mighty.zsspiritcontrol.commands.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.attack.Attack;
-import com.mighty.zsspiritcontrol.attack.PassiveAbility;
+import com.mighty.zsspiritcontrol.ability.Attack;
+import com.mighty.zsspiritcontrol.ability.PassiveAbility;
 import com.mighty.zsspiritcontrol.commands.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
