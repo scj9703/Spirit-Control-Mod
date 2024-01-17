@@ -8,7 +8,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-public class EventSystem {
+public class SpiritControlEventHandler {
     /**
      * Registers a player for Spirit Control attributes.
      * @param event
