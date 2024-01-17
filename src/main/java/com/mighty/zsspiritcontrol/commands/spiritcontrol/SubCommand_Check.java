@@ -7,7 +7,6 @@ import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumChatFormatting;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.util.HashSet;

@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class SCCommandBase extends CommandBase {
     protected final HashMap<String, SCSubCommand> subCommandMap = new HashMap<>();
@@ -56,5 +57,9 @@ public abstract class SCCommandBase extends CommandBase {
         }
 
         return this;
+    }
+
+    public Map<String, SCSubCommand> getSubCommands(){
+        return subCommandMap;
     }
 }
