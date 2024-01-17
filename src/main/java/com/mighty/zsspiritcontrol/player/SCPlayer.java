@@ -202,7 +202,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public double getMaxSpirit(){
-        return this.getMaxBaseSpirit() + passiveAbility.getSpiritBonus();
+        return this.getMaxBaseSpirit() + (passiveAbility != null ? passiveAbility.getSpiritBonus() : 0);
     }
 
     public double getSpirit(){
@@ -211,10 +211,12 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void setSpirit(double spirit){
         if(spirit <= 0) {
             spirit = 0;
-
         }
         if(spirit > this.getMaxSpirit())
             spirit = this.getMaxSpirit();
+
+        if(this.getSpirit() == spirit)
+            return;
 
         this.currentSpirit = spirit;
         this.tellPlayerAboutGaugeUpdate();
@@ -231,19 +233,17 @@ public class SCPlayer implements IExtendedEntityProperties {
         double cap = this.getMaxSpirit();
         double currPercent = (gauge / cap) * 100; // For gauge display
 
-        //If gauge was lowered or lastPercentPrinted wasn't initialized yet
-        if(currPercent < this.lastPercentPrinted || this.lastPercentPrinted == 0){
+        if((currPercent - this.lastPercentPrinted) >= 5){
+            this.addChatMessage(this.drawPrettyGauge(true));
             //Sets it to the closest lowest value divisible by 5;
             this.lastPercentPrinted = (byte) (currPercent - currPercent%5);
         }
 
-        if(this.canReceiveMessages){
-            if(currPercent-this.lastPercentPrinted >= 5){
-                this.addChatMessage(this.drawPrettyGauge());
-                //Sets it to the closest lowest value divisible by 5;
-                this.lastPercentPrinted = (byte) (currPercent - currPercent%5);
-            }
+        //If gauge was lowered or lastPercentPrinted wasn't initialized yet
+        if(currPercent < this.lastPercentPrinted || this.lastPercentPrinted == 0){
+            this.lastPercentPrinted = (byte) (currPercent - currPercent%5);
         }
+
     }
 
     public String drawSpiritGauge(){
@@ -266,9 +266,19 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public IChatComponent drawPrettyGauge(){
+        return this.drawPrettyGauge(false);
+    }
+
+    /**
+     * @param round Should it ~~floor~~ round it to the closest % divisible by 5
+     * @return A Chat component containing the prettified gauge!
+     */
+    private IChatComponent drawPrettyGauge(boolean round){
         double gauge = this.getSpirit();
         double cap = this.getMaxSpirit();
         double percent = (gauge / cap) * 100;
+        if(round)
+            percent = (percent - percent%5);
         String formattedPercent = new DecimalFormat("#.##").format(percent);
 
         StringBuilder gaugeString = new StringBuilder(this.drawSpiritGauge());

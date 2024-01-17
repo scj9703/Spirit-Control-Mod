@@ -6,7 +6,6 @@ import net.minecraft.server.MinecraftServer;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class BukkitWrapper {
     private static Method getPlayer;

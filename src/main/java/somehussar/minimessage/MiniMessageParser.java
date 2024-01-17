@@ -1,6 +1,5 @@
 package somehussar.minimessage;
 
-import com.mighty.zsspiritcontrol.SpiritControl;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.EnumChatFormatting;
@@ -17,13 +16,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-import static somehussar.minimessage.Constants.CLICK;
-import static somehussar.minimessage.Constants.CLOSE_TAG;
-import static somehussar.minimessage.Constants.HOVER;
-import static somehussar.minimessage.Constants.SEPARATOR;
-import static somehussar.minimessage.Constants.TAG_END;
-import static somehussar.minimessage.Constants.TAG_START;
+import static somehussar.minimessage.Constants.*;
 
 /**
  * @INFO: BACKPORT OF https://github.com/KyoriPowered/adventure-text-minimessage/tree/MiniMessage-1.0.2

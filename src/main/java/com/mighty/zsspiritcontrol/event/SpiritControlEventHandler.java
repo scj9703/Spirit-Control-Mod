@@ -1,9 +1,9 @@
 package com.mighty.zsspiritcontrol.event;
 
+import com.mighty.zsspiritcontrol.player.SCPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -39,10 +39,8 @@ public class SpiritControlEventHandler {
         if (event.source.getEntity() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             SCPlayer ex = SCPlayer.getPlayer(player);
-            boolean hasUnlocked = ex.isEnabled();
-            if (hasUnlocked) {
-                double gauge = ex.getSpirit();
-                ex.setSpirit(gauge+1);
+            if (ex.isEnabled()) {
+                ex.addSpirit(1);
             }
         }
 
@@ -55,10 +53,8 @@ public class SpiritControlEventHandler {
             }
 
             SCPlayer ex = SCPlayer.getPlayer(player);
-            boolean hasUnlocked = ex.isEnabled();
-            if (hasUnlocked) {
-                double gauge = ex.getSpirit();
-                ex.setSpirit(gauge+1);
+            if (ex.isEnabled()) {
+                ex.addSpirit(1);
             }
         }
     }
@@ -75,13 +71,14 @@ public class SpiritControlEventHandler {
 
         if (event.entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) event.entity;
-            SCPlayer ex = SCPlayer.getPlayer(player);
-            boolean hasUnlocked = ex.isEnabled();
-            if (hasUnlocked) {
-                double gauge = ex.getSpirit();
-                //ex.setSpirit(gauge+0.01);
-                //Uncomment this to test
+            SCPlayer extPlayer = SCPlayer.getPlayer(player);
+
+            //Return if player hasn't unlocked SC or they're fatigued
+            if(!extPlayer.isEnabled() || extPlayer.isFatigued()){
+                return;
             }
+
+            //extPlayer.addSpirit(0.01);
 
         }
     }
