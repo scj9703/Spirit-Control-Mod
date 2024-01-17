@@ -33,6 +33,27 @@ minecraft {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+repositories {
+    mavenCentral()
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
+    }
+}
+
+dependencies {
+    //CodeChickenCore & CodeChickenLib for dynamic remapping of jars.
+    implementation "curse.maven:codechickencore-222213:3293859"
+    implementation "curse.maven:codechickenlib-746280:4388255"
+
+
+    //JRMCore, DBC and JBRA
+    implementation "curse.maven:jingames-jrmcore-497507:4523117"
+    implementation "curse.maven:jingames-dragon-block-c-497518:4523119"
+    implementation "curse.maven:jingames-jbra-client-497511:4505635"
+}
+
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
