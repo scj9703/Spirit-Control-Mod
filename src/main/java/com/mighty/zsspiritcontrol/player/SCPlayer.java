@@ -44,6 +44,8 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     private byte lastPercentPrinted = 0;
 
+    public boolean isFatigued = false;
+
     /**
      * Selected abilities
      */
