@@ -1,5 +1,6 @@
 package somehussar.minimessage;
 
+import com.mighty.zsspiritcontrol.SpiritControl;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.EnumChatFormatting;
@@ -145,6 +146,7 @@ public class MiniMessageParser {
         Stack<ClickEvent> clickEvents = new Stack<>();
         Stack<HoverEvent> hoverEvents = new Stack<>();
         Stack<EnumChatFormatting> colors = new Stack<>();
+        Stack<String> nonTags = new Stack<>();
         EnumSet<TextDecoration> decorations = EnumSet.noneOf(TextDecoration.class);
 
         Matcher matcher = pattern.matcher(richMessage);
@@ -165,7 +167,11 @@ public class MiniMessageParser {
                 if (builder == null) {
                     builder = new ComponentBuilder(msg);
                 } else {
-                    builder.append(msg, ComponentBuilder.FormatRetention.NONE);
+                    if(nonTags.size() > 0) {
+                        builder.append(nonTags.peek()+" ", ComponentBuilder.FormatRetention.ALL);
+                    }else {
+                        builder.append(msg, ComponentBuilder.FormatRetention.NONE);
+                    }
                 }
 
                 // set everything that is not closed yet
@@ -220,11 +226,13 @@ public class MiniMessageParser {
                 colors.pop();
             } else {
                 // invalid tag
-                if (builder == null) {
-                    builder = new ComponentBuilder(TAG_START + token + TAG_END);
-                } else {
-                    builder.append(TAG_START + token + TAG_END, ComponentBuilder.FormatRetention.NONE);
-                }
+//                SpiritControl.LOGGER.info("Invalid tag: " + TAG_START + token + TAG_END + ". Builder: ");
+//                if (builder == null) {
+//                    builder = new ComponentBuilder(TAG_START + token + TAG_END);
+//                } else {
+//                    builder.append(TAG_START + token + TAG_END, ComponentBuilder.FormatRetention.ALL);
+//                }
+                nonTags.push(TAG_START + token + TAG_END);
             }
         }
 
@@ -235,7 +243,7 @@ public class MiniMessageParser {
             if (builder == null) {
                 builder = new ComponentBuilder(msg);
             } else {
-                builder.append(msg, ComponentBuilder.FormatRetention.NONE);
+                builder.append(msg, ComponentBuilder.FormatRetention.ALL);
             }
 
             // set everything that is not closed yet
