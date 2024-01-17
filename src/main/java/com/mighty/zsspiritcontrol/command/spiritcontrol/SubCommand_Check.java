@@ -38,7 +38,7 @@ public class SubCommand_Check extends SCSubCommand {
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
 
         double gauge = extPlayer.getSpirit();
-        double cap = extPlayer.getMaxSpirit();
+        double cap = extPlayer.getMaxBaseSpirit();
         Attack superAttack1 = (Attack) extPlayer.getAbilityFromSlot("super1");
         Attack superAttack2 = (Attack) extPlayer.getAbilityFromSlot("super2");
         Attack ultimate = (Attack) extPlayer.getAbilityFromSlot("ultimate");
