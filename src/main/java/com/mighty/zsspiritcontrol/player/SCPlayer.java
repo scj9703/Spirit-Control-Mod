@@ -10,12 +10,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import somehussar.minimessage.MiniMessageParser;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,12 +25,24 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Player reference
      */
     private final EntityPlayer player;
+    /**
+     * A check if the player can receieve messages.
+     * <br><br>
+     * If the player isn't fully loaded (hasn't finished connecting),
+     * the game/server will crash for trying to send a message through an uninitialized connection
+     */
+    private boolean canReceiveMessages = false;
 
     /**
      * Gauge info
      */
     private double maxSpirit = 1000;
     private double currentSpirit = 0;
+
+    /**
+     * Used for sending a message to the player every 5% gauge fill updates reliably.
+     */
+    private byte lastPercentPrinted = 0;
 
     /**
      * Selected abilities
@@ -53,12 +65,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Has unlocked Spirit Control yet?
      */
     private boolean unlockedSpiritControl = false;
-
-    /**
-     * Needed to check if the player has finished loading into the game before attempting to send messages.
-     * Otherwise, the game crashes.
-     */
-    private boolean canReceiveMessages;
 
     public SCPlayer(EntityPlayer player){
         canReceiveMessages = false;
@@ -156,10 +162,6 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void init(Entity entity, World world) {
     }
 
-    private boolean canReceiveMessages() {
-        return this.canReceiveMessages;
-    }
-
     public void setUnlockedSpiritControl(boolean shouldUnlock){
         this.unlockedSpiritControl = shouldUnlock;
     }
@@ -184,17 +186,52 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void setMaxSpirit(double max){
         this.maxSpirit = max;
     }
+    public void addMaxSpirit(double spirit){
+        this.setMaxSpirit(this.getMaxSpirit() + spirit);
+    }
+    public void removeMaxSpirit(double spirit){
+        this.setMaxSpirit(this.getMaxSpirit() - spirit);
+    }
 
     public double getSpirit(){
         return this.currentSpirit;
     }
     public void setSpirit(double spirit){
-        if(spirit < 0)
+        if(spirit <= 0) {
             spirit = 0;
+
+        }
         if(spirit > this.getMaxSpirit())
             spirit = this.getMaxSpirit();
 
         this.currentSpirit = spirit;
+        this.tellPlayerAboutGaugeUpdate();
+    }
+    public void addSpirit(double spirit){
+        this.setSpirit(this.getSpirit() + spirit);
+    }
+    public void removeSpirit(double spirit){
+        this.setSpirit(this.getSpirit() - spirit);
+    }
+
+    private void tellPlayerAboutGaugeUpdate() {
+        double gauge = this.getSpirit();
+        double cap = this.getMaxSpirit();
+        double currPercent = (gauge / cap) * 100; // For gauge display
+
+        //If gauge was lowered or lastPercentPrinted wasn't initialized yet
+        if(currPercent < this.lastPercentPrinted || this.lastPercentPrinted == 0){
+            //Sets it to the closest lowest value divisible by 5;
+            this.lastPercentPrinted = (byte) (currPercent - currPercent%5);
+        }
+
+        if(this.canReceiveMessages){
+            if(currPercent-this.lastPercentPrinted >= 5){
+                this.addChatMessage(this.drawPrettyGauge());
+                //Sets it to the closest lowest value divisible by 5;
+                this.lastPercentPrinted = (byte) (currPercent - currPercent%5);
+            }
+        }
     }
 
     public String drawSpiritGauge(){
@@ -214,6 +251,25 @@ public class SCPlayer implements IExtendedEntityProperties {
         }
         gaugeString.append("}"); // Right Border
         return gaugeString.toString();
+    }
+
+    public IChatComponent drawPrettyGauge(){
+        double gauge = this.getSpirit();
+        double cap = this.getMaxSpirit();
+        double percent = (gauge / cap) * 100;
+        String formattedPercent = new DecimalFormat("#.##").format(percent);
+
+        StringBuilder gaugeString = new StringBuilder(this.drawSpiritGauge());
+
+        //Colors the filled spirit gauge to aqua.
+        int firstIndex;
+        firstIndex = gaugeString.indexOf("=");
+        if(firstIndex != -1) {
+            gaugeString.insert(firstIndex, "<aqua>");
+            gaugeString.insert(gaugeString.lastIndexOf("=") + 1, "</aqua>");
+        }
+
+        return MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent);
     }
 
     public boolean hasAbility(Ability ability){
