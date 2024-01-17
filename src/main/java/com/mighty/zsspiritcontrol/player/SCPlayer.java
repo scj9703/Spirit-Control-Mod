@@ -206,6 +206,8 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public double getSpirit(){
+        if(this.currentSpirit > this.getMaxSpirit())
+            return this.getMaxSpirit();
         return this.currentSpirit;
     }
     public void setSpirit(double spirit){
@@ -222,16 +224,39 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.tellPlayerAboutGaugeUpdate();
     }
 
-    public void addSpiritWithPassiveModifier(double spirit){
-        this.addSpirit(spirit * (this.passiveAbility != null ? this.passiveAbility.getSpiritFillModifier() : 1));
-    }
-    public void removeSpiritWithPassiveModifier(double spirit){
-        this.removeSpirit(spirit * (this.passiveAbility != null ? this.passiveAbility.getCostModifier() : 1));
-    }
+    /**
+     * Adds spirit while taking into account the passive fill modifier
+     *
+     * Does not add anything if player is fatigued
+     * @param spirit Amount of spirit to add
+     */
     public void addSpirit(double spirit){
+        if(this.isFatigued())
+            return;
+        this.addSpiritAbsolute(spirit * (this.passiveAbility != null ? this.passiveAbility.getSpiritFillModifier() : 1));
+    }
+
+    /**
+     * Removes spirit while taking into the passive cost modifier
+     * @param spirit
+     */
+    public void removeSpirit(double spirit){
+        this.removeSpiritAbsolute(spirit * (this.passiveAbility != null ? this.passiveAbility.getCostModifier() : 1));
+    }
+
+    /**
+     * Adds spirit while ignoring passive modifiers
+     * @param spirit
+     */
+    public void addSpiritAbsolute(double spirit){
         this.setSpirit(this.getSpirit() + spirit);
     }
-    public void removeSpirit(double spirit){
+
+    /**
+     * Removes spirit while ignoring passive modifiers
+     * @param spirit
+     */
+    public void removeSpiritAbsolute(double spirit){
         this.setSpirit(this.getSpirit() - spirit);
     }
 
