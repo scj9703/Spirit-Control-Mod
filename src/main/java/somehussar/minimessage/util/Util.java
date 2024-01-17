@@ -1,5 +1,6 @@
 package somehussar.minimessage.util;
 
+import com.mighty.zsspiritcontrol.attack.Ability;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
@@ -16,5 +17,17 @@ public class Util {
             componentText.getSiblings().add(toAdd);
         }
         return componentText;
+    }
+
+    public static String getAbilityHoverValue(Ability ability){
+        String name = ability.getName();
+        String description = ability.getDescription();
+
+        if(description.contains(" - ")){
+            description = "<aqua>"+description;
+            description = description.replace(" - ", "<gray> - ");
+        }
+
+        return "<hover:show_text:\""+ description +"\">"+name;
     }
 }

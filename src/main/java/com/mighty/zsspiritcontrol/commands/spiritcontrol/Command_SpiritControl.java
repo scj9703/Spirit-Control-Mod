@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.*;
 import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.util.Util;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -78,15 +79,16 @@ public class Command_SpiritControl extends SCCommandBase {
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <gray>" + extPlayer.getAbilityFromSlot("super1").getDescription()));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("super1"))));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 2: <gray>" + extPlayer.getAbilityFromSlot("super2").getDescription()));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 2: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("super2"))));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gold>Ultimate Attack: <gray>" + extPlayer.getAbilityFromSlot("ultimate").getDescription()));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gold>Ultimate Attack: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("ultimate"))));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <gray>" + extPlayer.getAbilityFromSlot("passive").getDescription()));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("passive"))));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray>Do <aqua>/sc help</aqua> for a full list of commands!"));
+                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/sc help</aqua> for a full list of commands!"));
+                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MiniMessageParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
             }else{
                 throw new WrongUsageException("You have to be a player to use this command.");
