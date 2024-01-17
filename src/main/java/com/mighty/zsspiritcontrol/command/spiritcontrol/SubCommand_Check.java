@@ -40,13 +40,13 @@ public class SubCommand_Check extends SCSubCommand {
 
         double gauge = extPlayer.getSpirit();
         double cap = extPlayer.getSpirit();
-        String percent = new DecimalFormat("#.##").format(gauge/cap);
+        String percent = new DecimalFormat("#.##").format(gauge/cap * 100);
         Attack superAttack1 = (Attack) extPlayer.getAbilityFromSlot("super1");
         Attack superAttack2 = (Attack) extPlayer.getAbilityFromSlot("super2");
         Attack ultimate = (Attack) extPlayer.getAbilityFromSlot("ultimate");
         PassiveAbility passiveAbility = (PassiveAbility) extPlayer.getAbilityFromSlot("passive");
-        Set<Attack> unlockedAttacks = new HashSet<>(extPlayer.getUltimates());
-        unlockedAttacks.addAll(extPlayer.getUltimates());
+        Set<Attack> unlockedAttacks = extPlayer.getSuperAttacks();
+        Set<Attack> unlockedUltimates = extPlayer.getUltimates();
         Set<PassiveAbility> unlockedPassives = extPlayer.getPassives();
 
         sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
@@ -54,14 +54,19 @@ public class SubCommand_Check extends SCSubCommand {
         sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getName(), "ability2", superAttack2.getName()));
         sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getName(), "ability2", passiveAbility.getName()));
         StringBuilder attackList = new StringBuilder("<dark_aqua>Unlocked Attacks:<gray>");
+        StringBuilder ultimateList = new StringBuilder("<dark_aqua>Unlocked Ultimates:<gray>");
         StringBuilder passiveList = new StringBuilder("<dark_aqua>Unlocked Passives:<gray>");
-        for (Attack atk:unlockedAttacks){
+        for (Attack atk : unlockedAttacks){
             attackList.append(" ").append(atk.getName());
         }
-        for (PassiveAbility passive:unlockedPassives){
+        for(Attack atk : unlockedUltimates){
+            attackList.append(" ").append(atk.getName());
+        }
+        for (PassiveAbility passive : unlockedPassives){
             passiveList.append(" ").append(passive.getName());
         }
         sender.addChatMessage(MiniMessageParser.getFormat(attackList.toString()));
+        sender.addChatMessage(MiniMessageParser.getFormat(ultimateList.toString()));
         sender.addChatMessage(MiniMessageParser.getFormat(passiveList.toString()));
 
     }
