@@ -202,7 +202,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public double getMaxSpirit(){
-        return this.getMaxBaseSpirit() + (passiveAbility != null ? passiveAbility.getSpiritBonus() : 0);
+        return this.getMaxBaseSpirit() * (passiveAbility != null ? passiveAbility.getSpiritBonus() : 1);
     }
 
     public double getSpirit(){
@@ -220,6 +220,13 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         this.currentSpirit = spirit;
         this.tellPlayerAboutGaugeUpdate();
+    }
+
+    public void addSpiritWithPassiveModifier(double spirit){
+        this.addSpirit(spirit * (this.passiveAbility != null ? this.passiveAbility.getSpiritFillModifier() : 1));
+    }
+    public void removeSpiritWithPassiveModifier(double spirit){
+        this.removeSpirit(spirit * (this.passiveAbility != null ? this.passiveAbility.getCostModifier() : 1));
     }
     public void addSpirit(double spirit){
         this.setSpirit(this.getSpirit() + spirit);
