@@ -51,12 +51,16 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setName(String  name){
-        super.setName(name);
+    public PassiveBuilder setName(String prettyName){
+        super.setName(prettyName);
         return this;
     }
-    public PassiveBuilder setName(IChatComponent name){
-        super.setName(name);
+    public PassiveBuilder setPrettyName(IChatComponent name){
+        super.setPrettyName(name);
+        return this;
+    }
+    public PassiveBuilder setPrettyName(String name){
+        super.setPrettyName(name);
         return this;
     }
 
@@ -65,19 +69,24 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setDescription(String description){
-        super.setDescription(description);
+    public PassiveBuilder setDescription(String prettyDescription){
+        super.setDescription(prettyDescription);
         return this;
     }
-    public PassiveBuilder setDescription(IChatComponent description){
-        super.setDescription(description);
+    public PassiveBuilder setPrettyDescription(IChatComponent description){
+        super.setPrettyDescription(description);
+        return this;
+    }
+    public PassiveBuilder setPrettyDescription(String description){
+        super.setPrettyDescription(description);
         return this;
     }
 
     public PassiveAbility getAbility(){
+        super.getAbility();
         if(fillMethods.isEmpty())
             fillMethods.add(EnumFillMethod.DAMAGE_DEALT);
-        return new PassiveAbility(literalId, name, description, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
+        return new PassiveAbility(literalId, prettyName, prettyDescription, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
         //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
     }
 

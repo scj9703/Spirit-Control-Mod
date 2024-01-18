@@ -30,7 +30,7 @@ public class AbilityDatabase {
                         .setFillModifier(1)
                         .setCostModifier(0.9)
                         .setBonusModifier(1)
-                        .addFillMethod(EnumFillMethod.DAMAGE_TAKEN)
+                        .addFillMethods(EnumFillMethod.DAMAGE_TAKEN, EnumFillMethod.DAMAGE_DEALT)
                         .getAbility()
         );
 

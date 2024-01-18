@@ -5,6 +5,7 @@ import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import somehussar.minimessage.MiniMessageParser;
 
 public class AttackBuilder extends AbilityBuilder {
 
@@ -15,7 +16,8 @@ public class AttackBuilder extends AbilityBuilder {
     protected double dmgModifier = 1;
     protected double cost = 50;
     protected double casttime = 5;
-    protected IChatComponent fireMessage = new ChatComponentText("TAKE THIS!");
+    protected IChatComponent prettyFireMessage;
+    protected String fireMessage = "TAKE THIS!";
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
 
@@ -55,9 +57,19 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setFireMessage(IChatComponent fireMessage) {
-        this.fireMessage = fireMessage;
+    public AttackBuilder setPrettyFireMessage(IChatComponent prettyFireMessage) {
+        this.prettyFireMessage = prettyFireMessage;
 		return this;
+    }
+
+    public AttackBuilder setPrettyFireMessage(String prettyFireMessage) {
+        this.prettyFireMessage = MiniMessageParser.getFormat(prettyFireMessage);
+        return this;
+    }
+
+    public AttackBuilder setFireMessage(String fireMessage){
+        this.fireMessage = fireMessage;
+        return this;
     }
 
     public AttackBuilder setUltimate(boolean ultimate) {
@@ -70,12 +82,16 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setName(String name){
-        super.setName(name);
+    public AttackBuilder setName(String prettyName){
+        super.setName(prettyName);
         return this;
     }
-    public AttackBuilder setName(IChatComponent name){
-        super.setName(name);
+    public AttackBuilder setPrettyName(IChatComponent name){
+        super.setPrettyName(name);
+        return this;
+    }
+    public AttackBuilder setPrettyName(String name){
+        super.setPrettyName(name);
         return this;
     }
 
@@ -84,17 +100,24 @@ public class AttackBuilder extends AbilityBuilder {
         return this;
     }
 
-    public AttackBuilder setDescription(String description){
-        super.setDescription(description);
+    public AttackBuilder setDescription(String prettyDescription){
+        super.setDescription(prettyDescription);
         return this;
     }
-    public AttackBuilder setDescription(IChatComponent description){
-        super.setDescription(description);
+    public AttackBuilder setPrettyDescription(IChatComponent description){
+        super.setPrettyDescription(description);
+        return this;
+    }
+    public AttackBuilder setPrettyDescription(String description){
+        super.setPrettyDescription(description);
         return this;
     }
 
     public Attack getAbility(){
-        return new Attack(literalId, name, description, type, color, fireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
+        super.getAbility();
+        if(this.prettyFireMessage == null)
+            this.prettyFireMessage = new ChatComponentText(this.fireMessage);
+        return new Attack(literalId, prettyName, prettyDescription, type, color, prettyFireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }
 }
