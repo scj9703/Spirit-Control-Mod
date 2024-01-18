@@ -1,4 +1,6 @@
-package com.mighty.zsspiritcontrol.ability;
+package com.mighty.zsspiritcontrol.ability.passive;
+
+import com.mighty.zsspiritcontrol.ability.Ability;
 
 /** Class for Spirit Control Passive Abilities **/
 public class PassiveAbility extends Ability {
@@ -14,7 +16,7 @@ public class PassiveAbility extends Ability {
     // Multiplier for how much Spirit Abilities cost with this passive.
     private final double costModifier;
 
-    PassiveAbility(String name, int raceId, int formId, double gaugeModifier, double gaugeBonus, double costModifier, String desc) {
+    public PassiveAbility(String name, int raceId, int formId, double gaugeModifier, double gaugeBonus, double costModifier, String desc) {
         super(name, desc);
         this.raceId = raceId;
         this.formId = formId;
