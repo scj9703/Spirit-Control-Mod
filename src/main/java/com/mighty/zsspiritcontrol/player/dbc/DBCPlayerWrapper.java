@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.player;
+package com.mighty.zsspiritcontrol.player.dbc;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
