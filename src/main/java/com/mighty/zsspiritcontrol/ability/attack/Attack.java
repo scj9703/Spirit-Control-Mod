@@ -1,4 +1,6 @@
-package com.mighty.zsspiritcontrol.ability;
+package com.mighty.zsspiritcontrol.ability.attack;
+
+import com.mighty.zsspiritcontrol.ability.Ability;
 
 /** Super and Ultimate Attacks **/
 public class Attack extends Ability {
@@ -23,7 +25,7 @@ public class Attack extends Ability {
     // How much fatigue (in minutes) the attack gives (Supers = 0)
     private final double fatigue;
 
-    Attack(String name, int type, int color, int speed, int effect, double dmgModifier,
+    public Attack(String name, int type, int color, int speed, int effect, double dmgModifier,
                   double cost, double casttime, String fireMessage, String desc, boolean isUltimate, double fatigue) {
         super(name, desc);
         this.type = type;

@@ -1,7 +1,7 @@
 package com.mighty.zsspiritcontrol.command.spiritcontrol;
 
-import com.mighty.zsspiritcontrol.ability.Attack;
-import com.mighty.zsspiritcontrol.ability.PassiveAbility;
+import com.mighty.zsspiritcontrol.ability.attack.Attack;
+import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.zsspiritcontrol.command.SCSubCommand;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
