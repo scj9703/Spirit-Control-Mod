@@ -19,6 +19,7 @@ public abstract class AbilityBuilder {
 
     public AbilityBuilder setId(String literalId){
         this.literalId = literalId;
+        return this;
     }
 
     public abstract Ability getAbility();
