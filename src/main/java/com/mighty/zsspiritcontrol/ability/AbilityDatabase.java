@@ -166,13 +166,13 @@ public class AbilityDatabase {
     }
 
     public static Ability getDefaultSuper(){
-        return attackHashMap.get("KiBlast");
+        return getAbilityById("KiAttack");
     }
 
     public static Ability getDefaultUltimate(){
-        return attackHashMap.get("EnergyWave");
+        return getAbilityById("EnergyWave");
     }
     public static Ability getDefaultPassive() {
-        return passiveAbilityHashMap.get("VirtuousSpirit");
+        return getAbilityById("VirtuousSpirit");
     }
 }

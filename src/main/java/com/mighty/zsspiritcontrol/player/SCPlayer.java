@@ -18,7 +18,6 @@ import net.minecraftforge.common.util.Constants;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,9 +80,9 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.player = player;
         this.dbcPlayer = new DBCPlayerHelper(player);
 
-        Attack kiAttack = (Attack) AbilityDatabase.getAbilityById("KiAttack");
-        Attack energyWave = (Attack) AbilityDatabase.getAbilityById("EnergyWave");
-        PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getAbilityById("VirtuousSpirit");
+        Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
+        Attack energyWave = (Attack) AbilityDatabase.getDefaultUltimate();
+        PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getDefaultPassive();
 
         this.addAbility(kiAttack);
         this.addAbility(energyWave);
@@ -541,7 +540,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         else
             this.unlockedSuperAttacks.remove(attack);
 
-        this.updateSelectedAttacks();
+        this.updateSelectedAbilities();
     }
 
     private void addPassive(PassiveAbility passive){
@@ -553,10 +552,10 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         this.unlockedPassives.remove(passive);
 
-        this.updateSelectedAttacks();
+        this.updateSelectedAbilities();
     }
 
-    private void updateSelectedAttacks() {
+    private void updateSelectedAbilities() {
         if(!this.hasAbility(this.passiveAbility))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultPassive(), "passive");
 
