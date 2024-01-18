@@ -79,9 +79,9 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.player = player;
         this.dbcPlayer = new DBCPlayerHelper(player);
 
-        Attack kiAttack = (Attack) AbilityDatabase.getAbilityByName("KiAttack");
-        Attack energyWave = (Attack) AbilityDatabase.getAbilityByName("EnergyWave");
-        PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getAbilityByName("VirtuousSpirit");
+        Attack kiAttack = (Attack) AbilityDatabase.getAbilityById("KiAttack");
+        Attack energyWave = (Attack) AbilityDatabase.getAbilityById("EnergyWave");
+        PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getAbilityById("VirtuousSpirit");
 
         this.addAbility(kiAttack);
         this.addAbility(energyWave);
@@ -167,10 +167,10 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
 
-        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super1")), "super1");
-        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Super2")), "super2");
-        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Ultimate")), "ultimate");
-        this.setAbilityAtSlot(AbilityDatabase.getAbilityByName(scTag.getString("Passive")), "passive");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super1")), "super1");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super2")), "super2");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Ultimate")), "ultimate");
+        this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Passive")), "passive");
 
         this.setMaxBaseSpirit(scTag.getDouble("maxSpirit"));
         this.setSpirit(scTag.getDouble("currentSpirit"));

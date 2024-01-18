@@ -26,17 +26,17 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setFillModifier(int modifier){
+    public PassiveBuilder setFillModifier(double modifier){
         this.spiritFillModifier = modifier;
         return this;
     }
 
-    public PassiveBuilder setBonusModifier(int modifier){
+    public PassiveBuilder setBonusModifier(double modifier){
         this.spiritBonus = modifier;
         return this;
     }
 
-    public PassiveBuilder setCostModifier(int modifier){
+    public PassiveBuilder setCostModifier(double modifier){
         this.costModifier = modifier;
         return this;
     }
@@ -50,6 +50,10 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
+    public PassiveBuilder setName(String  name){
+        super.setName(name);
+        return this;
+    }
     public PassiveBuilder setName(IChatComponent name){
         super.setName(name);
         return this;
@@ -60,13 +64,17 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
+    public PassiveBuilder setDescription(String description){
+        super.setDescription(description);
+        return this;
+    }
     public PassiveBuilder setDescription(IChatComponent description){
         super.setDescription(description);
         return this;
     }
 
     public PassiveAbility getAbility(){
-        return null;
+        return new PassiveAbility(literalId, name, description, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
         //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
     }
 

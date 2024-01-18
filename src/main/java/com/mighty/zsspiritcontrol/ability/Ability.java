@@ -11,9 +11,13 @@ public abstract class Ability {
     protected IChatComponent description;
 
     protected Ability(String literalId, String name, String description){
-        this.name = new ChatComponentText(name);
+        this(literalId, new ChatComponentText(name), new ChatComponentText(description));
+    }
+
+    protected Ability(String literalId, IChatComponent name, IChatComponent description){
+        this.name = name;
         this.literalId = literalId;
-        this.description = new ChatComponentText(description);
+        this.description = description;
     }
 
     /**

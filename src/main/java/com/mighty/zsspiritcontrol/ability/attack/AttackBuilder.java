@@ -10,12 +10,12 @@ public class AttackBuilder extends AbilityBuilder {
 
     protected byte type = (byte) EnumAttackType.BLAST.getValue();
     protected byte color = (byte) EnumAttackColor.ALIGNMENT_BASED.getValue();
-    protected int speed = 1;
-    protected int effect = 0;
+    protected int speed = 5;
+    protected boolean effect = false;
     protected double dmgModifier = 1;
     protected double cost = 50;
     protected double casttime = 5;
-    protected IChatComponent fireMessage = new ChatComponentText("Take this!");
+    protected IChatComponent fireMessage = new ChatComponentText("TAKE THIS!");
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
 
@@ -35,7 +35,7 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setEffect(int effect) {
+    public AttackBuilder setEffect(boolean effect) {
         this.effect = effect;
 		return this;
     }
@@ -70,6 +70,10 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
+    public AttackBuilder setName(String name){
+        super.setName(name);
+        return this;
+    }
     public AttackBuilder setName(IChatComponent name){
         super.setName(name);
         return this;
@@ -80,13 +84,17 @@ public class AttackBuilder extends AbilityBuilder {
         return this;
     }
 
+    public AttackBuilder setDescription(String description){
+        super.setDescription(description);
+        return this;
+    }
     public AttackBuilder setDescription(IChatComponent description){
         super.setDescription(description);
         return this;
     }
 
     public Attack getAbility(){
-        return null;
+        return new Attack(literalId, name, description, type, color, fireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }
 }

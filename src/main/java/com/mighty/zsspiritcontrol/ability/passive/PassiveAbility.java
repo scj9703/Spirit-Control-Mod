@@ -1,42 +1,60 @@
 package com.mighty.zsspiritcontrol.ability.passive;
 
 import com.mighty.zsspiritcontrol.ability.Ability;
+import com.mighty.zsspiritcontrol.player.SCPlayer;
+import net.minecraft.util.IChatComponent;
 
-/** Class for Spirit Control Passive Abilities **/
+import java.util.HashMap;
+import java.util.Set;
+
 public class PassiveAbility extends Ability {
 
-    // ID of the race required to activate it (-1 = no req)
-    private final int raceId;
-    // ID of the form required to activate it (-1 = no req)
-    private final int formId;
-    // Multiplier for how quickly Spirit Gauge is filled on activation
+    private final HashMap<Byte, Set<Byte>> raceFormMap;
     private final double spiritFillModifier;
-    // Multiplier for how much Capacity the player's Gauge has with this passive.
     private final double spiritBonus;
-    // Multiplier for how much Spirit Abilities cost with this passive.
     private final double costModifier;
+    private final Set<EnumFillMethod> fillMethods;
 
-    public PassiveAbility(String name, int raceId, int formId, double gaugeModifier, double gaugeBonus, double costModifier, String desc) {
-        super(name, desc);
-        this.raceId = raceId;
-        this.formId = formId;
-        this.spiritFillModifier = gaugeModifier;
-        this.spiritBonus = gaugeBonus;
-        this.costModifier = costModifier;
+    //Non public constructor.
+    PassiveAbility(String id, IChatComponent name, IChatComponent description, double bonusSpirit, double spiritFillModifier, double spiritUseModifier, HashMap<Byte, Set<Byte>> raceFormMap, Set<EnumFillMethod> fillMethods){
+        super(id, name, description);
+        this.raceFormMap = raceFormMap;
+        this.spiritBonus = bonusSpirit;
+        this.spiritFillModifier = spiritFillModifier;
+        this.costModifier = spiritUseModifier;
+        this.fillMethods = fillMethods;
     }
 
     /**
-     * @return the Passive's activation Race Id.
+     * Checks if the player can use current passive with their form and race.
+     * @param player SCPlayer reference
+     * @return If the player can use the passive ability
      */
-    public int getRaceId() {
-        return raceId;
+    public boolean canPlayerUsePassive(SCPlayer player){
+        if(raceFormMap.isEmpty()) //If the hashmap is empty, everyone can use this passive
+            return true;
+
+        Set<Byte> formSet = raceFormMap.getOrDefault(player.getRace(), null);
+
+        //If hashmap isn't empty but it doesn't have your race allowed, return false
+        if(formSet == null)
+            return false;
+
+        //If hashmap isn't empty but has your race allowed (any form), return true
+        if(formSet.isEmpty())
+            return true;
+
+        //If formSet isn't empty, check if your form is on the list.
+        return formSet.contains(player.getForm());
     }
 
     /**
-     * @return the Passive's activation Form Id.
+     * Checks if a passive can be filled by this method
+     * @param fillMethod type of method you'd like to check
+     * @return True or false
      */
-    public int getFormId() {
-        return formId;
+    public boolean canPassiveFillLikeThis(EnumFillMethod fillMethod){
+        return this.fillMethods.contains(fillMethod);
     }
 
     /**
