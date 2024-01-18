@@ -14,9 +14,11 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.util.Constants;
 import somehussar.minimessage.MiniMessageParser;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -166,6 +168,20 @@ public class SCPlayer implements IExtendedEntityProperties {
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
+
+        NBTTagList passivesData = scTag.getTagList("Passives", Constants.NBT.TAG_STRING);
+        NBTTagList supersData = scTag.getTagList("Supers", Constants.NBT.TAG_STRING);
+        NBTTagList ultimatesData = scTag.getTagList("Ultimates", Constants.NBT.TAG_STRING);
+
+        for(int i = 0; i < passivesData.tagCount(); i++){
+            this.addAbility(AbilityDatabase.getAbilityById(passivesData.getStringTagAt(i)));
+        }
+        for(int i = 0; i < supersData.tagCount(); i++){
+            this.addAbility(AbilityDatabase.getAbilityById(supersData.getStringTagAt(i)));
+        }
+        for(int i = 0; i < ultimatesData.tagCount(); i++){
+            this.addAbility(AbilityDatabase.getAbilityById(ultimatesData.getStringTagAt(i)));
+        }
 
         this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super1")), "super1");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super2")), "super2");
@@ -429,6 +445,9 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     /**
      * Sets the ability at a slot
+     * <br><br>
+     * (`super1`, `super2`, `ultimate`, `passive`)
+     *
      * @param ability
      * @param slotName
      */
@@ -514,17 +533,41 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.unlockedSuperAttacks.add(attack);
     }
     private void removeAttack(Attack attack) {
+        if(AbilityDatabase.isDefault(attack))
+            return;
+
         if(attack.isUltimate())
             this.unlockedUltimates.remove(attack);
         else
             this.unlockedSuperAttacks.remove(attack);
+
+        this.updateSelectedAttacks();
     }
 
     private void addPassive(PassiveAbility passive){
         this.unlockedPassives.add(passive);
     }
     private void removePassive(PassiveAbility passive){
+        if(AbilityDatabase.isDefault(passive))
+            return;
+
         this.unlockedPassives.remove(passive);
+
+        this.updateSelectedAttacks();
+    }
+
+    private void updateSelectedAttacks() {
+        if(!this.hasAbility(this.passiveAbility))
+            this.setAbilityAtSlot(AbilityDatabase.getDefaultPassive(), "passive");
+
+        if(!this.hasAbility(this.superAttack1))
+            this.setAbilityAtSlot(AbilityDatabase.getDefaultSuper(), "super1");
+
+        if(!this.hasAbility(this.superAttack2))
+            this.setAbilityAtSlot(AbilityDatabase.getDefaultSuper(), "super2");
+
+        if(!this.hasAbility(this.ultimateAttack))
+            this.setAbilityAtSlot(AbilityDatabase.getDefaultUltimate(), "ultimate");
     }
 
     public boolean isFatigued(){
