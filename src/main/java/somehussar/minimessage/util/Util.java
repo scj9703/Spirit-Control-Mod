@@ -20,14 +20,11 @@ public class Util {
     }
 
     public static String getAbilityHoverValue(Ability ability){
-        String name = ability.getId();
+        String name = ability.getName().getFormattedText();
         String description = ability.getDescription();
 
-        if(description.contains(" - ")){
-            description = "<aqua>"+description;
-            description = description.replace(" - ", "<gray> - ");
-        }
+        String inner = "<aqua>"+name+"<gray> - "+description;
 
-        return "<hover:show_text:\""+ description +"\">"+name;
+        return "<hover:show_text:\""+ inner +"\">"+ability.getId();
     }
 }

@@ -27,7 +27,7 @@ public class SubCommand_Unlock extends SCSubCommand {
         }
 
         EntityPlayerMP player = args.length == 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
-        Ability ability = AbilityDatabase.getAbilityByName(args[1]);
+        Ability ability = AbilityDatabase.getAbilityById(args[1]);
 
         if(ability == null){
             throw new WrongUsageException("Given attack doesn't exist!");
@@ -55,7 +55,7 @@ public class SubCommand_Unlock extends SCSubCommand {
         if(args.length == 3)
             return getListOfStringsMatchingLastWord(args, getPlayers());
         if(args.length == 2){
-            return getListOfStringsMatchingLastWord(args, AbilityDatabase.getRegisteredNames());
+            return getListOfStringsMatchingLastWord(args, AbilityDatabase.getRegisteredIds());
         }
 
         return null;

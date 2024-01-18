@@ -1,33 +1,23 @@
 package com.mighty.zsspiritcontrol.ability.attack;
 
 import com.mighty.zsspiritcontrol.ability.Ability;
+import net.minecraft.util.IChatComponent;
 
-/** Super and Ultimate Attacks **/
 public class Attack extends Ability {
-    // Type of Ki attack (wave, blast, etc)
-    private final int type;
-    // Color of Ki attack
-    private final int color;
-    // Speed of attack
+
+    private final byte type;
+    private final byte color;
     private final int speed;
-    // Whether effect is on
-    private final int effect;
-    // Damage modifier of Attack
+    private final boolean effect;
     private final double dmgModifier;
-    // Gauge cost of attack
     private final double cost;
-    // Casttime (in seconds?) of attack
     private final double casttime;
-    // Displays in chat when firing
-    private final String fireMessage;
-    // Description displayed when viewed in /sc
+    private final IChatComponent fireMessage;
     private final boolean isUltimate;
-    // How much fatigue (in minutes) the attack gives (Supers = 0)
     private final double fatigue;
 
-    public Attack(String name, int type, int color, int speed, int effect, double dmgModifier,
-                  double cost, double casttime, String fireMessage, String desc, boolean isUltimate, double fatigue) {
-        super(name, desc);
+    Attack(String id, IChatComponent name, IChatComponent description, byte type, byte color, IChatComponent fireMessage, int speed, boolean effect, double dmgModifier, double cost, double casttime, boolean isUltimate, double fatigue){
+        super(id, name, description);
         this.type = type;
         this.color = color;
         this.speed = speed;
@@ -38,13 +28,14 @@ public class Attack extends Ability {
         this.fireMessage = fireMessage;
         this.isUltimate = isUltimate;
         this.fatigue = fatigue;
+
     }
 
-    public int getType() {
+    public byte getType() {
         return type;
     }
 
-    public int getColor() {
+    public byte getColor() {
         return color;
     }
 
@@ -52,7 +43,7 @@ public class Attack extends Ability {
         return speed;
     }
 
-    public int getEffect() {
+    public boolean isEffect() {
         return effect;
     }
 
@@ -68,7 +59,7 @@ public class Attack extends Ability {
         return casttime;
     }
 
-    public String getFireMessage() {
+    public IChatComponent getFireMessage() {
         return fireMessage;
     }
 

@@ -2,7 +2,11 @@ package com.mighty.zsspiritcontrol.ability;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
+import com.mighty.zsspiritcontrol.ability.attack.AttackBuilder;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.zsspiritcontrol.ability.passive.PassiveBuilder;
+import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
+import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
@@ -18,44 +22,52 @@ public class AbilityDatabase {
 
     //Color: 0 = purple, 1 = white, 2 = blue, 3 = purple, 4 = red, 5 = black, 6 = green, 7 = yellow, 8 = orange
     static{
-        //Register attacks
-        registerAttack(new Attack("KiAttack",6,7,5,0,1.0,1.0,1.0,"Hyaa!","Ki Attack - Let loose the Spirit you've stored in a small blast.",false,0.0));
-        registerAttack(new Attack("GalickGun",0,3,5,0,1.0,1.0,1.0,"GALICK GUN!","Galick Gun - Unleash Saiyan Pride with Vegeta's signature wave.",false,0.0));
-        registerAttack(new Attack("BigBangAttack",1,1,5,1,1.0,1.0,1.0,"BIG BANG ATTACK!","Big Bang Attack - Launch a ball of exploding Ki.",false,0.0));
-        registerAttack(new Attack("MouthBlast",1,6,5,1,1.0,1.0,1.0,"HAA!","Mouth Blast - Shoots a Blast from (you guessed it) your mouth!",false,0.0));
-        registerAttack(new Attack("Kamehameha",0,2,5,0,1.0,1.0,1.0,"KAME-HAME-HAAAA!","Kamehameha - Unleash the Turtle School's iconic Ki Wave.",false,0.0));
-        registerAttack(new Attack("BurningAttack",1,8,5,1,1.0,1.0,1.0,"Burning Attack!","Burning Attack - Protect the future with Trunks' signature blast.",false,0.0));
+        registerAbility(
+                new PassiveBuilder()
+                        .setName("Virtuous Spirit")
+                        .setDescription("A calm mind makes your Super Attacks cost 0.9x as much.")
+                        .setFillModifier(1)
+                        .setCostModifier(0.9)
+                        .setBonusModifier(1)
+                        .getAbility()
+        );
 
+        registerAbility(
+                new AttackBuilder()
+                        .setName("Ki Attack")
+                        .setDescription("Let loose the Spirit you've stored in a small blast")
+                        .setType(EnumAttackType.BARRAGE)
+                        .setColor(EnumAttackColor.GREEN)
+                        .setDmgModifier(1)
+                        .setCost(1)
+                        .setCasttime(1)
+                        .getAbility()
+        );
 
-
-        registerAttack(new Attack("EnergyWave",0,8,5,0,1.0,1.0,1.0,"TAKE THIS!","Full Power Energy Wave - Burn out your entire Spirit Gauge in a mighty wave.",true,1.0));
-        registerAttack(new Attack("FinalFlash",0,7,5,0,1.0,1.0,1.0,"FINAL FLASH!","Final Flash - Let loose your entire gauge with Vegeta's finishing move.",true,1.0));
-        registerAttack(new Attack("SpecialBeamCannon",4,8,5,0,1.0,1.0,1.0,"SPECIAL BEAM CANNON!","Special Beam Cannon - Pierce enemies with Piccolo's signature attack.",true,1.0));
-        registerAttack(new Attack("SuperSpiritBomb",5,1,1,1,1.0,1.0,1.0,"I hope you come back someday... As a better person! See you later!","Super Spirit Bomb - Channel energy from across the Server into the ultimate weapon.",true,1.0));
-        registerAttack(new Attack("CandyBeam",3,3,5,0,1.0,1.0,1.0,"TURN INTO CHOCOLATE!","Candy Beam - Buu turn you into chocolate and eat you.",true,1.0));
-        registerAttack(new Attack("GTKamehameha",0,4,5,0,1.0,1.0,1.0,"KAMEHAMEHA! TIME TEEEEN!","Kamehameha x10 - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0));
-        registerAttack(new Attack("FinalShine",0,6,5,0,1.0,1.0,1.0,"FINAL SHINE ATTACK!","Final Shine - Take your enemy on a grand tour with this limited-edition Ultimate.",true,1.0));
-        registerAttack(new Attack("Hakai",1,4,5,1,1.0,1.0,1.0,"HAKAI!","Hakai - Destroy your opponent with this limited-edition Ultimate.",true,1.0));
-        registerAttack(new Attack("GammaBurstFlash",0,3,5,1,1.0,1.0,1.0,"GAMMA BURST FLASH!","Gamma Burst Flash - Save the Future with this limited-edition Ultimate.",true,1.0));
-        registerAttack(new Attack("BigBangKamehameha",0,2,5,1,1.0,1.0,1.0,"BIG BANG... KAMEHAMEHA!","Big Bang Kamehameha - Take your place as the Ultimate Warrior with this limited-edition Ultimate.",true,1.0));
-        registerAttack(new Attack("FinalKamehameha",0,2,5,1,1.0,1.0,1.0,"Final... KAMEHAMEHA!","Final Kamehameha - Take your place as the Ultimate Warrior with this limited-edition Ultimate.",true,1.0));
-
-        //Register passives
-        registerPassive(new PassiveAbility("ForcedSpiritFission",-1,-1,1.0,1.0,1.0,"Forced Spirit Fission - Drawing Spirit from your opponents fills your Spirit Gauge x as fast."));
-        registerPassive(new PassiveAbility("VirtuousSpirit",-1,-1,1.0,1.0,0.9,"Virtuous Spirit - A calm mind makes your Super Attacks cost 0.9x as much."));
-        registerPassive(new PassiveAbility("PowerOfEgo",-1,-1,1.0,1.0,1.0,"Power of Ego - Your Spirit Gauge now fills upon taking damage."));
-        registerPassive(new PassiveAbility("SaiyanBeyondGod",-1,-1,1.0,1.0,1.0,"Saiyan Beyond God - As a Full/Half Saiyan, Mystic fills your gauge x as fast, while Blue/Rose fill it x as fast."));
-        registerPassive(new PassiveAbility("TrueUltraInstinct",-1,-1,1.0,1.0,1.0,"True Ultra Instinct - As a Full/Half Saiyan, UI fills your gauge x as fast, while SSJ4 fills it x as fast."));
-        registerPassive(new PassiveAbility("OverflowingEnergy",-1,-1,1.0,1.0,1.0,"Overflowing Energy - While using SSJ1, gain Spirit passively over time."));
-        registerPassive(new PassiveAbility("CalmMind",-1,-1,1.0,1.0,1.0,"Calm Mind - Gain Spirit while charging Ki."));
-        registerPassive(new PassiveAbility("SuperRegeneration",-1,-1,1.0,1.0,1.0,"Super Regeneration - Greatly replenish your Spirit while regenerating as a Majin."));
-        registerPassive(new PassiveAbility("MaxPower",-1,-1,1.0,1.0,1.0,"Max Power - As a Human, using buffed form fills your Spirit Gauge x as fast."));
-        registerPassive(new PassiveAbility("FlameOfHope",-1,-1,1.0,1.0,1.0,"Flame of Hope - Your Spirit Gauge fills x as fast while using SSG."));
-        registerPassive(new PassiveAbility("HonedMind",-1,-1,1.0,1.0,1.0,"Honed Mind - Your Spirit Gauge Capacity increases by x."));
-        registerPassive(new PassiveAbility("UltimateEvolution",-1,-1,1.0,1.0,1.0,"Ultimate Evolution - Your Spirit Gauge fills x as fast while using Arco Ultimate or Godform."));
+        registerAbility(
+                new AttackBuilder()
+                        .setId("EnergyWave")
+                        .setName("Full Power Energy Wave")
+                        .setDescription("Burn out your entire Spirit Gauge in a mighty wave")
+                        .setUltimate(true)
+                        .setType(EnumAttackType.WAVE)
+                        .setColor(EnumAttackColor.ORANGE)
+                        .setCost(1)
+                        .setCasttime(1)
+                        .setDmgModifier(1)
+                        .setFatigue(1)
+                        .getAbility()
+        );
     }
 
-    public static void registerAttack(Attack attack){
+    public static void registerAbility(Ability ability){
+        if(ability instanceof Attack)
+            registerAttack((Attack) ability);
+        if(ability instanceof PassiveAbility)
+            registerPassive((PassiveAbility) ability);
+    }
+
+    private static void registerAttack(Attack attack){
         if(attack.isUltimate())
             ultimateHashMap.put(attack.getId(), attack);
         else
@@ -64,17 +76,17 @@ public class AbilityDatabase {
         SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
     }
 
-    public static void registerPassive(PassiveAbility passive){
+    private static void registerPassive(PassiveAbility passive){
         passiveAbilityHashMap.put(passive.getId(), passive);
         SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getId());
     }
 
     public static boolean isDefault(Ability ability){
-        if(ability == getAbilityByName("VirtuousSpirit"))
+        if(ability == getAbilityById("VirtuousSpirit"))
             return true;
-        if(ability == getAbilityByName("KiAttack"))
+        if(ability == getAbilityById("KiAttack"))
             return true;
-        return ability == getAbilityByName("EnergyWave");
+        return ability == getAbilityById("EnergyWave");
     }
 
     private static boolean isAttack(String attName){
@@ -94,8 +106,8 @@ public class AbilityDatabase {
     }
 
 
-    public static String[] getRegisteredNames(){
-        return ArrayUtils.addAll(ArrayUtils.addAll(getAllAttackNames(), getAllUltimateNames()), getAllPassiveNames());
+    public static String[] getRegisteredIds(){
+        return ArrayUtils.addAll(ArrayUtils.addAll(getAllAttackIds(), getAllUltimateIds()), getAllPassiveIds());
     }
 
 
@@ -103,7 +115,7 @@ public class AbilityDatabase {
      * Used in commands such as 'unlock.'
      * @return String array of all ultimate names.
      */
-    public static String[] getAllUltimateNames(){
+    public static String[] getAllUltimateIds(){
         return ultimateHashMap.keySet().toArray(new String[0]);
     }
 
@@ -111,7 +123,7 @@ public class AbilityDatabase {
      * Used in commands such as 'unlock.'
      * @return String array of all attack names.
      */
-    public static String[] getAllAttackNames() {
+    public static String[] getAllAttackIds() {
         return attackHashMap.keySet().toArray(new String[0]);
     }
 
@@ -119,7 +131,7 @@ public class AbilityDatabase {
      * Used in commands such as 'unlock.'
      * @return String array of all passive names.
      */
-    public static String[] getAllPassiveNames() {
+    public static String[] getAllPassiveIds() {
         return passiveAbilityHashMap.keySet().toArray(new String[0]);
     }
 
@@ -128,7 +140,7 @@ public class AbilityDatabase {
      * @param name name of the ability
      * @return An instace of `Ability` if one was registered, otherwise null
      */
-    public static Ability getAbilityByName(String name){
+    public static Ability getAbilityById(String name){
         if(isPassive(name))
             return passiveAbilityHashMap.get(name);
         if(isAttack(name))

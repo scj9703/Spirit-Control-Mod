@@ -33,7 +33,7 @@ public class SubCommand_Equip extends SCSubCommand {
                 throw new WrongUsageException("Not enough arguments!");
             }
 
-            Ability ability = AbilityDatabase.getAbilityByName(args[2]);
+            Ability ability = AbilityDatabase.getAbilityById(args[2]);
             if(ability == null)
                 throw new WrongUsageException("This ability doesn't exist!");
 
