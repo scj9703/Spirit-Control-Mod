@@ -56,7 +56,7 @@ public class PlayerEventHandler {
                 return;
 
             PassiveAbility passive = (PassiveAbility) ex.getAbilityFromSlot("passive");
-            if (passive.canPassiveFillLikeThis(EnumFillMethod.DAMAGE_DEALT) && passive.canPlayerUsePassive(ex)) {
+            if (passive.canPassiveFillLikeThis(EnumFillMethod.DAMAGE_DEALT) && passive.canPlayerUsePassive(ex)  && !ex.isFatigued()) {
                 //ex.addChatMessage(new ChatComponentText("This is from dealing dmg"));
                 ex.addSpirit(1);
             }
@@ -67,11 +67,11 @@ public class PlayerEventHandler {
             EntityPlayer player = (EntityPlayer) event.entity;
             SCPlayer ex = SCPlayer.getPlayer(player);
 
-            if((!ex.hasUnlockedSpiritControl())|| ex.isFatigued())
+            if(!ex.hasUnlockedSpiritControl())
                 return;
 
             PassiveAbility passive = (PassiveAbility) ex.getAbilityFromSlot("passive");
-            if (passive.canPassiveFillLikeThis(EnumFillMethod.DAMAGE_TAKEN) && passive.canPlayerUsePassive(ex)) {
+            if (passive.canPassiveFillLikeThis(EnumFillMethod.DAMAGE_TAKEN) && passive.canPlayerUsePassive(ex) && !ex.isFatigued()) {
                 //ex.addChatMessage(new ChatComponentText("This is from taking dmg"));
                 ex.addSpirit(1);
             }
