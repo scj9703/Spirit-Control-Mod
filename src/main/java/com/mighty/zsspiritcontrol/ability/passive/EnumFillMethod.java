@@ -11,7 +11,7 @@ public enum EnumFillMethod {
         try{
             return valueOf(name.toUpperCase());
         } catch (Exception e){
-            SpiritControl.LOGGER.warn("COULD NOT GET FILL METHOD: "+name+". REVERTING TO PASSIVE");
+            SpiritControl.INSTANCE.LOGGER.warn("COULD NOT GET FILL METHOD: "+name+". REVERTING TO PASSIVE");
             return EnumFillMethod.PASSIVE;
         }
     }

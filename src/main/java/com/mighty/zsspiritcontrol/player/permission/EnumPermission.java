@@ -15,6 +15,6 @@ public enum EnumPermission {
         this.permNode = permission;
     }
     public static void init(){
-        SpiritControl.LOGGER.info("Attempting to create permissions");
+        SpiritControl.INSTANCE.LOGGER.info("Attempting to create permissions");
     }
 }

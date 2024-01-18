@@ -114,9 +114,10 @@ public class AttackBuilder extends AbilityBuilder {
     }
 
     public Attack getAbility(){
-        super.getAbility();
-        if(this.prettyFireMessage == null)
+        fixNonPrettyNames();
+        if(this.prettyFireMessage == null) {
             this.prettyFireMessage = new ChatComponentText(this.fireMessage);
+        }
         return new Attack(literalId, prettyName, prettyDescription, type, color, prettyFireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }

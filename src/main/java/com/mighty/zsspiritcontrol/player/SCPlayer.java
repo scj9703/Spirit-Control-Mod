@@ -5,6 +5,7 @@ import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
+import com.mighty.zsspiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
 import kamkeel.zslib.util.dbc.DBCPlayerHelper;
 import net.minecraft.entity.Entity;
@@ -503,7 +504,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @param ability Passive or Attack
      */
     public void addAbility(Ability ability){
-        if(!AbilityDatabase.isRegistered(ability))
+        if(ability == null || !AbilityDatabase.isRegistered(ability))
             return;
 
         if(ability instanceof Attack)
@@ -581,5 +582,17 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
     public byte getRace(){
         return dbcPlayer.getRace();
+    }
+
+    public boolean canPassiveFillLikeThis(EnumFillMethod enumFillMethod) {
+        if(passiveAbility == null)
+            return false;
+        return passiveAbility.canPassiveFillLikeThis(enumFillMethod);
+    }
+
+    public boolean canPlayerUsePassive() {
+        if(passiveAbility == null)
+            return false;
+        return passiveAbility.canPlayerUsePassive(this);
     }
 }
