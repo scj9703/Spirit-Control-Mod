@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.player;
 
+import JinRyuu.DragonBC.common.DBC;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
@@ -33,7 +34,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      *
      * Hopefully will move this to be a ZS lib class later on.
      */
-    private final DBCPlayerHelper dbcPlayer;
+    private DBCPlayerHelper dbcPlayer;
     /**
      * A check if the player can receieve messages.
      * <br><br>
@@ -161,7 +162,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(!compound.hasKey("SpiritControl")){
             return;
         }
-
+        this.dbcPlayer = new DBCPlayerHelper(player);
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
 
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
@@ -427,6 +428,8 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     public Ability getAbilityFromSlot(String slotName){
         slotName = slotName.toUpperCase();
+
+        this.updateSelectedAbilities();
 
         switch(slotName){
             case "SUPER1":
