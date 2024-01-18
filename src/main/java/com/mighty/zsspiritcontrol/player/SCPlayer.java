@@ -530,4 +530,11 @@ public class SCPlayer implements IExtendedEntityProperties {
     public boolean isFatigued(){
         return dbcPlayer.isFatigued();
     }
+
+    public byte getForm() {
+        return dbcPlayer.getRace();
+    }
+    public byte getRace(){
+        return dbcPlayer.getRace();
+    }
 }
