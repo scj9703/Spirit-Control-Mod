@@ -1,27 +1,27 @@
 package com.mighty.zsspiritcontrol.ability.passive;
 
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
-import kamkeel.zslib.util.dbc.enums.RaceEnum;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PassiveBuilder extends AbilityBuilder {
 
-    protected Set<RaceEnum> raceId = new HashSet<>();
-    protected Set<Byte> formId = new HashSet<>();
+    protected HashMap<Byte, Set<Byte>> raceFormMap = new HashMap<>();
     protected double spiritFillModifier = 1;
     protected double spiritBonus = 1;
     protected double costModifier = 1;
     protected Set<EnumFillMethod> fillMethods = new HashSet<>();
 
-    public PassiveBuilder addRace(RaceEnum race){
-        this.raceId.add(race);
-        return this;
-    }
+    public PassiveBuilder addRaceForm(byte race, byte id){
+        if(!raceFormMap.containsKey(race))
+            raceFormMap.put(race, new HashSet<>());
 
-    public PassiveBuilder addForm(int id){
-        this.formId.add((byte) id);
+        Set<Byte> formSet = raceFormMap.get(race);
+
+        if(id >= 0)
+            formSet.add(id);
         return this;
     }
 
