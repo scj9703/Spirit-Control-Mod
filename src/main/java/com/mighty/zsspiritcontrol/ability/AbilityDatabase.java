@@ -3,6 +3,7 @@ package com.mighty.zsspiritcontrol.ability;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.zsspiritcontrol.ability.passive.PassiveBuilder;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;

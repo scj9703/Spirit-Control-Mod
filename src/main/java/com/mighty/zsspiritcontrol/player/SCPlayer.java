@@ -5,6 +5,7 @@ import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.zsspiritcontrol.player.dbc.DBCPlayerWrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

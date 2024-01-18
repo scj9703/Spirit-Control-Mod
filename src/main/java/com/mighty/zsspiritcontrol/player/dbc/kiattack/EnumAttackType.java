@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.ability.attack;
+package com.mighty.zsspiritcontrol.player.dbc.kiattack;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
 
