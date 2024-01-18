@@ -52,7 +52,7 @@ public class PlayerEventHandler {
             EntityPlayer player = (EntityPlayer) event.source.getEntity();
             SCPlayer ex = SCPlayer.getPlayer(player);
 
-            if(ex.hasUnlockedSpiritControl() || ex.isFatigued())
+            if((!ex.hasUnlockedSpiritControl()) || ex.isFatigued())
                 return;
 
             PassiveAbility passive = (PassiveAbility) ex.getAbilityFromSlot("passive");
@@ -67,7 +67,7 @@ public class PlayerEventHandler {
             EntityPlayer player = (EntityPlayer) event.entity;
             SCPlayer ex = SCPlayer.getPlayer(player);
 
-            if(ex.hasUnlockedSpiritControl() || ex.isFatigued())
+            if((!ex.hasUnlockedSpiritControl())|| ex.isFatigued())
                 return;
 
             PassiveAbility passive = (PassiveAbility) ex.getAbilityFromSlot("passive");
