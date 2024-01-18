@@ -3,6 +3,7 @@ package com.mighty.zsspiritcontrol.ability;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
 import com.mighty.zsspiritcontrol.ability.attack.AttackBuilder;
+import com.mighty.zsspiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveBuilder;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
@@ -29,6 +30,7 @@ public class AbilityDatabase {
                         .setFillModifier(1)
                         .setCostModifier(0.9)
                         .setBonusModifier(1)
+                        .addFillMethod(EnumFillMethod.DAMAGE_TAKEN)
                         .getAbility()
         );
 
@@ -36,6 +38,18 @@ public class AbilityDatabase {
                 new AttackBuilder()
                         .setName("Ki Attack")
                         .setDescription("Let loose the Spirit you've stored in a small blast")
+                        .setType(EnumAttackType.BARRAGE)
+                        .setColor(EnumAttackColor.GREEN)
+                        .setDmgModifier(1)
+                        .setCost(1)
+                        .setCasttime(1)
+                        .getAbility()
+        );
+
+        registerAbility(
+                new AttackBuilder()
+                        .setName("Ki AttackTWO")
+                        .setDescription("TESTTESTESTEST")
                         .setType(EnumAttackType.BARRAGE)
                         .setColor(EnumAttackColor.GREEN)
                         .setDmgModifier(1)
@@ -151,4 +165,14 @@ public class AbilityDatabase {
         return null;
     }
 
+    public static Ability getDefaultSuper(){
+        return attackHashMap.get("KiBlast");
+    }
+
+    public static Ability getDefaultUltimate(){
+        return attackHashMap.get("EnergyWave");
+    }
+    public static Ability getDefaultPassive() {
+        return passiveAbilityHashMap.get("VirtuousSpirit");
+    }
 }
