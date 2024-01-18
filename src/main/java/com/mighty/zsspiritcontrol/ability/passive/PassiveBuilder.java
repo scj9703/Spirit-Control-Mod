@@ -3,6 +3,7 @@ package com.mighty.zsspiritcontrol.ability.passive;
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,8 +42,8 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder addFillMethods(Set<EnumFillMethod> methods){
-        this.fillMethods.addAll(methods);
+    public PassiveBuilder addFillMethods(EnumFillMethod... methods){
+        this.fillMethods.addAll(Arrays.asList(methods));
         return this;
     }
     public PassiveBuilder addFillMethod(EnumFillMethod method){

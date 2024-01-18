@@ -1,7 +1,7 @@
-package com.mighty.zsspiritcontrol.event;
+package com.mighty.zsspiritcontrol.proxy;
 
-import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.command.spiritcontrol.Command_SpiritControl;
+import com.mighty.zsspiritcontrol.event.PlayerEventHandler;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -19,10 +19,11 @@ public class CommonProxy {
         //Attempts to find Bukkit and list out all permissions
         BukkitWrapper.init();
 
-        MinecraftForge.EVENT_BUS.register(new SpiritControlEventHandler());
-        MinecraftForge.TERRAIN_GEN_BUS.register(new SpiritControlEventHandler());
-        MinecraftForge.ORE_GEN_BUS.register(new SpiritControlEventHandler());
-        FMLCommonHandler.instance().bus().register(new SpiritControlEventHandler());
+        PlayerEventHandler eventHandler = new PlayerEventHandler();
+        MinecraftForge.EVENT_BUS.register(eventHandler);
+//        MinecraftForge.TERRAIN_GEN_BUS.register(eventHandler);
+//        MinecraftForge.ORE_GEN_BUS.register(eventHandler);
+        FMLCommonHandler.instance().bus().register(eventHandler);
     }
 
     public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {

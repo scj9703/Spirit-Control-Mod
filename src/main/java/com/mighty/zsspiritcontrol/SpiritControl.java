@@ -1,13 +1,10 @@
 package com.mighty.zsspiritcontrol;
 
-import com.mighty.zsspiritcontrol.event.CommonProxy;
-import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
-import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
+import com.mighty.zsspiritcontrol.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
-import net.minecraft.init.Blocks;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION, name="Spirit Control Plugin", useMetadata = true)
@@ -18,7 +15,7 @@ public class SpiritControl
 
     public static Logger LOGGER;
 
-    @SidedProxy(clientSide = "com.mighty.zsspiritcontrol.event.ClientProxy", serverSide = "com.mighty.zsspiritcontrol.event.CommonProxy")
+    @SidedProxy(clientSide = "com.mighty.zsspiritcontrol.proxy.ClientProxy", serverSide = "com.mighty.zsspiritcontrol.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler
