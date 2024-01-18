@@ -2,30 +2,50 @@ package com.mighty.zsspiritcontrol.ability;
 
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import tv.twitch.chat.Chat;
+import somehussar.minimessage.MiniMessageParser;
 
 public abstract class AbilityBuilder {
-    protected IChatComponent name = new ChatComponentText("DEFAULT ABILITY NAME");
+    protected IChatComponent prettyName;
+    protected String name = "DEFAULT NAME PLEASE CHANGE";
     protected String literalId;
-    protected IChatComponent description = new ChatComponentText("");
+    protected IChatComponent prettyDescription;
+    protected String description = "DEFAULT DESCRIPTION PLEASE CHANGE";
+
+    protected AbilityBuilder() {
+
+    }
 
     public AbilityBuilder setDescription(String description){
-        this.setDescription(new ChatComponentText(description));
+        if(description == null)
+            this.description = "";
+        else
+            this.description = description;
         return this;
     }
-    public AbilityBuilder setDescription(IChatComponent description) {
-        this.description = description;
+
+    public AbilityBuilder setPrettyDescription(String description){
+        this.prettyDescription = MiniMessageParser.getFormat(description);
+        return this;
+    }
+    public AbilityBuilder setPrettyDescription(IChatComponent description) {
+        this.prettyDescription = description;
         return this;
     }
 
     public AbilityBuilder setName(String name){
-        this.setName(new ChatComponentText(name));
+        if(name == null)
+            this.name = "";
+        else
+            this.name = name;
         return this;
     }
-    public AbilityBuilder setName(IChatComponent name){
-        this.name = name;
-        if(this.literalId == null)
-            this.setId(name.getUnformattedText().replaceAll(" ", ""));
+    public AbilityBuilder setPrettyName(IChatComponent name){
+        this.prettyName = name;
+        return this;
+    }
+
+    public AbilityBuilder setPrettyName(String prettyName){
+        this.prettyName = MiniMessageParser.getFormat(prettyName);
         return this;
     }
 
@@ -34,5 +54,11 @@ public abstract class AbilityBuilder {
         return this;
     }
 
-    public abstract Ability getAbility();
+    protected Ability getAbility(){
+        if(this.prettyDescription == null)
+            this.prettyDescription = new ChatComponentText(this.description);
+        if(this.prettyName == null)
+            this.prettyName = new ChatComponentText(this.name);
+        return null;
+    }
 }
