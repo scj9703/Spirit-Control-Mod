@@ -3,7 +3,6 @@ package com.mighty.zsspiritcontrol.ability;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
-import com.mighty.zsspiritcontrol.ability.passive.PassiveBuilder;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
@@ -58,16 +57,16 @@ public class AbilityDatabase {
 
     public static void registerAttack(Attack attack){
         if(attack.isUltimate())
-            ultimateHashMap.put(attack.getName(), attack);
+            ultimateHashMap.put(attack.getId(), attack);
         else
-            attackHashMap.put(attack.getName(), attack);
+            attackHashMap.put(attack.getId(), attack);
 
-        SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getName());
+        SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
     }
 
     public static void registerPassive(PassiveAbility passive){
-        passiveAbilityHashMap.put(passive.getName(), passive);
-        SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getName());
+        passiveAbilityHashMap.put(passive.getId(), passive);
+        SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getId());
     }
 
     public static boolean isDefault(Ability ability){
@@ -91,7 +90,7 @@ public class AbilityDatabase {
         return isPassive(abilityName) || isAttack(abilityName) || isUltimate(abilityName);
     }
     public static boolean isRegistered(Ability ability) {
-        return isRegistered(ability.getName());
+        return isRegistered(ability.getId());
     }
 
 

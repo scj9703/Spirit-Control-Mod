@@ -69,16 +69,16 @@ public class SubCommand_Equip extends SCSubCommand {
             switch(args[1].toLowerCase()) {
                 case "passive":
                     for(PassiveAbility passive : extPlayer.getPassives())
-                        tabCompletion.add(passive.getName());
+                        tabCompletion.add(passive.getId());
                     break;
                 case "ultimate":
                     for(Attack att : extPlayer.getUltimates())
-                            tabCompletion.add(att.getName());
+                            tabCompletion.add(att.getId());
                     break;
                 case "super1":
                 case "super2":
                     for(Attack att : extPlayer.getSuperAttacks())
-                            tabCompletion.add(att.getName());
+                            tabCompletion.add(att.getId());
                     break;
             }
             return getListOfStringsMatchingLastWord(args, tabCompletion.toArray(new String[0]));

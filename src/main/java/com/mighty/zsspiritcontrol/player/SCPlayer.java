@@ -131,24 +131,24 @@ public class SCPlayer implements IExtendedEntityProperties {
         scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
         scTag.setDouble("currentSpirit", this.getSpirit());
 
-        scTag.setString("Super1", this.getAbilityFromSlot("Super1").getName());
-        scTag.setString("Super2", this.getAbilityFromSlot("Super2").getName());
-        scTag.setString("Ultimate", this.getAbilityFromSlot("Ultimate").getName());
-        scTag.setString("Passive", this.getAbilityFromSlot("Passive").getName());
+        scTag.setString("Super1", this.getAbilityFromSlot("Super1").getId());
+        scTag.setString("Super2", this.getAbilityFromSlot("Super2").getId());
+        scTag.setString("Ultimate", this.getAbilityFromSlot("Ultimate").getId());
+        scTag.setString("Passive", this.getAbilityFromSlot("Passive").getId());
 
         NBTTagList superList = new NBTTagList();
         for(Attack att : this.getSuperAttacks())
-            superList.appendTag(new NBTTagString(att.getName()));
+            superList.appendTag(new NBTTagString(att.getId()));
         scTag.setTag("Supers", superList);
 
         NBTTagList ultimateList = new NBTTagList();
         for(Attack att : this.getUltimates())
-            ultimateList.appendTag(new NBTTagString(att.getName()));
+            ultimateList.appendTag(new NBTTagString(att.getId()));
         scTag.setTag("Ultimates", ultimateList);
 
         NBTTagList passiveList = new NBTTagList();
         for(PassiveAbility passive : this.getPassives())
-            passiveList.appendTag(new NBTTagString(passive.getName()));
+            passiveList.appendTag(new NBTTagString(passive.getId()));
         scTag.setTag("Passives", passiveList);
 
         compound.setTag("SpiritControl", scTag);

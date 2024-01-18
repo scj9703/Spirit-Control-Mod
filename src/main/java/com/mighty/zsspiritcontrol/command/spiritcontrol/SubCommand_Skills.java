@@ -39,13 +39,13 @@ public class SubCommand_Skills extends SCSubCommand {
             StringBuilder passives = new StringBuilder("<dark_aqua>Unlocked Passive Attacks: <gray>");
             for (Attack atk:unlockedAttacks){
                 if (atk.isUltimate()){
-                    ultimates.append(" ").append(atk.getName());
+                    ultimates.append(" ").append(atk.getId());
                 } else {
-                    supers.append(" ").append(atk.getName());
+                    supers.append(" ").append(atk.getId());
                 }
             }
             for (PassiveAbility passive:unlockedPassives){
-                passives.append(" ").append(passive.getName());
+                passives.append(" ").append(passive.getId());
             }
             sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
             sender.addChatMessage(new ChatComponentText(""));

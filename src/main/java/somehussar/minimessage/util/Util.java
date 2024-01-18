@@ -20,7 +20,7 @@ public class Util {
     }
 
     public static String getAbilityHoverValue(Ability ability){
-        String name = ability.getName();
+        String name = ability.getId();
         String description = ability.getDescription();
 
         if(description.contains(" - ")){

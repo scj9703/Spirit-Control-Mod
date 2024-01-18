@@ -3,28 +3,30 @@ package com.mighty.zsspiritcontrol.ability.attack;
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 
 public class AttackBuilder extends AbilityBuilder {
 
-    protected EnumAttackType type = EnumAttackType.BLAST;
-    protected EnumAttackColor color = EnumAttackColor.ALIGNMENT_BASED;
+    protected byte type = (byte) EnumAttackType.BLAST.getValue();
+    protected byte color = (byte) EnumAttackColor.ALIGNMENT_BASED.getValue();
     protected int speed = 1;
     protected int effect = 0;
     protected double dmgModifier = 1;
     protected double cost = 50;
     protected double casttime = 5;
-    protected String fireMessage = "Take this!";
+    protected IChatComponent fireMessage = new ChatComponentText("Take this!");
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
 
 
     public AttackBuilder setType(EnumAttackType type) {
-        this.type = type;
+        this.type = (byte) type.getValue();
 		return this;
     }
 
     public AttackBuilder setColor(EnumAttackColor color) {
-        this.color = color;
+        this.color = (byte) color.getValue();
 		return this;
     }
 
@@ -53,7 +55,7 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setFireMessage(String fireMessage) {
+    public AttackBuilder setFireMessage(IChatComponent fireMessage) {
         this.fireMessage = fireMessage;
 		return this;
     }
@@ -68,7 +70,7 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setName(String name){
+    public AttackBuilder setName(IChatComponent name){
         super.setName(name);
         return this;
     }
@@ -78,7 +80,7 @@ public class AttackBuilder extends AbilityBuilder {
         return this;
     }
 
-    public AttackBuilder setDescription(String description){
+    public AttackBuilder setDescription(IChatComponent description){
         super.setDescription(description);
         return this;
     }

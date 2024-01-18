@@ -50,19 +50,19 @@ public class SubCommand_Check extends SCSubCommand {
 
         sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
         sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge> (<percent>%)</gray> Spirit", "gauge", String.valueOf(gauge), "max_gauge", String.valueOf(cap), "percent", percent));
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getName(), "ability2", superAttack2.getName()));
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getName(), "ability2", passiveAbility.getName()));
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getId(), "ability2", superAttack2.getId()));
+        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getId(), "ability2", passiveAbility.getId()));
         StringBuilder attackList = new StringBuilder("<dark_aqua>Unlocked Attacks:<gray>");
         StringBuilder ultimateList = new StringBuilder("<dark_aqua>Unlocked Ultimates:<gray>");
         StringBuilder passiveList = new StringBuilder("<dark_aqua>Unlocked Passives:<gray>");
         for (Attack atk : unlockedAttacks){
-            attackList.append(" ").append(atk.getName());
+            attackList.append(" ").append(atk.getId());
         }
         for(Attack atk : unlockedUltimates){
-            attackList.append(" ").append(atk.getName());
+            attackList.append(" ").append(atk.getId());
         }
         for (PassiveAbility passive : unlockedPassives){
-            passiveList.append(" ").append(passive.getName());
+            passiveList.append(" ").append(passive.getId());
         }
         sender.addChatMessage(MiniMessageParser.getFormat(attackList.toString()));
         sender.addChatMessage(MiniMessageParser.getFormat(ultimateList.toString()));
