@@ -1,15 +1,19 @@
 package com.mighty.zsspiritcontrol.ability;
 
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+
 public abstract class Ability {
 
-    protected String name;
     protected String literalId;
-    protected String description;
+
+    protected IChatComponent name;
+    protected IChatComponent description;
 
     protected Ability(String literalId, String name, String description){
-        this.name = name;
+        this.name = new ChatComponentText(name);
         this.literalId = literalId;
-        this.description = description;
+        this.description = new ChatComponentText(description);
     }
 
     /**
@@ -24,13 +28,13 @@ public abstract class Ability {
      * @return Ability's description as a string.
      */
     public String getDescription(){
-        return this.description;
+        return this.description.getFormattedText();
     }
 
     /**
      * @return Ability's name as a string.
      */
-    public String getName(){
+    public IChatComponent getName(){
         return this.name;
     }
 
@@ -39,6 +43,6 @@ public abstract class Ability {
     }
 
     public String toString(){
-        return this.name;
+        return this.name.getFormattedText();
     }
 }

@@ -1,6 +1,7 @@
 package com.mighty.zsspiritcontrol.ability.passive;
 
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
+import net.minecraft.util.IChatComponent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setName(String name){
+    public PassiveBuilder setName(IChatComponent name){
         super.setName(name);
         return this;
     }
@@ -59,7 +60,7 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setDescription(String description){
+    public PassiveBuilder setDescription(IChatComponent description){
         super.setDescription(description);
         return this;
     }
