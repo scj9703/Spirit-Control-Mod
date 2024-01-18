@@ -51,6 +51,12 @@ dependencies {
     implementation "curse.maven:jingames-jrmcore-497507:4523117"
     implementation "curse.maven:jingames-dragon-block-c-497518:4523119"
     implementation "curse.maven:jingames-jbra-client-497511:4505635"
+
+
+    //ZS Lib
+    dependencies {
+        implementation fileTree(dir: "libs", include: "*.jar")
+    }
 }
 
 
