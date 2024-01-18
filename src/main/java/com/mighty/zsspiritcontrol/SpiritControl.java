@@ -1,6 +1,8 @@
 package com.mighty.zsspiritcontrol;
 
 import com.mighty.zsspiritcontrol.event.CommonProxy;
+import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
+import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -21,15 +23,20 @@ public class SpiritControl
 
     @EventHandler
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+        //Loads the class so permissions are properly registered before listing them out
+        EnumPermission.init();
+
         LOGGER = event.getModLog();
+
         proxy.fmlLifeCycleEvent(event);
     }
 
     @EventHandler
     public void fmlLifeCycleEvent(FMLInitializationEvent event) {
+        //Attempts to find Bukkit and list out all permissions
+        BukkitWrapper.init();
+
         proxy.fmlLifeCycleEvent(event);
-        // some example code
-        System.out.println("DIRT BLOCK2 >> "+Blocks.dirt.getUnlocalizedName());
     }
 
     @EventHandler
