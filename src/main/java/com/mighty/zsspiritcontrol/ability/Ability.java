@@ -1,13 +1,23 @@
 package com.mighty.zsspiritcontrol.ability;
 
-public class Ability {
+public abstract class Ability {
 
     protected String name;
+    protected String literalId;
     protected String description;
 
-    protected Ability(String name, String description){
+    protected Ability(String literalId, String name, String description){
         this.name = name;
+        this.literalId = literalId;
         this.description = description;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected Ability(String name, String description){
+        this(name.replaceAll(" ", ""), name, description);
+
     }
 
     /**
@@ -22,6 +32,10 @@ public class Ability {
      */
     public String getName(){
         return this.name;
+    }
+
+    public String getId(){
+        return this.literalId;
     }
 
     public String toString(){
