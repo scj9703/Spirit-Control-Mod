@@ -74,6 +74,8 @@ public class PassiveBuilder extends AbilityBuilder {
     }
 
     public PassiveAbility getAbility(){
+        if(fillMethods.isEmpty())
+            fillMethods.add(EnumFillMethod.DAMAGE_DEALT);
         return new PassiveAbility(literalId, name, description, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
         //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
     }
