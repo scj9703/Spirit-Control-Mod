@@ -10,8 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 public class CommonProxy {
 
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
-        //Loads the class so permissions are properly registered before listing them out
-        EnumPermission.init();
     }
 
     public void fmlLifeCycleEvent(FMLInitializationEvent event) {
@@ -22,8 +20,6 @@ public class CommonProxy {
     }
 
     public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {
-        //Attempts to find Bukkit and list out all permissions
-        BukkitWrapper.init();
     }
 
     public void fmlLifeCycleEvent(FMLServerAboutToStartEvent event) {

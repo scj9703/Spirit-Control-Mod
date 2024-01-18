@@ -5,7 +5,7 @@ import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.ability.attack.Attack;
 import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
-import com.mighty.zsspiritcontrol.player.dbc.DBCPlayerWrapper;
+import kamkeel.zslib.util.dbc.DBCPlayerHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,7 +32,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      *
      * Hopefully will move this to be a ZS lib class later on.
      */
-    private final DBCPlayerWrapper dbcPlayer;
+    private final DBCPlayerHelper dbcPlayer;
     /**
      * A check if the player can receieve messages.
      * <br><br>
@@ -77,7 +77,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public SCPlayer(EntityPlayer player){
         canReceiveMessages = false;
         this.player = player;
-        this.dbcPlayer = new DBCPlayerWrapper(player);
+        this.dbcPlayer = new DBCPlayerHelper(player);
 
         Attack kiAttack = (Attack) AbilityDatabase.getAbilityByName("KiAttack");
         Attack energyWave = (Attack) AbilityDatabase.getAbilityByName("EnergyWave");
