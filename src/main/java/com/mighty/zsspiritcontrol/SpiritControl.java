@@ -23,10 +23,10 @@ public class SpiritControl
 
     @EventHandler
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+        LOGGER = event.getModLog();
+
         //Loads the class so permissions are properly registered before listing them out
         EnumPermission.init();
-
-        LOGGER = event.getModLog();
 
         proxy.fmlLifeCycleEvent(event);
     }
