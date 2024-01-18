@@ -1,4 +1,4 @@
-package com.mighty.zsspiritcontrol.event;
+package com.mighty.zsspiritcontrol.proxy;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
