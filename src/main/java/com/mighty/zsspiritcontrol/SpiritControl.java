@@ -23,7 +23,7 @@ public class SpiritControl
     public Logger LOGGER;
 
     @SidedProxy(clientSide = "com.mighty.zsspiritcontrol.proxy.ClientProxy", serverSide = "com.mighty.zsspiritcontrol.proxy.CommonProxy")
-    public CommonProxy proxy;
+    public static CommonProxy proxy;
 
     public static File getModFile(){
         return FMLCommonHandler.instance().findContainerFor(SpiritControl.INSTANCE).getSource();
