@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.event;
 
+import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.command.spiritcontrol.Command_SpiritControl;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
@@ -10,9 +11,14 @@ import net.minecraftforge.common.MinecraftForge;
 public class CommonProxy {
 
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+        //Loads the class early so permissions are properly registered before listing them out
+        EnumPermission.init();
     }
 
     public void fmlLifeCycleEvent(FMLInitializationEvent event) {
+        //Attempts to find Bukkit and list out all permissions
+        BukkitWrapper.init();
+
         MinecraftForge.EVENT_BUS.register(new SpiritControlEventHandler());
         MinecraftForge.TERRAIN_GEN_BUS.register(new SpiritControlEventHandler());
         MinecraftForge.ORE_GEN_BUS.register(new SpiritControlEventHandler());
