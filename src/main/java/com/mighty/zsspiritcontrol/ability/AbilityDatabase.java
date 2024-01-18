@@ -25,6 +25,7 @@ public class AbilityDatabase {
     static{
         registerAbility(
                 new PassiveBuilder()
+                        .setId("VirtuousSpirit")
                         .setName("Virtuous Spirit")
                         .setDescription("A calm mind makes your Super Attacks cost 0.9x as much.")
                         .setFillModifier(1)
@@ -36,6 +37,7 @@ public class AbilityDatabase {
 
         registerAbility(
                 new AttackBuilder()
+                        .setId("KiAttack")
                         .setName("Ki Attack")
                         .setDescription("Let loose the Spirit you've stored in a small blast")
                         .setType(EnumAttackType.BARRAGE)
@@ -48,6 +50,7 @@ public class AbilityDatabase {
 
         registerAbility(
                 new AttackBuilder()
+                        .setId("KiAttack2")
                         .setName("Ki AttackTWO")
                         .setDescription("TESTTESTESTEST")
                         .setType(EnumAttackType.BARRAGE)
@@ -87,12 +90,12 @@ public class AbilityDatabase {
         else
             attackHashMap.put(attack.getId(), attack);
 
-        SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
+        SpiritControl.INSTANCE.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
     }
 
     private static void registerPassive(PassiveAbility passive){
         passiveAbilityHashMap.put(passive.getId(), passive);
-        SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getId());
+        SpiritControl.INSTANCE.LOGGER.info("Adding Passive Ability: "+passive.getId());
     }
 
     public static boolean isDefault(Ability ability){

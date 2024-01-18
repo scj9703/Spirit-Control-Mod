@@ -99,8 +99,7 @@ public class PlayerEventHandler {
             return;
         }
 
-        PassiveAbility passive = (PassiveAbility) ex.getAbilityFromSlot("passive");
-        if (passive.canPassiveFillLikeThis(EnumFillMethod.PASSIVE) && passive.canPlayerUsePassive(ex)) {
+        if (ex.canPassiveFillLikeThis(EnumFillMethod.PASSIVE) && ex.canPlayerUsePassive()) {
             //ex.addChatMessage(new ChatComponentText("This is from passive"));
             ex.addSpirit(1);
         }

@@ -83,7 +83,7 @@ public class PassiveBuilder extends AbilityBuilder {
     }
 
     public PassiveAbility getAbility(){
-        super.getAbility();
+        fixNonPrettyNames();
         if(fillMethods.isEmpty())
             fillMethods.add(EnumFillMethod.DAMAGE_DEALT);
         return new PassiveAbility(literalId, prettyName, prettyDescription, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);

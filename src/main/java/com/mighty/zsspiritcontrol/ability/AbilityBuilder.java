@@ -54,11 +54,12 @@ public abstract class AbilityBuilder {
         return this;
     }
 
-    protected Ability getAbility(){
+    protected abstract Ability getAbility();
+
+    protected void fixNonPrettyNames(){
         if(this.prettyDescription == null)
             this.prettyDescription = new ChatComponentText(this.description);
         if(this.prettyName == null)
             this.prettyName = new ChatComponentText(this.name);
-        return null;
     }
 }
