@@ -1,6 +1,9 @@
 package com.mighty.zsspiritcontrol.proxy;
 
+import com.mighty.zsspiritcontrol.SpiritControl;
+import com.mighty.zsspiritcontrol.command.abilityreload.Command_SCReload;
 import com.mighty.zsspiritcontrol.command.spiritcontrol.Command_SpiritControl;
+import com.mighty.zsspiritcontrol.config.Config;
 import com.mighty.zsspiritcontrol.event.PlayerEventHandler;
 import com.mighty.zsspiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.zsspiritcontrol.player.permission.EnumPermission;
@@ -11,6 +14,12 @@ import net.minecraftforge.common.MinecraftForge;
 public class CommonProxy {
 
     public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+
+        SpiritControl.LOGGER = event.getModLog();
+
+        SpiritControl.CONFIG = new Config(event.getModConfigurationDirectory());
+        SpiritControl.CONFIG.loadAbilities();
+
         //Loads the class early so permissions are properly registered before listing them out
         EnumPermission.init();
     }
@@ -45,6 +54,7 @@ public class CommonProxy {
 
     public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
         event.registerServerCommand(new Command_SpiritControl());
+        event.registerServerCommand(new Command_SCReload().addPerms(EnumPermission.SPIRITCONTROL_RELOAD));
     }
 
 }

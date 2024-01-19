@@ -32,7 +32,7 @@ public class AttackBuilder extends AbilityBuilder {
         try{
             this.setType(EnumAttackType.valueOf(type.toUpperCase()));
         } catch(Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Can't find color '"+type+"'. ", e);
+            SpiritControl.LOGGER.warn("Can't find color '"+type+"'. ", e);
         }
         return this;
     }
@@ -47,7 +47,7 @@ public class AttackBuilder extends AbilityBuilder {
         try{
             this.setColor(EnumAttackColor.valueOf(color.toUpperCase()));
         } catch(Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Can't find color '"+color+"'. ", e);
+            SpiritControl.LOGGER.warn("Can't find color '"+color+"'. ", e);
         }
         return this;
     }

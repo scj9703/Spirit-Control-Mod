@@ -84,7 +84,7 @@ public class PassiveBuilder extends AbilityBuilder {
                     this.addRaceForm(raceId, formId);
                 }
             }catch (Exception e){
-                SpiritControl.INSTANCE.LOGGER.warn("Can't find race '"+raceName+"'. ", e);
+                SpiritControl.LOGGER.warn("Can't find race '"+raceName+"'. ", e);
             }
 
         }
@@ -96,7 +96,7 @@ public class PassiveBuilder extends AbilityBuilder {
             try{
                 this.addFillMethod(EnumFillMethod.valueOf(methodName.toUpperCase()));
             }catch(Exception e){
-                SpiritControl.INSTANCE.LOGGER.warn("Can't find fill method '"+methodName+"'. ", e);
+                SpiritControl.LOGGER.warn("Can't find fill method '"+methodName+"'. ", e);
             }
         }
         return this;

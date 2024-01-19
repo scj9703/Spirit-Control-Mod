@@ -22,13 +22,13 @@ public class BukkitWrapper {
 
             Permission.permList.sort(String.CASE_INSENSITIVE_ORDER);
 
-            SpiritControl.INSTANCE.LOGGER.info("Bukkit permissions available: ");
+            SpiritControl.LOGGER.info("Bukkit permissions available: ");
             for(String p : Permission.permList){
-                SpiritControl.INSTANCE.LOGGER.info(p);
+                SpiritControl.LOGGER.info(p);
             }
 
         }catch(Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Error, Bukkit permissions unavailable. Cause: ", e);
+            SpiritControl.LOGGER.warn("Error, Bukkit permissions unavailable. Cause: ", e);
         }
     }
 
@@ -75,7 +75,7 @@ public class BukkitWrapper {
                 Object bukkitPlayer = getPlayer.invoke(null, player.getCommandSenderName());
                 return (boolean) hasBukkitPerm.invoke(bukkitPlayer, permission);
             } catch(Exception e){
-                SpiritControl.INSTANCE.LOGGER.error(e);
+                SpiritControl.LOGGER.error(e);
             }
         }
 

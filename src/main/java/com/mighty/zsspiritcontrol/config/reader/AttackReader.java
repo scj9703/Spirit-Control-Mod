@@ -18,8 +18,6 @@ import java.util.Map;
 
 public class AttackReader extends AbilityReader {
 
-    private boolean isUltimate;
-
     public AttackReader(File file, boolean isUltimate) throws IOException, URISyntaxException {
         super(file);
         Gson gson = new Gson();
