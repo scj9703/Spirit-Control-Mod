@@ -22,9 +22,13 @@ public class AbilityDatabase {
     //Type: 0 = Wave, 1 = Blast, 2 = Disk, 3 = laser, 4 = spiral, 5 = large blast,  6 = barrage, 7 = shield
 
     //Color: 0 = purple, 1 = white, 2 = blue, 3 = purple, 4 = red, 5 = black, 6 = green, 7 = yellow, 8 = orange
-    static{
-        registerAbility(
-                new PassiveBuilder()
+
+    public static void loadDefaults(){
+        purgeAbilities();
+
+        SpiritControl.LOGGER.info("===REGISTERING DEFAULT ABILITIES!===");
+
+        registerAbility( new PassiveBuilder()
                         .setId("VirtuousSpirit")
                         .setName("Virtuous Spirit")
                         .setDescription("A calm mind makes your Super Attacks cost 0.9x as much.")
@@ -35,8 +39,7 @@ public class AbilityDatabase {
                         .getAbility()
         );
 
-        registerAbility(
-                new AttackBuilder()
+        registerAbility( new AttackBuilder()
                         .setId("KiAttack")
                         .setName("Ki Attack")
                         .setDescription("Let loose the Spirit you've stored in a small blast")
@@ -48,21 +51,7 @@ public class AbilityDatabase {
                         .getAbility()
         );
 
-        registerAbility(
-                new AttackBuilder()
-                        .setId("KiAttack2")
-                        .setName("Ki AttackTWO")
-                        .setDescription("TESTTESTESTEST")
-                        .setType(EnumAttackType.BARRAGE)
-                        .setColor(EnumAttackColor.GREEN)
-                        .setDmgModifier(1)
-                        .setCost(1)
-                        .setCasttime(1)
-                        .getAbility()
-        );
-
-        registerAbility(
-                new AttackBuilder()
+        registerAbility( new AttackBuilder()
                         .setId("EnergyWave")
                         .setName("Full Power Energy Wave")
                         .setDescription("Burn out your entire Spirit Gauge in a mighty wave")
@@ -78,11 +67,21 @@ public class AbilityDatabase {
     }
 
     public static void registerAbility(Ability ability){
+        ensureIdExclusivity(ability);
         if(ability instanceof Attack)
             registerAttack((Attack) ability);
         if(ability instanceof PassiveAbility)
             registerPassive((PassiveAbility) ability);
     }
+
+    private static void ensureIdExclusivity(Ability ability) {
+        if(ability == null)
+            return;
+        attackHashMap.remove(ability.getId());
+        ultimateHashMap.remove(ability.getId());
+        passiveAbilityHashMap.remove(ability.getId());
+    }
+
 
     private static void registerAttack(Attack attack){
         if(attack.isUltimate())
@@ -90,12 +89,12 @@ public class AbilityDatabase {
         else
             attackHashMap.put(attack.getId(), attack);
 
-        SpiritControl.INSTANCE.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
+        SpiritControl.LOGGER.info("Adding" + (attack.isUltimate() ? " Ultimate " : " ") + "Attack: "+attack.getId());
     }
 
     private static void registerPassive(PassiveAbility passive){
         passiveAbilityHashMap.put(passive.getId(), passive);
-        SpiritControl.INSTANCE.LOGGER.info("Adding Passive Ability: "+passive.getId());
+        SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getId());
     }
 
     public static boolean isDefault(Ability ability){
@@ -166,6 +165,13 @@ public class AbilityDatabase {
             return ultimateHashMap.get(name);
 
         return null;
+    }
+
+    public static void purgeAbilities(){
+        SpiritControl.LOGGER.info("===PURGING ALL LOADED ABILITIES===");
+        attackHashMap.clear();
+        ultimateHashMap.clear();
+        passiveAbilityHashMap.clear();
     }
 
     public static Ability getDefaultSuper(){

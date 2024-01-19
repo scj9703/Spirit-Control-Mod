@@ -1,6 +1,7 @@
 package com.mighty.zsspiritcontrol.config;
 
 import com.mighty.zsspiritcontrol.SpiritControl;
+import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
 import com.mighty.zsspiritcontrol.config.reader.AttackReader;
 import com.mighty.zsspiritcontrol.config.reader.PassiveReader;
 
@@ -18,28 +19,29 @@ public class Config {
             INSTANCE = this;
     }
 
-    public void load() {
-
+    public void loadAbilities() {
         if(spiritControlDir == null)
             spiritControlDir = new File(modConfigDir, "spirit_control");
 
         if(!spiritControlDir.exists())
             spiritControlDir.mkdir();
 
+        AbilityDatabase.loadDefaults();
+
+
+        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM PASSIVES===");
         try{
             new PassiveReader(new File(spiritControlDir, "passives.json"));
         }catch (Exception e){
             SpiritControl.INSTANCE.LOGGER.warn("Could not load passives: ", e);
         }
-
-
-
+        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM SUPERS===");
         try{
             new AttackReader(new File(spiritControlDir, "attacks.json"), false);
         }catch (Exception e){
             SpiritControl.INSTANCE.LOGGER.warn("Could not load super attacks: ", e);
         }
-
+        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM ULTIMATES===");
         try{
             new AttackReader(new File(spiritControlDir, "ultimates.json"), true);
         }catch (Exception e){
