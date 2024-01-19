@@ -12,11 +12,11 @@ public class Attack extends Ability {
     private final double dmgModifier;
     private final double cost;
     private final double casttime;
-    private final IChatComponent fireMessage;
+    private final String fireMessage;
     private final boolean isUltimate;
     private final double fatigue;
 
-    Attack(String id, IChatComponent name, IChatComponent description, byte type, byte color, IChatComponent fireMessage, int speed, boolean effect, double dmgModifier, double cost, double casttime, boolean isUltimate, double fatigue){
+    Attack(String id, String name, String description, byte type, byte color, String fireMessage, int speed, boolean effect, double dmgModifier, double cost, double casttime, boolean isUltimate, double fatigue){
         super(id, name, description);
         this.type = type;
         this.color = color;
@@ -59,7 +59,7 @@ public class Attack extends Ability {
         return casttime;
     }
 
-    public IChatComponent getFireMessage() {
+    public String getFireMessage() {
         return fireMessage;
     }
 

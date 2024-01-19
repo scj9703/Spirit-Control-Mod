@@ -26,7 +26,7 @@ public class SpiritControl
     public static CommonProxy proxy;
 
     public static File getModFile(){
-        return FMLCommonHandler.instance().findContainerFor(SpiritControl.INSTANCE).getSource();
+        return new File(FMLCommonHandler.instance().findContainerFor(SpiritControl.INSTANCE).getSource().toString());
     }
 
     @EventHandler
