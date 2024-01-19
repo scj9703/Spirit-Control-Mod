@@ -7,14 +7,10 @@ public abstract class Ability {
 
     protected String literalId;
 
-    protected IChatComponent name;
-    protected IChatComponent description;
+    protected String name;
+    protected String description;
 
     protected Ability(String literalId, String name, String description){
-        this(literalId, new ChatComponentText(name), new ChatComponentText(description));
-    }
-
-    protected Ability(String literalId, IChatComponent name, IChatComponent description){
         this.name = name;
         this.literalId = literalId;
         this.description = description;
@@ -32,13 +28,13 @@ public abstract class Ability {
      * @return Ability's description as a string.
      */
     public String getDescription(){
-        return this.description.getFormattedText();
+        return this.description;
     }
 
     /**
      * @return Ability's name as a string.
      */
-    public IChatComponent getName(){
+    public String getName(){
         return this.name;
     }
 
@@ -47,6 +43,6 @@ public abstract class Ability {
     }
 
     public String toString(){
-        return this.name.getFormattedText();
+        return this.name;
     }
 }

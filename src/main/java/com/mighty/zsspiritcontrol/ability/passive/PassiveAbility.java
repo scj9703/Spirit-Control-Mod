@@ -16,7 +16,7 @@ public class PassiveAbility extends Ability {
     private final Set<EnumFillMethod> fillMethods;
 
     //Non public constructor.
-    PassiveAbility(String id, IChatComponent name, IChatComponent description, double bonusSpirit, double spiritFillModifier, double spiritUseModifier, HashMap<Byte, Set<Byte>> raceFormMap, Set<EnumFillMethod> fillMethods){
+    PassiveAbility(String id, String name, String description, double bonusSpirit, double spiritFillModifier, double spiritUseModifier, HashMap<Byte, Set<Byte>> raceFormMap, Set<EnumFillMethod> fillMethods){
         super(id, name, description);
         this.raceFormMap = raceFormMap;
         this.spiritBonus = bonusSpirit;

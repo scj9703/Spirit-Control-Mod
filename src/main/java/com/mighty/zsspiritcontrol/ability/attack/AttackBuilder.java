@@ -1,5 +1,6 @@
 package com.mighty.zsspiritcontrol.ability.attack;
 
+import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
 import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
@@ -9,27 +10,46 @@ import somehussar.minimessage.MiniMessageParser;
 
 public class AttackBuilder extends AbilityBuilder {
 
-    protected byte type = (byte) EnumAttackType.BLAST.getValue();
-    protected byte color = (byte) EnumAttackColor.ALIGNMENT_BASED.getValue();
+    protected EnumAttackType type = EnumAttackType.BLAST;
+    protected EnumAttackColor color = EnumAttackColor.ALIGNMENT_BASED;
     protected int speed = 5;
     protected boolean effect = false;
     protected double dmgModifier = 1;
     protected double cost = 50;
     protected double casttime = 5;
-    protected IChatComponent prettyFireMessage;
     protected String fireMessage = "TAKE THIS!";
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
 
 
     public AttackBuilder setType(EnumAttackType type) {
-        this.type = (byte) type.getValue();
+        if(type != null)
+            this.type = type;
 		return this;
     }
 
+    public AttackBuilder setType(String type){
+        try{
+            this.setType(EnumAttackType.valueOf(type.toUpperCase()));
+        } catch(Exception e){
+            SpiritControl.INSTANCE.LOGGER.warn("Can't find color '"+type+"'. ", e);
+        }
+        return this;
+    }
+
     public AttackBuilder setColor(EnumAttackColor color) {
-        this.color = (byte) color.getValue();
+        if(color != null)
+            this.color = color;
 		return this;
+    }
+
+    public AttackBuilder setColor(String color){
+        try{
+            this.setColor(EnumAttackColor.valueOf(color.toUpperCase()));
+        } catch(Exception e){
+            SpiritControl.INSTANCE.LOGGER.warn("Can't find color '"+color+"'. ", e);
+        }
+        return this;
     }
 
     public AttackBuilder setSpeed(int speed) {
@@ -57,18 +77,9 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setPrettyFireMessage(IChatComponent prettyFireMessage) {
-        this.prettyFireMessage = prettyFireMessage;
-		return this;
-    }
-
-    public AttackBuilder setPrettyFireMessage(String prettyFireMessage) {
-        this.prettyFireMessage = MiniMessageParser.getFormat(prettyFireMessage);
-        return this;
-    }
-
     public AttackBuilder setFireMessage(String fireMessage){
-        this.fireMessage = fireMessage;
+        if(fireMessage != null)
+            this.fireMessage = fireMessage.replace("&", "\u00a7");
         return this;
     }
 
@@ -82,19 +93,10 @@ public class AttackBuilder extends AbilityBuilder {
 		return this;
     }
 
-    public AttackBuilder setName(String prettyName){
-        super.setName(prettyName);
+    public AttackBuilder setName(String name){
+        super.setName(name);
         return this;
     }
-    public AttackBuilder setPrettyName(IChatComponent name){
-        super.setPrettyName(name);
-        return this;
-    }
-    public AttackBuilder setPrettyName(String name){
-        super.setPrettyName(name);
-        return this;
-    }
-
     public AttackBuilder setId(String literalId){
         super.setId(literalId);
         return this;
@@ -104,21 +106,9 @@ public class AttackBuilder extends AbilityBuilder {
         super.setDescription(prettyDescription);
         return this;
     }
-    public AttackBuilder setPrettyDescription(IChatComponent description){
-        super.setPrettyDescription(description);
-        return this;
-    }
-    public AttackBuilder setPrettyDescription(String description){
-        super.setPrettyDescription(description);
-        return this;
-    }
 
     public Attack getAbility(){
-        fixNonPrettyNames();
-        if(this.prettyFireMessage == null) {
-            this.prettyFireMessage = new ChatComponentText(this.fireMessage);
-        }
-        return new Attack(literalId, prettyName, prettyDescription, type, color, prettyFireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
+        return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }
 }

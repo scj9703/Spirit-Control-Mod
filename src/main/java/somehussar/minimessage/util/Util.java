@@ -20,7 +20,7 @@ public class Util {
     }
 
     public static String getAbilityHoverValue(Ability ability){
-        String name = ability.getName().getFormattedText();
+        String name = ability.getName();
         String description = ability.getDescription();
 
         String inner = "<aqua>"+name+"<gray> - "+description;

@@ -1,12 +1,10 @@
 package com.mighty.zsspiritcontrol.ability.passive;
 
+import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.AbilityBuilder;
-import net.minecraft.util.IChatComponent;
+import kamkeel.zslib.util.dbc.enums.RaceEnum;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class PassiveBuilder extends AbilityBuilder {
 
@@ -16,14 +14,17 @@ public class PassiveBuilder extends AbilityBuilder {
     protected double costModifier = 1;
     protected Set<EnumFillMethod> fillMethods = new HashSet<>();
 
-    public PassiveBuilder addRaceForm(byte race, byte id){
-        if(!raceFormMap.containsKey(race))
-            raceFormMap.put(race, new HashSet<>());
+    public PassiveBuilder addRaceForm(int race, int id){
+        byte raceByte = (byte) race;
+        byte idByte = (byte) id;
 
-        Set<Byte> formSet = raceFormMap.get(race);
+        if(!raceFormMap.containsKey(raceByte))
+            raceFormMap.put(raceByte, new HashSet<>());
 
-        if(id >= 0)
-            formSet.add(id);
+
+        if(idByte >= 0) {
+            raceFormMap.get(raceByte).add(idByte);
+        }
         return this;
     }
 
@@ -43,24 +44,18 @@ public class PassiveBuilder extends AbilityBuilder {
     }
 
     public PassiveBuilder addFillMethods(EnumFillMethod... methods){
-        this.fillMethods.addAll(Arrays.asList(methods));
+        if(methods != null)
+            this.fillMethods.addAll(Arrays.asList(methods));
         return this;
     }
     public PassiveBuilder addFillMethod(EnumFillMethod method){
-        this.fillMethods.add(method);
+        if(method != null)
+            this.fillMethods.add(method);
         return this;
     }
 
-    public PassiveBuilder setName(String prettyName){
-        super.setName(prettyName);
-        return this;
-    }
-    public PassiveBuilder setPrettyName(IChatComponent name){
-        super.setPrettyName(name);
-        return this;
-    }
-    public PassiveBuilder setPrettyName(String name){
-        super.setPrettyName(name);
+    public PassiveBuilder setName(String name){
+        super.setName(name);
         return this;
     }
 
@@ -69,25 +64,48 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setDescription(String prettyDescription){
-        super.setDescription(prettyDescription);
+    public PassiveBuilder setDescription(String description){
+        super.setDescription(description);
         return this;
     }
-    public PassiveBuilder setPrettyDescription(IChatComponent description){
-        super.setPrettyDescription(description);
+
+
+    public PassiveBuilder addRaceFormMap(Map<String, Set<Byte>> racesToAdd) {
+        if(racesToAdd == null)
+            return this;
+
+        for(String raceName : racesToAdd.keySet()){
+
+            try{
+                byte raceId = (byte) RaceEnum.valueOf(raceName.toUpperCase()).id;
+//                raceFormMap.computeIfAbsent(key, k -> new HashSet<>());
+//                raceFormMap.get(key).addAll(racesToAdd.get(raceName));
+                for(byte formId : racesToAdd.get(raceName)){
+                    this.addRaceForm(raceId, formId);
+                }
+            }catch (Exception e){
+                SpiritControl.INSTANCE.LOGGER.warn("Can't find race '"+raceName+"'. ", e);
+            }
+
+        }
         return this;
     }
-    public PassiveBuilder setPrettyDescription(String description){
-        super.setPrettyDescription(description);
+
+    public PassiveBuilder addFillMethods(Set<String> fillMethodsNew) {
+        for(String methodName : fillMethodsNew){
+            try{
+                this.addFillMethod(EnumFillMethod.valueOf(methodName.toUpperCase()));
+            }catch(Exception e){
+                SpiritControl.INSTANCE.LOGGER.warn("Can't find fill method '"+methodName+"'. ", e);
+            }
+        }
         return this;
     }
 
     public PassiveAbility getAbility(){
-        fixNonPrettyNames();
         if(fillMethods.isEmpty())
             fillMethods.add(EnumFillMethod.DAMAGE_DEALT);
-        return new PassiveAbility(literalId, prettyName, prettyDescription, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
+        return new PassiveAbility(literalId, name, description, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
         //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
     }
-
 }
