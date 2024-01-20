@@ -1,6 +1,5 @@
 package com.mighty.zsspiritcontrol.player;
 
-import JinRyuu.DragonBC.common.DBC;
 import com.mighty.zsspiritcontrol.SpiritControl;
 import com.mighty.zsspiritcontrol.ability.Ability;
 import com.mighty.zsspiritcontrol.ability.AbilityDatabase;
@@ -13,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -28,7 +28,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     /**
      * Player reference
      */
-    private final EntityPlayer player;
+    public final EntityPlayer player;
 
     /**
      * DBCPlayerWrapper.
@@ -77,10 +77,35 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     private boolean unlockedSpiritControl = false;
 
-    public SCPlayer(EntityPlayer player){
+
+    /**
+     * Values needed to check if the player is using a spirit control attack or not.
+     *
+     * Thank you LexManos and the rest of the Forge team for not providing a simpler way.
+     */
+    private boolean isArmed = false;
+
+    public boolean wasSneakingLastTick = false;
+    public long lastTimeSneaked = 0;
+
+    public byte sneakCount = 0;
+    public void toggleIsArmed(){
+        isArmed = !isArmed;
+
+        addChatMessage(new ChatComponentText("You are now " + (isArmed ? "armed" : "disarmed") + "."));
+        lastTimeSneaked = 0;
+        sneakCount = 0;
+    }
+
+    public boolean isArmed(){
+        return isArmed;
+    }
+
+
+    public SCPlayer(EntityPlayer mcPlayer){
         canReceiveMessages = false;
-        this.player = player;
-        this.dbcPlayer = new DBCPlayerHelper(player);
+        this.player = mcPlayer;
+        this.dbcPlayer = new DBCPlayerHelper(mcPlayer);
 
         Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
         Attack energyWave = (Attack) AbilityDatabase.getDefaultUltimate();
@@ -163,6 +188,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(!compound.hasKey("SpiritControl")){
             return;
         }
+
+        unlockedPassives.clear();
+        unlockedSuperAttacks.clear();
+        unlockedUltimates.clear();
+
         this.dbcPlayer = new DBCPlayerHelper(player);
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
 
@@ -594,5 +624,12 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(passiveAbility == null)
             return false;
         return passiveAbility.canPlayerUsePassive(this);
+    }
+
+    public boolean isSneaking(){
+        return this.player.isSneaking();
+    }
+    public boolean isSwinging(){
+        return this.player.isSwingInProgress;
     }
 }
