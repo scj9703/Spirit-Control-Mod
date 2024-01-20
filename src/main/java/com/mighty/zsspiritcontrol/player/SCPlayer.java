@@ -155,6 +155,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         NBTTagCompound scTag = new NBTTagCompound();
 
         scTag.setBoolean("hasUnlocked", this.hasUnlockedSpiritControl());
+        scTag.setBoolean("isArmed", this.isArmed);
 
         scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
         scTag.setDouble("currentSpirit", this.getSpirit());
@@ -199,6 +200,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
+        this.isArmed = scTag.getBoolean("isArmed");
 
         NBTTagList passivesData = scTag.getTagList("Passives", Constants.NBT.TAG_STRING);
         NBTTagList supersData = scTag.getTagList("Supers", Constants.NBT.TAG_STRING);
