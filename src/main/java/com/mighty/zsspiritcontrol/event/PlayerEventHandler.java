@@ -5,6 +5,7 @@ import com.mighty.zsspiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.zsspiritcontrol.player.SCPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -22,7 +23,7 @@ public class PlayerEventHandler {
             SCPlayer.register((EntityPlayer)event.entity);
         }
     }
-
+    
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event){
         SCPlayer.getPlayer(event.entityPlayer).copy(SCPlayer.getPlayer(event.original));
@@ -87,25 +88,55 @@ public class PlayerEventHandler {
         if(event.entity.worldObj.isRemote){
             return;
         }
-
         if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
-        EntityPlayer player = (EntityPlayer) event.entity;
-        SCPlayer ex = SCPlayer.getPlayer(player);
 
-        //Return if player hasn't unlocked SC or they're fatigued
-        if(!ex.hasUnlockedSpiritControl() || ex.isFatigued()){
+
+        EntityPlayer player = (EntityPlayer) event.entity;
+        SCPlayer extPlayer = SCPlayer.getPlayer(player);
+
+        //Return if player hasn't unlocked SC
+        if(!extPlayer.hasUnlockedSpiritControl()){
             return;
         }
+        
+        handleSpiritControlArming(extPlayer);
 
-        if (ex.canPassiveFillLikeThis(EnumFillMethod.PASSIVE) && ex.canPlayerUsePassive()) {
+        if(extPlayer.isFatigued())
+            return;
+
+        if (extPlayer.canPassiveFillLikeThis(EnumFillMethod.PASSIVE) && extPlayer.canPlayerUsePassive()) {
             //ex.addChatMessage(new ChatComponentText("This is from passive"));
-            ex.addSpirit(1);
+            extPlayer.addSpirit(1);
         }
 
         //extPlayer.addSpirit(0.01);
 
+
+    }
+
+    private void handleSpiritControlArming(SCPlayer extPlayer) {
+        if(!extPlayer.isSneaking()){
+            extPlayer.wasSneakingLastTick = false;
+            return;
+        }
+
+        if(!extPlayer.wasSneakingLastTick) {
+            long time = System.currentTimeMillis();
+            if(time - extPlayer.lastTimeSneaked <= 420){
+                extPlayer.sneakCount += 1;
+            }else{
+                extPlayer.sneakCount = 1;
+            }
+            extPlayer.lastTimeSneaked = time;
+        }
+
+        if(extPlayer.sneakCount >= 3)
+            extPlayer.toggleIsArmed();
+
+
+        extPlayer.wasSneakingLastTick = true;
 
     }
 }
