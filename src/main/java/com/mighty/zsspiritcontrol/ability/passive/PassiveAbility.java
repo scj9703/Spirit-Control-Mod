@@ -31,16 +31,16 @@ public class PassiveAbility extends Ability {
      * @return If the player can use the passive ability
      */
     public boolean canPlayerUsePassive(SCPlayer player){
-        if(raceFormMap.isEmpty()) //If the hashmap is empty, everyone can use this passive
+        if(raceFormMap.isEmpty()) //If the set is empty, everyone can use this passive
             return true;
 
         Set<Byte> formSet = raceFormMap.getOrDefault(player.getRace(), null);
 
-        //If hashmap isn't empty but it doesn't have your race allowed, return false
+        //If set isn't empty but it doesn't have your race allowed, return false
         if(formSet == null)
             return false;
 
-        //If hashmap isn't empty but has your race allowed (any form), return true
+        //If set isn't empty but has your race allowed (any form), return true
         if(formSet.isEmpty())
             return true;
 

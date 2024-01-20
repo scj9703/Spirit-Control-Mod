@@ -16,6 +16,8 @@ import java.util.Map;
 public class PassiveReader extends AbilityReader {
     public PassiveReader(File file) throws IOException, URISyntaxException {
         super(file);
+        ensureFileExists();
+
         Gson gson = new Gson();
         Map<String, PassiveJSON> passivesLoaded = gson.fromJson(new FileReader(file), new TypeToken<Map<String, PassiveJSON>>(){}.getType());
 
