@@ -6,8 +6,11 @@ import java.net.URISyntaxException;
 public abstract class AbilityReader {
     protected File file;
 
-    protected AbilityReader(File file) throws IOException, URISyntaxException {
+    protected AbilityReader(File file) {
         this.file = file;
+    }
+
+    protected void ensureFileExists() throws IOException, URISyntaxException {
         if(!file.exists()) {
             file.createNewFile();
             createExample();

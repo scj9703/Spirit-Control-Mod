@@ -17,6 +17,8 @@ public class AttackBuilder extends AbilityBuilder {
     protected double dmgModifier = 1;
     protected double cost = 50;
     protected double casttime = 5;
+
+    protected double cooldown = 5;
     protected String fireMessage = "TAKE THIS!";
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
@@ -110,5 +112,10 @@ public class AttackBuilder extends AbilityBuilder {
     public Attack getAbility(){
         return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
+    }
+
+    public AttackBuilder setCooldown(double cooldown) {
+        this.cooldown = cooldown;
+        return this;
     }
 }

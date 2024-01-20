@@ -13,8 +13,10 @@ public class AttackJSON {
     public int speed;
     public boolean effect;
     public double dmg_modifier;
-    public double cost;
+    public double cost_modifier;
     public double cast_time;
+
+    public double cooldown;
     public String fire_message;
     public double fatigue;
 
@@ -29,9 +31,10 @@ public class AttackJSON {
                 .setSpeed(speed)
                 .setEffect(effect)
                 .setDmgModifier(dmg_modifier)
-                .setCost(cost)
+                .setCost(cost_modifier)
                 .setFireMessage(fire_message)
                 .setCasttime(cast_time)
+                .setCooldown(cooldown)
                 .setFatigue(fatigue)
                 .getAbility();
     }
@@ -45,7 +48,7 @@ public class AttackJSON {
         speed = 5;
         effect = false;
         dmg_modifier = 1.0;
-        cost = 1.0;
+        cost_modifier = 1.0;
         fire_message = "Example fire message. SHOULD be formatted";
         cast_time = 1.0;
         fatigue = 0.0;

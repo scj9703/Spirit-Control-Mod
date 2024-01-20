@@ -18,8 +18,13 @@ import java.util.Map;
 
 public class AttackReader extends AbilityReader {
 
+    protected boolean isUltimate;
+
     public AttackReader(File file, boolean isUltimate) throws IOException, URISyntaxException {
         super(file);
+        this.isUltimate = isUltimate;
+        ensureFileExists();
+
         Gson gson = new Gson();
         Map<String, AttackJSON> attacksLoaded = gson.fromJson(new FileReader(file), new TypeToken<Map<String, AttackJSON>>(){}.getType());
 
@@ -46,7 +51,7 @@ public class AttackReader extends AbilityReader {
         AttackJSON attack = new AttackJSON();
         attack.setExampleValues();
 
-        objectHashMap.put("example_attack", attack);
+        objectHashMap.put("example_" + (isUltimate ? "ultimate" : "attack"), attack);
 
         gson.toJson(objectHashMap, objectHashMap.getClass(), jsonWriter);
         jsonWriter.close();
