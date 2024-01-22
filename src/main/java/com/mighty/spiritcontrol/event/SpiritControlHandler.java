@@ -1,5 +1,6 @@
 package com.mighty.spiritcontrol.event;
 
+import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.event.custom.PlayerSneakEvent;
@@ -13,6 +14,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import somehussar.minimessage.MiniMessageParser;
 
 public class SpiritControlHandler {
     /**
@@ -66,14 +68,11 @@ public class SpiritControlHandler {
             return;
 
         SCPlayer extPlayer = SCPlayer.getPlayer(event.player);
-        if(!extPlayer.hasUnlockedSpiritControl() || !extPlayer.isArmed())
+        if(!extPlayer.hasUnlockedSpiritControl() || !extPlayer.isArmed() || extPlayer.isChargingAttack)
             return;
 
-        long time = MinecraftServer.getSystemTimeMillis();
-        if(time - extPlayer.lastTimeSwinged >= 690){
-            extPlayer.setCurrentAttackSlot(event.player.inventory.currentItem);
-            extPlayer.lastTimeSwinged = time;
-        }
+        extPlayer.setCurrentAttackSlot(event.player.inventory.currentItem);
+
     }
 
 
@@ -116,6 +115,9 @@ public class SpiritControlHandler {
         handleCharging(extPlayer);
     }
 
+    public void handlePassiveFilling(EntityPlayer player, EnumFillMethod method, double amount){
+        handlePassiveFilling(SCPlayer.getPlayer(player), method, amount);
+    }
 
     /**
      * Ensures proper filling of the gauge according to your passive ability
@@ -132,30 +134,35 @@ public class SpiritControlHandler {
             ex.addSpirit(amount);
         }
     }
-    public void handlePassiveFilling(EntityPlayer player, EnumFillMethod method, double amount){
-        handlePassiveFilling(SCPlayer.getPlayer(player), method, amount);
-    }
 
     public void handleCharging(SCPlayer ex){
-        if( !ex.player.isSneaking() || !ex.isArmed() || ex.isFatigued() || ex.isOnCooldown()  || !ex.isChargingDBC()){
+        if( !ex.player.isSneaking() || !ex.isArmed() || !ex.isChargingDBC() || !ex.canUseAttack()){
             ex.isChargingAttack = false;
             ex.startedCharging = 0;
             return;
         }
 
+        Attack attack = ex.getCurrentSelectedAttack();
         long currentTime = MinecraftServer.getSystemTimeMillis();
-
         ex.isChargingAttack = true;
 
         if(ex.startedCharging <= 0)
             ex.startedCharging = currentTime;
 
-        float percent = (float) (currentTime - ex.startedCharging) / 1000 / 5;
-        ex.addChatMessage(new ChatComponentText(percent*100+"%"));
-        if(percent > 1) {
-            ex.addChatMessage(new ChatComponentText("Wow you shoulda fired the attack at slot: "+ex.currentAttackSlot));
+        float percent = (float) ((float) (currentTime - ex.startedCharging) / 1000 / attack.getCasttime());
+        byte roundedPercentToHighest10 = (byte) (Math.round(percent*10)*10);
+
+        prettyChargeMessage(ex, attack, roundedPercentToHighest10);
+        if(roundedPercentToHighest10 >= 100) {
+            ex.addChatMessage(MiniMessageParser.getFormat(attack.getFireMessage()));
             ex.setCooldown(5);
         }
 
+    }
+
+    private void prettyChargeMessage(SCPlayer ex, Attack attack, byte roundedPercentToHighest10) {
+        if(roundedPercentToHighest10 > 100)
+            roundedPercentToHighest10 = 100;
+        ex.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", attack.getName(), "percent", String.valueOf(roundedPercentToHighest10)));
     }
 }

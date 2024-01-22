@@ -16,7 +16,7 @@ public class AttackBuilder extends AbilityBuilder {
     protected double casttime = 5;
 
     protected double cooldown = 5;
-    protected String fireMessage = "TAKE THIS!";
+    protected String fireMessage = "<italic><red>Take this!";
     protected boolean isUltimate = false;
     protected double fatigue = 0.0;
 

@@ -46,14 +46,14 @@ public class AttackReader extends AbilityReader {
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
 
-        HashMap<String, AttackJSON> objectHashMap = new HashMap<>();
+        HashMap<String, AttackJSON> objectList = new HashMap<>();
 
         AttackJSON attack = new AttackJSON();
         attack.setExampleValues();
 
-        objectHashMap.put("example_" + (isUltimate ? "ultimate" : "attack"), attack);
+        objectList.put("example_" + (isUltimate ? "ultimate" : "attack"), attack);
 
-        gson.toJson(objectHashMap, objectHashMap.getClass(), jsonWriter);
+        gson.toJson(objectList, objectList.getClass(), jsonWriter);
         jsonWriter.close();
     }
 }
