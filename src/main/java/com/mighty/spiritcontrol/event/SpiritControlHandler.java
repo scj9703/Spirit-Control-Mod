@@ -1,7 +1,6 @@
 package com.mighty.spiritcontrol.event;
 
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
-import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.event.custom.PlayerSneakEvent;
 import com.mighty.spiritcontrol.event.custom.PlayerSwingEvent;
@@ -9,9 +8,7 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -104,8 +101,12 @@ public class SpiritControlHandler {
         if(event.entity.worldObj.isRemote)
             return;
 
+        if(event.entity.worldObj.getTotalWorldTime() % 10 != 0)
+            return;
+
         if (!(event.entity instanceof EntityPlayer))
             return;
+
 
         EntityPlayer player = (EntityPlayer) event.entity;
         SCPlayer extPlayer = SCPlayer.getPlayer(player);
@@ -123,7 +124,7 @@ public class SpiritControlHandler {
     public void handlePassiveFilling(EntityPlayer player, EnumFillMethod method, double amount){
         SCPlayer ex = SCPlayer.getPlayer(player);
 
-        if(!ex.hasUnlockedSpiritControl() || ex.isFatigued() || ex.isCharging)
+        if(!ex.hasUnlockedSpiritControl() || ex.isFatigued() || ex.isChargingAttack)
             return;
 
         if (ex.canPlayerUsePassive(method)) {
