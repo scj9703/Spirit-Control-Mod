@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
@@ -30,7 +31,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     public final EntityPlayer player;
 
-    private DBCPlayerHelper dbcPlayer;
     /**
      * A check if the player can receieve messages.
      * <br><br>
@@ -75,9 +75,13 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     private boolean isArmed = false;
     public boolean isChargingAttack = false;
-    private byte currentAttackSlot = 0;
+    public byte currentAttackSlot = 0;
     public long lastTimeSwinged = 0;
     public long lastTimeSneaked = 0;
+
+    public long startedCharging = 0;
+
+    public long nextTimeAbleToCastAttack = 0;
     public byte sneakCount = 0;
     public void toggleIsArmed(){
         isArmed = !isArmed;
@@ -85,6 +89,15 @@ public class SCPlayer implements IExtendedEntityProperties {
         addChatMessage(new ChatComponentText("You are now " + (isArmed ? "armed" : "disarmed") + "."));
         lastTimeSneaked = 0;
         sneakCount = 0;
+    }
+
+    public void setCooldown(double seconds){
+        nextTimeAbleToCastAttack = MinecraftServer.getSystemTimeMillis() + ( (int) (seconds*1000));
+        startedCharging = 0;
+    }
+
+    public boolean isOnCooldown(){
+        return MinecraftServer.getSystemTimeMillis() - nextTimeAbleToCastAttack <= 0;
     }
 
     public boolean isArmed(){
@@ -113,7 +126,6 @@ public class SCPlayer implements IExtendedEntityProperties {
     public SCPlayer(EntityPlayer mcPlayer){
         canReceiveMessages = false;
         this.player = mcPlayer;
-        this.dbcPlayer = new DBCPlayerHelper(mcPlayer);
 
         loadDefaultData();
 
@@ -634,14 +646,19 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public boolean isFatigued(){
-        return dbcPlayer.isFatigued();
+        return new DBCPlayerHelper(player).isFatigued();
     }
 
     public byte getForm() {
-        return dbcPlayer.getRace();
+        //return new DBCPlayerHelper(player).getState();
+        return 0;
     }
     public byte getRace(){
-        return dbcPlayer.getRace();
+        return new DBCPlayerHelper(player).getRace();
+    }
+
+    public boolean isChargingDBC(){
+        return new DBCPlayerHelper(player).statusEffects.contains("A");
     }
 
     public boolean canPlayerUsePassive(EnumFillMethod method) {

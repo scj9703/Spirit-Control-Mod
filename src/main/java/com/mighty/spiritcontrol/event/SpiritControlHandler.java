@@ -8,6 +8,7 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -107,28 +108,54 @@ public class SpiritControlHandler {
         if (!(event.entity instanceof EntityPlayer))
             return;
 
+        SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) event.entity);
+        if(!extPlayer.hasUnlockedSpiritControl())
+            return;
 
-        EntityPlayer player = (EntityPlayer) event.entity;
-        SCPlayer extPlayer = SCPlayer.getPlayer(player);
-
-        handlePassiveFilling(player, EnumFillMethod.PASSIVE, Config.SPIRIT_PASSIVE_FLAT);
+        handlePassiveFilling(extPlayer, EnumFillMethod.PASSIVE, Config.SPIRIT_PASSIVE_FLAT);
+        handleCharging(extPlayer);
     }
 
 
     /**
      * Ensures proper filling of the gauge according to your passive ability
-     * @param player Player reference
+     * @param ex Player reference
      * @param method Type of method the passive is filled with (passively, by attacking or by being attacked)
      * @param amount Amount of flat spirit to give to the player (later adjusted by passive)
      */
-    public void handlePassiveFilling(EntityPlayer player, EnumFillMethod method, double amount){
-        SCPlayer ex = SCPlayer.getPlayer(player);
+    public void handlePassiveFilling(SCPlayer ex, EnumFillMethod method, double amount){
 
-        if(!ex.hasUnlockedSpiritControl() || ex.isFatigued() || ex.isChargingAttack)
+        if(ex.isFatigued() || ex.isChargingAttack)
             return;
 
         if (ex.canPlayerUsePassive(method)) {
             ex.addSpirit(amount);
         }
+    }
+    public void handlePassiveFilling(EntityPlayer player, EnumFillMethod method, double amount){
+        handlePassiveFilling(SCPlayer.getPlayer(player), method, amount);
+    }
+
+    public void handleCharging(SCPlayer ex){
+        if( !ex.player.isSneaking() || !ex.isArmed() || ex.isFatigued() || ex.isOnCooldown()  || !ex.isChargingDBC()){
+            ex.isChargingAttack = false;
+            ex.startedCharging = 0;
+            return;
+        }
+
+        long currentTime = MinecraftServer.getSystemTimeMillis();
+
+        ex.isChargingAttack = true;
+
+        if(ex.startedCharging <= 0)
+            ex.startedCharging = currentTime;
+
+        float percent = (float) (currentTime - ex.startedCharging) / 1000 / 5;
+        ex.addChatMessage(new ChatComponentText(percent*100+"%"));
+        if(percent > 1) {
+            ex.addChatMessage(new ChatComponentText("Wow you shoulda fired the attack at slot: "+ex.currentAttackSlot));
+            ex.setCooldown(5);
+        }
+
     }
 }
