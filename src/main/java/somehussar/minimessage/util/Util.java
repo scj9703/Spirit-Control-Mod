@@ -1,6 +1,6 @@
 package somehussar.minimessage.util;
 
-import com.mighty.zsspiritcontrol.ability.Ability;
+import com.mighty.spiritcontrol.ability.Ability;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
