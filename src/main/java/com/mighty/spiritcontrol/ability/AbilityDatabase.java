@@ -67,19 +67,21 @@ public class AbilityDatabase {
     }
 
     public static void registerAbility(Ability ability){
-        ensureIdExclusivity(ability);
-        if(ability instanceof Attack)
-            registerAttack((Attack) ability);
-        if(ability instanceof PassiveAbility)
-            registerPassive((PassiveAbility) ability);
+        if(ensureProperType(ability)) {
+            if (ability instanceof Attack)
+                registerAttack((Attack) ability);
+            if (ability instanceof PassiveAbility)
+                registerPassive((PassiveAbility) ability);
+        }
     }
 
-    private static void ensureIdExclusivity(Ability ability) {
+    //Checks if the new ability doesn't somehow switch around default attack types
+    private static boolean ensureProperType(Ability ability){
         if(ability == null)
-            return;
-        attackHashMap.remove(ability.getId());
-        ultimateHashMap.remove(ability.getId());
-        passiveAbilityHashMap.remove(ability.getId());
+            return false;
+        if(isRegistered(ability.getId()))
+            return ability.getClass() == getAbilityById(ability.getId()).getClass();
+        return true;
     }
 
 

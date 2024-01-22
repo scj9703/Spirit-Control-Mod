@@ -9,14 +9,13 @@ import net.minecraftforge.common.config.Configuration;
 import java.io.File;
 
 public class Config {
-    private final String CATEGORY_PASSIVE_GAIN = "SPIRIT_CONTROL_PASSIVE_GAIN";
 
     public static Config INSTANCE;
 
     public static double SPIRIT_ON_DAMAGE_DEALT_FLAT;
     public static double SPIRIT_ON_DAMAGE_TAKEN_FLAT;
     public static double SPIRIT_PASSIVE_FLAT;
-    private File spiritControlDir;
+    private final File spiritControlDir;
 
 
     public Config(File modConfigurationDirectory) {
@@ -36,23 +35,23 @@ public class Config {
         AbilityDatabase.loadDefaults();
 
 
-        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM PASSIVES===");
+        SpiritControl.LOGGER.info("===REGISTERING CUSTOM PASSIVES===");
         try{
             new PassiveReader(new File(spiritControlDir, "passives.json"));
         }catch (Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Could not load passives: ", e);
+            SpiritControl.LOGGER.warn("Could not load passives: ", e);
         }
-        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM SUPERS===");
+        SpiritControl.LOGGER.info("===REGISTERING CUSTOM SUPERS===");
         try{
             new AttackReader(new File(spiritControlDir, "attacks.json"), false);
         }catch (Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Could not load super attacks: ", e);
+            SpiritControl.LOGGER.warn("Could not load super attacks: ", e);
         }
-        SpiritControl.INSTANCE.LOGGER.info("===REGISTERING CUSTOM ULTIMATES===");
+        SpiritControl.LOGGER.info("===REGISTERING CUSTOM ULTIMATES===");
         try{
             new AttackReader(new File(spiritControlDir, "ultimates.json"), true);
         }catch (Exception e){
-            SpiritControl.INSTANCE.LOGGER.warn("Could not load ultimate attacks: ", e);
+            SpiritControl.LOGGER.warn("Could not load ultimate attacks: ", e);
         }
 
 
@@ -63,6 +62,7 @@ public class Config {
         //needs to reload the config file to update the changes.
         Configuration mainConfig = new Configuration(new File(spiritControlDir, "main.cfg"));
 
+        String CATEGORY_PASSIVE_GAIN = "SPIRIT_CONTROL_PASSIVE_GAIN";
         SPIRIT_ON_DAMAGE_DEALT_FLAT = mainConfig.getFloat("Spirit gained on damage dealt", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on dealing damage to others (this is the number before passive modifiers)");
         SPIRIT_ON_DAMAGE_TAKEN_FLAT = mainConfig.getFloat("Spirit gained on damage taken", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on taking damage from others (this is the number before passive modifiers)");
         SPIRIT_PASSIVE_FLAT = mainConfig.getFloat("Spirit gained passively", CATEGORY_PASSIVE_GAIN, 0.01f, 0f, 100, "Spirit gained passively (this is the number before passive modifiers)");
