@@ -155,7 +155,8 @@ public class SpiritControlHandler {
         prettyChargeMessage(ex, attack, roundedPercentToHighest10);
         if(roundedPercentToHighest10 >= 100) {
             ex.addChatMessage(MiniMessageParser.getFormat(attack.getFireMessage()));
-            ex.setCooldown(5);
+            ex.setCooldown(attack.getCooldown());
+            ex.setFatigue(attack.getFatigue());
         }
 
     }

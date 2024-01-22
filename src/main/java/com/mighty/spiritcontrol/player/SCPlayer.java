@@ -30,6 +30,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Player reference
      */
     public final EntityPlayer player;
+    public DBCPlayerWrapper dbcPlayer;
 
     /**
      * A check if the player can receieve messages.
@@ -143,6 +144,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     private void loadDefaultData(){
+        this.dbcPlayer = new DBCPlayerWrapper(player);
         Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
         Attack energyWave = (Attack) AbilityDatabase.getDefaultUltimate();
         PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getDefaultPassive();
@@ -663,19 +665,19 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public boolean isFatigued(){
-        return new DBCPlayerHelper(player).isFatigued();
+        return dbcPlayer.isFatigued();
     }
 
     public byte getForm() {
         //return new DBCPlayerHelper(player).getState();
-        return 0;
+        return dbcPlayer.getForm();
     }
     public byte getRace(){
-        return new DBCPlayerHelper(player).getRace();
+        return dbcPlayer.getRace();
     }
 
     public boolean isChargingDBC(){
-        return new DBCPlayerHelper(player).statusEffects.contains("A");
+        return dbcPlayer.isCharging();
     }
 
     public boolean canPlayerUsePassive(EnumFillMethod method) {
@@ -684,4 +686,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         return selectedPassiveAbility.canPassiveFillLikeThis(method) && selectedPassiveAbility.canPlayerUsePassive(this);
     }
 
+    public void setFatigue(double fatigue) {
+        dbcPlayer.setFatigue(fatigue);
+    }
 }

@@ -11,11 +11,12 @@ public class Attack extends Ability {
     private final double dmgModifier;
     private final double cost;
     private final double casttime;
+    private final double cooldown;
     private final String fireMessage;
     private final boolean isUltimate;
     private final double fatigue;
 
-    Attack(String id, String name, String description, byte type, byte color, String fireMessage, int speed, boolean effect, double dmgModifier, double cost, double casttime, boolean isUltimate, double fatigue){
+    Attack(String id, String name, String description, byte type, byte color, String fireMessage, int speed, boolean effect, double dmgModifier, double cost, double cooldown, double casttime, boolean isUltimate, double fatigue){
         super(id, name, description);
         this.type = type;
         this.color = color;
@@ -23,6 +24,7 @@ public class Attack extends Ability {
         this.effect = effect;
         this.dmgModifier = dmgModifier;
         this.cost = cost;
+        this.cooldown = cooldown;
         this.casttime = casttime;
         this.fireMessage = fireMessage;
         this.isUltimate = isUltimate;
@@ -52,6 +54,10 @@ public class Attack extends Ability {
 
     public double getCost() {
         return cost;
+    }
+
+    public double getCooldown() {
+        return cooldown;
     }
 
     public double getCasttime() {

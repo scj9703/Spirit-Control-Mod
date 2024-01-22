@@ -2,8 +2,8 @@ package com.mighty.spiritcontrol.config.reader.objects;
 
 import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.attack.AttackBuilder;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
+import com.mighty.spiritcontrol.ability.attack.EnumAttackColor;
+import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
 
 public class AttackJSON {
     public String name;
