@@ -30,11 +30,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     public final EntityPlayer player;
 
-    /**
-     * DBCPlayerWrapper.
-     *
-     * Hopefully will move this to be a ZS lib class later on.
-     */
     private DBCPlayerHelper dbcPlayer;
     /**
      * A check if the player can receieve messages.
@@ -71,6 +66,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     private Set<Attack> unlockedSuperAttacks = new HashSet<>();
     private Set<Attack> unlockedUltimates = new HashSet<>();
     private Set<PassiveAbility> unlockedPassives = new HashSet<>();
+    private Set<String> unregisteredAbilities = new HashSet<>();
 
     /**
      * Has unlocked Spirit Control yet?
@@ -119,9 +115,19 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.player = mcPlayer;
         this.dbcPlayer = new DBCPlayerHelper(mcPlayer);
 
+        loadDefaultData();
+
+    }
+
+    private void loadDefaultData(){
         Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
         Attack energyWave = (Attack) AbilityDatabase.getDefaultUltimate();
         PassiveAbility virtuousSpirit = (PassiveAbility) AbilityDatabase.getDefaultPassive();
+
+        unlockedPassives.clear();
+        unlockedSuperAttacks.clear();
+        unlockedUltimates.clear();
+        unregisteredAbilities.clear();
 
         this.addAbility(kiAttack);
         this.addAbility(energyWave);
@@ -131,7 +137,6 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(kiAttack, "super2");
         this.setAbilityAtSlot(energyWave, "ultimate");
         this.setAbilityAtSlot(virtuousSpirit, "passive");
-
     }
 
     /**
@@ -192,6 +197,13 @@ public class SCPlayer implements IExtendedEntityProperties {
             passiveList.appendTag(new NBTTagString(passive.getId()));
         scTag.setTag("Passives", passiveList);
 
+        NBTTagList unregistered = new NBTTagList();
+        for(String abilityId : unregisteredAbilities){
+            unregistered.appendTag(new NBTTagString(abilityId));
+        }
+        if(unregistered.tagCount() > 0)
+            scTag.setTag("UnregisteredAbilities", unregistered);
+
         compound.setTag("SpiritControl", scTag);
 
     }
@@ -202,12 +214,10 @@ public class SCPlayer implements IExtendedEntityProperties {
             return;
         }
 
-        unlockedPassives.clear();
-        unlockedSuperAttacks.clear();
-        unlockedUltimates.clear();
-
-        this.dbcPlayer = new DBCPlayerHelper(player);
+        //this.dbcPlayer = new DBCPlayerHelper(player);
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
+
+        loadDefaultData();
 
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
@@ -217,16 +227,12 @@ public class SCPlayer implements IExtendedEntityProperties {
         NBTTagList passivesData = scTag.getTagList("Passives", Constants.NBT.TAG_STRING);
         NBTTagList supersData = scTag.getTagList("Supers", Constants.NBT.TAG_STRING);
         NBTTagList ultimatesData = scTag.getTagList("Ultimates", Constants.NBT.TAG_STRING);
+        NBTTagList unregisteredAbilityData = scTag.getTagList("UnregisteredAbilities", Constants.NBT.TAG_STRING);
 
-        for(int i = 0; i < passivesData.tagCount(); i++){
-            this.addAbility(AbilityDatabase.getAbilityById(passivesData.getStringTagAt(i)));
-        }
-        for(int i = 0; i < supersData.tagCount(); i++){
-            this.addAbility(AbilityDatabase.getAbilityById(supersData.getStringTagAt(i)));
-        }
-        for(int i = 0; i < ultimatesData.tagCount(); i++){
-            this.addAbility(AbilityDatabase.getAbilityById(ultimatesData.getStringTagAt(i)));
-        }
+        loadAbilityData(passivesData);
+        loadAbilityData(supersData);
+        loadAbilityData(ultimatesData);
+        loadAbilityData(unregisteredAbilityData);
 
         this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super1")), "super1");
         this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Super2")), "super2");
@@ -237,6 +243,17 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setSpirit(scTag.getDouble("currentSpirit"));
 
         this.canReceiveMessages = true;
+    }
+
+    private void loadAbilityData(NBTTagList tagList) {
+        for(int i = 0; i < tagList.tagCount(); i++){
+            Ability ability = AbilityDatabase.getAbilityById(tagList.getStringTagAt(i));
+            if(ability == null){
+                this.unregisteredAbilities.add(tagList.getStringTagAt(i));
+            }else{
+                this.addAbility(ability);
+            }
+        }
     }
 
     /**
@@ -499,7 +516,6 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @param slotName
      */
     public void setAbilityAtSlot(Ability ability, String slotName){
-
         if(ability instanceof PassiveAbility && slotName.equalsIgnoreCase("passive")){
             this.selectPassive((PassiveAbility) ability);
         }
