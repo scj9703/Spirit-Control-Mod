@@ -2,8 +2,6 @@ package com.mighty.spiritcontrol.ability.attack;
 
 import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.ability.AbilityBuilder;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
 
 public class AttackBuilder extends AbilityBuilder {
 
@@ -107,7 +105,7 @@ public class AttackBuilder extends AbilityBuilder {
     }
 
     public Attack getAbility(){
-        return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, effect, dmgModifier, cost, casttime, isUltimate, fatigue);
+        return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, effect, dmgModifier, cost, cooldown, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }
 

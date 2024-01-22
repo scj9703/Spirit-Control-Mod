@@ -3,11 +3,11 @@ package com.mighty.spiritcontrol.ability;
 import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.attack.AttackBuilder;
+import com.mighty.spiritcontrol.ability.attack.EnumAttackColor;
+import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.spiritcontrol.ability.passive.PassiveBuilder;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackColor;
-import kamkeel.zslib.util.dbc.enums.kiattack.EnumAttackType;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
