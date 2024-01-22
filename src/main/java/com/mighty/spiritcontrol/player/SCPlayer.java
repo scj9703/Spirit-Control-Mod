@@ -53,20 +53,20 @@ public class SCPlayer implements IExtendedEntityProperties {
     /**
      * Selected abilities
      */
-    private Attack currentSuperAttack1;
-    private Attack currentSuperAttack2;
-    private Attack currentUltimateAttack;
-    private PassiveAbility currentPassiveAbility;
+    private Attack selectedSuperAttack1;
+    private Attack selectedSuperAttack2;
+    private Attack selectedUltimateAttack;
+    private PassiveAbility selectedPassiveAbility;
 
     /**
      * Unlocked abilities
      * <p>
      * Sets do not allow duplicate values.
      */
-    private Set<Attack> unlockedSuperAttacks = new HashSet<>();
-    private Set<Attack> unlockedUltimates = new HashSet<>();
-    private Set<PassiveAbility> unlockedPassives = new HashSet<>();
-    private Set<String> unregisteredAbilities = new HashSet<>();
+    private final Set<Attack> unlockedSuperAttacks = new HashSet<>();
+    private final Set<Attack> unlockedUltimates = new HashSet<>();
+    private final Set<PassiveAbility> unlockedPassives = new HashSet<>();
+    private final Set<String> unregisteredAbilities = new HashSet<>();
 
     /**
      * Has unlocked Spirit Control yet?
@@ -76,12 +76,11 @@ public class SCPlayer implements IExtendedEntityProperties {
     private boolean isArmed = false;
     public boolean isChargingAttack = false;
     public byte currentAttackSlot = 0;
-    public long lastTimeSwinged = 0;
     public long lastTimeSneaked = 0;
 
     public long startedCharging = 0;
 
-    public long nextTimeAbleToCastAttack = 0;
+    private long nextTimeAbleToCastAttack = 0;
     public byte sneakCount = 0;
     public void toggleIsArmed(){
         isArmed = !isArmed;
@@ -100,26 +99,38 @@ public class SCPlayer implements IExtendedEntityProperties {
         return MinecraftServer.getSystemTimeMillis() - nextTimeAbleToCastAttack <= 0;
     }
 
+    public boolean canUseAttack(){
+        return !isOnCooldown() && hasEnoughSpiritToFire();
+    }
+
+    public Attack getCurrentSelectedAttack(){
+        if(currentAttackSlot == 1)
+            return selectedSuperAttack2;
+        if(currentAttackSlot == 2)
+            return selectedUltimateAttack;
+
+        return selectedSuperAttack1;
+    }
+
     public boolean isArmed(){
         return isArmed;
     }
 
+    public int getMainDamageStat(){
+        int[] stats = new DBCPlayerHelper(player).dbcPlayer.getAttributes();
+        return Math.max(stats[0], stats[3]); //Returns the highest between STR and WIL
+    }
+
+    public boolean hasEnoughSpiritToFire(){
+        return currentSpirit >= getCurrentSelectedAttack().getCost() * getMaxBaseSpirit();
+    }
+
     public void setCurrentAttackSlot(int slot){
-        if(slot > 2 || slot < 0)
+        if(slot > 2 || slot < 0 || currentAttackSlot == slot)
             return;
 
         this.currentAttackSlot = (byte) slot;
-        switch(slot){
-            case 0:
-                this.addChatMessage(new ChatComponentText("You just selected super 1"));
-                break;
-            case 1:
-                this.addChatMessage(new ChatComponentText("You just selected super 2"));
-                break;
-            case 2:
-                this.addChatMessage(new ChatComponentText("You just selected ultimate!"));
-                break;
-        }
+        addChatMessage(MiniMessageParser.getFormat("<aqua>==> <dark_aqua>Selected: <aqua><attack_name>", "attack_name", getCurrentSelectedAttack().getName()));
     }
 
 
@@ -186,6 +197,8 @@ public class SCPlayer implements IExtendedEntityProperties {
         scTag.setBoolean("hasUnlocked", this.hasUnlockedSpiritControl());
         scTag.setBoolean("isArmed", this.isArmed);
 
+        scTag.setByte("selectedAttackSlot", this.currentAttackSlot);
+
         scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
         scTag.setDouble("currentSpirit", this.getSpirit());
 
@@ -231,10 +244,14 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         loadDefaultData();
 
+
+
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
         this.setUnlockedSpiritControl(scTag.getBoolean("hasUnlocked"));
         this.isArmed = scTag.getBoolean("isArmed");
+
+        this.currentAttackSlot = scTag.getByte("selectedAttackSlot");
 
         NBTTagList passivesData = scTag.getTagList("Passives", Constants.NBT.TAG_STRING);
         NBTTagList supersData = scTag.getTagList("Supers", Constants.NBT.TAG_STRING);
@@ -344,7 +361,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @return Players max amount of spirit WITH passive modifiers
      */
     public double getMaxSpirit(){
-        return this.getMaxBaseSpirit() * (currentPassiveAbility != null ? currentPassiveAbility.getSpiritBonus() : 1);
+        return this.getMaxBaseSpirit() * (selectedPassiveAbility != null ? selectedPassiveAbility.getSpiritBonus() : 1);
     }
 
     /**
@@ -383,7 +400,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void addSpirit(double spirit){
         if(this.isFatigued())
             return;
-        this.addSpiritAbsolute(spirit * (this.currentPassiveAbility != null ? this.currentPassiveAbility.getSpiritFillModifier() : 1));
+        this.addSpiritAbsolute(spirit * (this.selectedPassiveAbility != null ? this.selectedPassiveAbility.getSpiritFillModifier() : 1));
     }
 
     /**
@@ -391,7 +408,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @param spirit
      */
     public void removeSpirit(double spirit){
-        this.removeSpiritAbsolute(spirit * (this.currentPassiveAbility != null ? this.currentPassiveAbility.getCostModifier() : 1));
+        this.removeSpiritAbsolute(spirit * (this.selectedPassiveAbility != null ? this.selectedPassiveAbility.getCostModifier() : 1));
     }
 
     /**
@@ -507,13 +524,13 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         switch(slotName){
             case "SUPER1":
-                return this.currentSuperAttack1;
+                return this.selectedSuperAttack1;
             case "SUPER2":
-                return this.currentSuperAttack2;
+                return this.selectedSuperAttack2;
             case "ULTIMATE":
-                return this.currentUltimateAttack;
+                return this.selectedUltimateAttack;
             case "PASSIVE":
-                return this.currentPassiveAbility;
+                return this.selectedPassiveAbility;
             default:
                 return null;
         }
@@ -550,11 +567,11 @@ public class SCPlayer implements IExtendedEntityProperties {
             return;
 
         if(slot.equalsIgnoreCase("super1")){
-            this.currentSuperAttack1 = attack;
+            this.selectedSuperAttack1 = attack;
             this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super1: <aqua>"+attack));
         }
         if(slot.equalsIgnoreCase("super2")){
-            this.currentSuperAttack2 = attack;
+            this.selectedSuperAttack2 = attack;
             this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super2: <aqua>"+attack));
         }
 
@@ -563,11 +580,11 @@ public class SCPlayer implements IExtendedEntityProperties {
     private void selectUltimateAttack(Attack attack){
         if(!attack.isUltimate())
             return;
-        this.currentUltimateAttack = attack;
+        this.selectedUltimateAttack = attack;
         this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Ultimate: <aqua>"+attack));
     }
     private void selectPassive(PassiveAbility passive){
-        this.currentPassiveAbility = passive;
+        this.selectedPassiveAbility = passive;
         this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+passive));
     }
 
@@ -632,16 +649,16 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     private void updateSelectedAbilities() {
-        if(!this.hasAbility(this.currentPassiveAbility))
+        if(!this.hasAbility(this.selectedPassiveAbility))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultPassive(), "passive");
 
-        if(!this.hasAbility(this.currentSuperAttack1))
+        if(!this.hasAbility(this.selectedSuperAttack1))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultSuper(), "super1");
 
-        if(!this.hasAbility(this.currentSuperAttack2))
+        if(!this.hasAbility(this.selectedSuperAttack2))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultSuper(), "super2");
 
-        if(!this.hasAbility(this.currentUltimateAttack))
+        if(!this.hasAbility(this.selectedUltimateAttack))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultUltimate(), "ultimate");
     }
 
@@ -662,9 +679,9 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public boolean canPlayerUsePassive(EnumFillMethod method) {
-        if(currentPassiveAbility == null)
+        if(selectedPassiveAbility == null)
             return false;
-        return currentPassiveAbility.canPassiveFillLikeThis(method) && currentPassiveAbility.canPlayerUsePassive(this);
+        return selectedPassiveAbility.canPassiveFillLikeThis(method) && selectedPassiveAbility.canPlayerUsePassive(this);
     }
 
 }
