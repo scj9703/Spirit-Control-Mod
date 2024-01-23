@@ -2,7 +2,7 @@ package com.mighty.spiritcontrol.command.spiritcontrol;
 
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import net.minecraft.command.ICommandSender;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class SubCommand_Help extends SCSubCommand {
          * Change display
          */
         for (String s : commandList) {
-            sender.addChatMessage(MiniMessageParser.getFormat(s));
+            sender.addChatMessage(MMParser.getFormat(s));
         }
     }
 

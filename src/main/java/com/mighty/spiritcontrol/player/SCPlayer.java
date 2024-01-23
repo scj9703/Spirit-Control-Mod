@@ -6,23 +6,24 @@ import com.mighty.spiritcontrol.ability.AbilityDatabase;
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
-import kamkeel.zslib.util.dbc.DBCPlayerHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
+import somehussar.minimessage.util.Util;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SCPlayer implements IExtendedEntityProperties {
 
@@ -87,7 +88,9 @@ public class SCPlayer implements IExtendedEntityProperties {
     public void toggleIsArmed(){
         isArmed = !isArmed;
 
-        addChatMessage(new ChatComponentText("You are now " + (isArmed ? "armed" : "disarmed") + "."));
+        addChatMessage(
+                MMParser.getFormat("<aqua>==> <dark_aqua>You are now <state>", "state", (isArmed ? "<green>armed" : "<red>disarmed"))
+        );
         lastTimeSneaked = 0;
         sneakCount = 0;
     }
@@ -136,7 +139,7 @@ public class SCPlayer implements IExtendedEntityProperties {
             return;
 
         this.currentAttackSlot = (byte) slot;
-        addChatMessage(MiniMessageParser.getFormat("<aqua>==> <dark_aqua>Selected: <aqua><attack_name>", "attack_name", getCurrentSelectedAttack().getName()));
+        addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>Selected attack: <aqua><attack_name>", "attack_name", Util.getAbilityHover(getCurrentSelectedAttack())));
     }
 
 
@@ -206,8 +209,8 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         scTag.setByte("selectedAttackSlot", this.currentAttackSlot);
 
-        scTag.setDouble("maxSpirit", this.getMaxBaseSpirit());
-        scTag.setDouble("currentSpirit", this.getSpirit());
+        scTag.setDouble("maxSpirit", this.maxBaseSpirit);
+        scTag.setDouble("currentSpirit", this.currentSpirit);
 
         scTag.setString("Super1", this.getAbilityFromSlot("Super1").getId());
         scTag.setString("Super2", this.getAbilityFromSlot("Super2").getId());
@@ -324,21 +327,21 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @return a set of super attacks the player unlocked
      */
     public Set<Attack> getUnlockedSuperAttacks(){
-        return this.unlockedSuperAttacks;
+        return this.unlockedSuperAttacks.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
      * @return a set of ultimate attacks the player unlocked
      */
     public Set<Attack> getUnlockedUltimates(){
-        return this.unlockedUltimates;
+        return this.unlockedUltimates.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
      * @return a set of passive abilities the player unlocked
      */
     public Set<PassiveAbility> getUnlockedPassives(){
-        return this.unlockedPassives;
+        return this.unlockedPassives.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
@@ -508,7 +511,7 @@ public class SCPlayer implements IExtendedEntityProperties {
             gaugeString.insert(gaugeString.lastIndexOf("=") + 1, "</aqua>");
         }
 
-        return MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent);
+        return MMParser.getFormat("<aqua>==><dark_aqua> <gray><gauge></gray> Your spirit gauge is at <aqua><percent>%</aqua> capacity.", "gauge", gaugeString.toString(), "percent", formattedPercent);
     }
 
     /**
@@ -524,7 +527,8 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @param slotName Name of the slot that stores an attack (super1, super2, ultimate, passive)
      * @return Ability stored in the slot
      */
-    public Ability getAbilityFromSlot(String slotName){
+    public Ability
+    getAbilityFromSlot(String slotName){
         slotName = slotName.toUpperCase();
 
         this.updateSelectedAbilities();
@@ -575,11 +579,11 @@ public class SCPlayer implements IExtendedEntityProperties {
 
         if(slot.equalsIgnoreCase("super1")){
             this.selectedSuperAttack1 = attack;
-            this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super1: <aqua>"+attack));
+            this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Super1: <aqua>"+Util.getAbilityHover(attack)));
         }
         if(slot.equalsIgnoreCase("super2")){
             this.selectedSuperAttack2 = attack;
-            this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Super2: <aqua>"+attack));
+            this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Super2: <aqua>"+Util.getAbilityHover(attack)));
         }
 
     }
@@ -588,11 +592,11 @@ public class SCPlayer implements IExtendedEntityProperties {
         if(!attack.isUltimate())
             return;
         this.selectedUltimateAttack = attack;
-        this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Ultimate: <aqua>"+attack));
+        this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Ultimate: <aqua>"+Util.getAbilityHover(attack)));
     }
     private void selectPassive(PassiveAbility passive){
         this.selectedPassiveAbility = passive;
-        this.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+passive));
+        this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+Util.getAbilityHover(passive)));
     }
 
     /**

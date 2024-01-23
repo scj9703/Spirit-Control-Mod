@@ -13,7 +13,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
 public class SpiritControlHandler {
     /**
@@ -47,6 +47,10 @@ public class SpiritControlHandler {
             return;
 
         SCPlayer extPlayer = SCPlayer.getPlayer(event.player);
+
+        if(extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController())
+            return;
+
         if(!extPlayer.hasUnlockedSpiritControl())
             return;
 
@@ -120,52 +124,55 @@ public class SpiritControlHandler {
 
     /**
      * Ensures proper filling of the gauge according to your passive ability
-     * @param ex Player reference
+     * @param extPlayer Player reference
      * @param method Type of method the passive is filled with (passively, by attacking or by being attacked)
      * @param amount Amount of flat spirit to give to the player (later adjusted by passive)
      */
-    public void handlePassiveFilling(SCPlayer ex, EnumFillMethod method, double amount){
+    public void handlePassiveFilling(SCPlayer extPlayer, EnumFillMethod method, double amount){
 
-        if(ex.isFatigued() || ex.isChargingAttack)
+        if(extPlayer.isFatigued() || extPlayer.isChargingAttack || (extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()))
             return;
 
-        if (ex.canPlayerUsePassive(method)) {
-            ex.addSpirit(amount);
+        if (extPlayer.canPlayerUsePassive(method)) {
+            extPlayer.addSpirit(amount);
         }
     }
 
-    public void handleCharging(SCPlayer ex){
-        if( !ex.player.isSneaking() || !ex.isArmed() || !ex.isChargingDBC() || !ex.canUseAttack()){
-            ex.isChargingAttack = false;
-            ex.startedCharging = 0;
-            ex.lastPrintedCharge = -1;
+    public void handleCharging(SCPlayer extPlayer){
+        if( !extPlayer.player.isSneaking() || !extPlayer.isArmed() || !extPlayer.isChargingDBC() || !extPlayer.canUseAttack()){
+            extPlayer.isChargingAttack = false;
+            extPlayer.startedCharging = 0;
+            extPlayer.lastPrintedCharge = -1;
+            return;
+        }
+        if(extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()){
             return;
         }
 
-        Attack attack = ex.getCurrentSelectedAttack();
+        Attack attack = extPlayer.getCurrentSelectedAttack();
         long currentTime = MinecraftServer.getSystemTimeMillis();
-        ex.isChargingAttack = true;
+        extPlayer.isChargingAttack = true;
 
-        if(ex.startedCharging <= 0)
-            ex.startedCharging = currentTime;
+        if(extPlayer.startedCharging <= 0)
+            extPlayer.startedCharging = currentTime;
 
-        double percent = ((double) (currentTime - ex.startedCharging) / 1000) / attack.getCasttime();
+        double percent = ((double) (currentTime - extPlayer.startedCharging) / 1000) / attack.getCasttime();
         percent = Math.min(Math.max(0, percent), 1);
         byte roundedPercentToHighest10 = (byte) (Math.round(percent*10)*10);
 
-        prettyChargeMessage(ex, attack, roundedPercentToHighest10);
+        prettyChargeMessage(extPlayer, attack, roundedPercentToHighest10);
         if(roundedPercentToHighest10 >= 100) {
-            attack.fire(ex);
+            attack.fire(extPlayer);
         }
 
     }
 
-    private void prettyChargeMessage(SCPlayer ex, Attack attack, byte roundedPercentToHighest10) {
-        if(roundedPercentToHighest10 <= ex.lastPrintedCharge)
+    private void prettyChargeMessage(SCPlayer extPlayer, Attack attack, byte roundedPercentToHighest10) {
+        if(roundedPercentToHighest10 <= extPlayer.lastPrintedCharge)
             return;
         if(roundedPercentToHighest10 > 100)
             roundedPercentToHighest10 = 100;
-        ex.lastPrintedCharge = roundedPercentToHighest10;
-        ex.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", attack.getName(), "percent", String.valueOf(roundedPercentToHighest10)));
+        extPlayer.lastPrintedCharge = roundedPercentToHighest10;
+        extPlayer.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", attack.getName(), "percent", String.valueOf(roundedPercentToHighest10)));
     }
 }

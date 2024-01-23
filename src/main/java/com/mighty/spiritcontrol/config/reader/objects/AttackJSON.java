@@ -40,8 +40,8 @@ public class AttackJSON {
     }
 
     public void setExampleValues(){
-        name = "Name. Can be formatted";
-        description = "Description. Can be formatted.";
+        name = "Name. Can be formatted (Only MC Codes, & &aworks.)";
+        description = "Description. Can be formatted (Only MC Codes, & &aworks.)";
 
         color = EnumAttackColor.ALIGNMENT_BASED.name().toLowerCase();
         type = EnumAttackType.BIG_BLAST.name().toLowerCase();
@@ -49,7 +49,7 @@ public class AttackJSON {
         effect = false;
         dmg_modifier = 1.0;
         cost_modifier = 1.0;
-        fire_message = "Example fire message. SHOULD be formatted";
+        fire_message = "Example fire message. SHOULD be formatted. Uses both MiniMessage and MC Codes";
         cast_time = 1.0;
         fatigue = 0.0;
     }

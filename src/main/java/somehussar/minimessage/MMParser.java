@@ -1,7 +1,9 @@
 package somehussar.minimessage;
 
+import com.mighty.spiritcontrol.SpiritControl;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import somehussar.minimessage.util.ComponentBuilder;
@@ -23,7 +25,7 @@ import static somehussar.minimessage.Constants.*;
  *
  * Originally made for Bungee
  */
-public class MiniMessageParser {
+public class MMParser {
     // regex group names
     private static final String START = "start";
     private static final String TOKEN = "token";
@@ -102,17 +104,17 @@ public class MiniMessageParser {
 
     @Nonnull
     public static IChatComponent getFormat(@Nonnull String richString){
-        return Util.fromArray(parseFormat(richString));
+        return Util.fromArray(format(richString));
     }
 
     @Nonnull
     public static IChatComponent getFormat(@Nonnull String richMessage, @Nonnull String... placeholders){
-        return Util.fromArray(parseFormat(richMessage, placeholders));
+        return Util.fromArray(format(richMessage, placeholders));
     }
 
     @Nonnull
     public static IChatComponent getFormat(@Nonnull String richMessage, @Nonnull Map<String, String> placeholders){
-        return Util.fromArray(parseFormat(richMessage, placeholders));
+        return Util.fromArray(format(richMessage, placeholders));
     }
 
     @Nonnull
@@ -123,17 +125,17 @@ public class MiniMessageParser {
         return richMessage;
     }
     @Nonnull
-    public static IChatComponent[] parseFormat(@Nonnull String richMessage, @Nonnull String... placeholders) {
-        return parseFormat(handlePlaceholders(richMessage, placeholders));
+    public static IChatComponent[] format(@Nonnull String richMessage, @Nonnull String... placeholders) {
+        return format(handlePlaceholders(richMessage, placeholders));
     }
 
     @Nonnull
-    public static IChatComponent[] parseFormat(@Nonnull String richMessage, @Nonnull Map<String, String> placeholders) {
-        return parseFormat(handlePlaceholders(richMessage, placeholders));
+    public static IChatComponent[] format(@Nonnull String richMessage, @Nonnull Map<String, String> placeholders) {
+        return format(handlePlaceholders(richMessage, placeholders));
     }
 
     @Nonnull
-    public static IChatComponent[] parseFormat(@Nonnull String richMessage) {
+    public static IChatComponent[] format(@Nonnull String richMessage) {
         ComponentBuilder builder = null;
 
         Stack<ClickEvent> clickEvents = new Stack<>();
@@ -277,16 +279,20 @@ public class MiniMessageParser {
 
     @Nonnull
     private static HoverEvent handleHover(@Nonnull String token, @Nonnull String inner) {
-        String[] args = token.split(SEPARATOR);
+        String[] args = token.split(SEPARATOR, 3);
         if (args.length < 2) {
             throw new RuntimeException("Can't parse hover action (too few args) " + token);
         }
         HoverEvent.Action action = HoverEvent.Action.valueOf(args[1].toUpperCase());
-
+        SpiritControl.LOGGER.info(args[2]);
         //For some reason, hover events don't like unformatted text. Dirty fix for that.
         //
         // Will need a rewrite of the whole parser rather than a port.
-        IChatComponent comp = Util.fromArray(parseFormat("<white></white>" + inner));
+        IChatComponent comp;
+        if(action == HoverEvent.Action.SHOW_TEXT)
+            comp = Util.fromArray(format("<white></white>" + inner));
+        else
+            comp = new ChatComponentText(args[2]);
         return new HoverEvent(action, comp);
     }
 

@@ -7,7 +7,8 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
+import somehussar.minimessage.util.Util;
 
 import java.util.List;
 
@@ -40,9 +41,9 @@ public class SubCommand_Unlock extends SCSubCommand {
 
         extPlayer.addAbility(ability);
 
-        player.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You have learned <aqua><ability>", "ability", ability.getId()));
+        player.addChatMessage(MMParser.getFormat("<dark_aqua>You have learned <aqua><ability>", "ability", Util.getAbilityHover(ability)));
         if(sender != player){
-            sender.addChatMessage(MiniMessageParser.getFormat("<aqua><player><dark_aqua> has learned <aqua><ability>", "player", player.getCommandSenderName(), "ability", ability.getId()));
+            sender.addChatMessage(MMParser.getFormat("<aqua><player><dark_aqua> has learned <aqua><ability>", "player", player.getCommandSenderName(), "ability", Util.getAbilityHover(ability)));
         }
     }
 

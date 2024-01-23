@@ -1,11 +1,16 @@
 package com.mighty.spiritcontrol.ability;
 
-public abstract class Ability {
+public abstract class Ability implements Comparable<Ability> {
 
     protected String literalId;
 
     protected String name;
     protected String description;
+
+    @Override
+    public int compareTo(Ability o){
+        return literalId.toLowerCase().compareTo(o.getId().toLowerCase());
+    }
 
     protected Ability(String literalId, String name, String description){
         this.name = name;

@@ -33,8 +33,8 @@ public class PassiveJSON {
     }
 
     public void setExampleValues(){
-        name = "Name. Can be formatted.";
-        description = "Description. Can be formatted.";
+        name = "Name. Can be formatted (Only MC Codes, & &aworks.)";
+        description = "Description. Can be formatted (Only MC Codes, & &aworks.)";
 
         spirit_bonus_modifier = 1.0;
         spirit_fill_modifier = 1.0;

@@ -9,10 +9,10 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SubCommand_Skills extends SCSubCommand {
 
@@ -22,7 +22,7 @@ public class SubCommand_Skills extends SCSubCommand {
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
             if(!extPlayer.hasUnlockedSpiritControl()){
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
 
@@ -31,9 +31,9 @@ public class SubCommand_Skills extends SCSubCommand {
              * Revisit this and rewrite it
              */
 
-            ArrayList<Attack> unlockedAttacks = new ArrayList<>(extPlayer.getUnlockedSuperAttacks());
+            Set<Attack> unlockedAttacks = extPlayer.getUnlockedSuperAttacks();
             unlockedAttacks.addAll(extPlayer.getUnlockedUltimates());
-            ArrayList<PassiveAbility> unlockedPassives = new ArrayList<>(extPlayer.getUnlockedPassives());
+            Set<PassiveAbility> unlockedPassives = extPlayer.getUnlockedPassives();
             StringBuilder supers = new StringBuilder("<dark_aqua>Unlocked Super Attacks: <gray>");
             StringBuilder ultimates = new StringBuilder("<dark_aqua>Unlocked Ultimate Attacks: <gray>");
             StringBuilder passives = new StringBuilder("<dark_aqua>Unlocked Passive Attacks: <gray>");
@@ -47,11 +47,11 @@ public class SubCommand_Skills extends SCSubCommand {
             for (PassiveAbility passive:unlockedPassives){
                 passives.append(" ").append(passive.getId());
             }
-            sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
+            sender.addChatMessage(MMParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
             sender.addChatMessage(new ChatComponentText(""));
-            sender.addChatMessage(MiniMessageParser.getFormat(supers.toString()));
-            sender.addChatMessage(MiniMessageParser.getFormat(ultimates.toString()));
-            sender.addChatMessage(MiniMessageParser.getFormat(passives.toString()));
+            sender.addChatMessage(MMParser.getFormat(supers.toString()));
+            sender.addChatMessage(MMParser.getFormat(ultimates.toString()));
+            sender.addChatMessage(MMParser.getFormat(passives.toString()));
 
         }else{
             throw new WrongUsageException("You have to be a player to run this command.");

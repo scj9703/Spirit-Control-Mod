@@ -9,7 +9,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IChatComponent;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 import somehussar.minimessage.util.Util;
 
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public class Command_SpiritControl extends SCCommandBase {
                 SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
                 if(!extPlayer.hasUnlockedSpiritControl()){
-                    sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
+                    sender.addChatMessage(MMParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                     return;
                 }
 
@@ -59,23 +59,23 @@ public class Command_SpiritControl extends SCCommandBase {
 
                 IChatComponent prettyGauge = extPlayer.drawPrettyGauge();
 
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Your Spirit Control Loadout"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Your Spirit Control Loadout"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(prettyGauge);
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("super1"))));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 2: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("super2"))));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <gold>Ultimate Attack: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("ultimate"))));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <underline><aqua>" + Util.getAbilityHoverValue(extPlayer.getAbilityFromSlot("passive"))));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/sc help</aqua> for a full list of commands!"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 1: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("super1"))));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <yellow>Super Attack 2: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("super2"))));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <gold>Ultimate Attack: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("ultimate"))));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("passive"))));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/sc help</aqua> for a full list of commands!"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
+                sender.addChatMessage(MMParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
             }else{
                 throw new WrongUsageException("You have to be a player to use this command.");
             }
