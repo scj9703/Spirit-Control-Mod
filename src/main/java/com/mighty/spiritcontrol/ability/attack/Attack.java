@@ -1,6 +1,10 @@
 package com.mighty.spiritcontrol.ability.attack;
 
 import com.mighty.spiritcontrol.ability.Ability;
+import com.mighty.spiritcontrol.config.Config;
+import com.mighty.spiritcontrol.player.SCPlayer;
+import net.minecraft.server.MinecraftServer;
+import somehussar.minimessage.MiniMessageParser;
 
 public class Attack extends Ability {
 
@@ -9,7 +13,7 @@ public class Attack extends Ability {
     private final int speed;
     private final boolean effect;
     private final double dmgModifier;
-    private final double cost;
+    private final double costModifier;
     private final double casttime;
     private final double cooldown;
     private final String fireMessage;
@@ -23,7 +27,7 @@ public class Attack extends Ability {
         this.speed = speed;
         this.effect = effect;
         this.dmgModifier = dmgModifier;
-        this.cost = cost;
+        this.costModifier = cost;
         this.cooldown = cooldown;
         this.casttime = casttime;
         this.fireMessage = fireMessage;
@@ -52,8 +56,8 @@ public class Attack extends Ability {
         return dmgModifier;
     }
 
-    public double getCost() {
-        return cost;
+    public double getCostModifier() {
+        return costModifier;
     }
 
     public double getCooldown() {
@@ -74,5 +78,20 @@ public class Attack extends Ability {
 
     public double getFatigue() {
         return fatigue;
+    }
+
+    public void fire(SCPlayer ex) {
+        ex.addChatMessage(MiniMessageParser.getFormat("<aqua>==> <white>"+this.getFireMessage()));
+        ex.setCooldown(cooldown);
+
+        if(fatigue > 0 && !ex.isFatigued())
+            ex.setFatigue(fatigue);
+
+        //(max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)
+        double damageScaling = (double) ex.getMainDamageStat() / 100000;
+        int damage = (int) (damageScaling * (dmgModifier * Config.DAMAGE_UNIT) / 2);  // divided by 2 because we use 100% charge which already gives double damage.
+        ex.removeSpirit(ex.getMaxBaseSpirit() * getCostModifier());
+        MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+"100 1 100 0 0 0 "+ex.player.getCommandSenderName());
+        ex.addChatMessage(ex.drawPrettyGauge());
     }
 }

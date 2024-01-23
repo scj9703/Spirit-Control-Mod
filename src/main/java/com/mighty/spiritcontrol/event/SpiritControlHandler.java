@@ -9,7 +9,6 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -139,6 +138,7 @@ public class SpiritControlHandler {
         if( !ex.player.isSneaking() || !ex.isArmed() || !ex.isChargingDBC() || !ex.canUseAttack()){
             ex.isChargingAttack = false;
             ex.startedCharging = 0;
+            ex.lastPrintedCharge = -1;
             return;
         }
 
@@ -149,21 +149,23 @@ public class SpiritControlHandler {
         if(ex.startedCharging <= 0)
             ex.startedCharging = currentTime;
 
-        float percent = (float) ((float) (currentTime - ex.startedCharging) / 1000 / attack.getCasttime());
+        double percent = ((double) (currentTime - ex.startedCharging) / 1000) / attack.getCasttime();
+        percent = Math.min(Math.max(0, percent), 1);
         byte roundedPercentToHighest10 = (byte) (Math.round(percent*10)*10);
 
         prettyChargeMessage(ex, attack, roundedPercentToHighest10);
         if(roundedPercentToHighest10 >= 100) {
-            ex.addChatMessage(MiniMessageParser.getFormat(attack.getFireMessage()));
-            ex.setCooldown(attack.getCooldown());
-            ex.setFatigue(attack.getFatigue());
+            attack.fire(ex);
         }
 
     }
 
     private void prettyChargeMessage(SCPlayer ex, Attack attack, byte roundedPercentToHighest10) {
+        if(roundedPercentToHighest10 <= ex.lastPrintedCharge)
+            return;
         if(roundedPercentToHighest10 > 100)
             roundedPercentToHighest10 = 100;
+        ex.lastPrintedCharge = roundedPercentToHighest10;
         ex.addChatMessage(MiniMessageParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", attack.getName(), "percent", String.valueOf(roundedPercentToHighest10)));
     }
 }

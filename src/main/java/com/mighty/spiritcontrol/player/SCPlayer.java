@@ -31,6 +31,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     public final EntityPlayer player;
     public DBCPlayerWrapper dbcPlayer;
+    public byte lastPrintedCharge = 0;
 
     /**
      * A check if the player can receieve messages.
@@ -101,7 +102,11 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public boolean canUseAttack(){
-        return !isOnCooldown() && hasEnoughSpiritToFire();
+        boolean isUnableToUseUltDueToUlt = false;
+        if(getCurrentSelectedAttack().isUltimate())
+            isUnableToUseUltDueToUlt = isFatigued();
+
+        return !isOnCooldown() && hasEnoughSpiritToFire() && !isUnableToUseUltDueToUlt;
     }
 
     public Attack getCurrentSelectedAttack(){
@@ -118,12 +123,12 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     public int getMainDamageStat(){
-        int[] stats = new DBCPlayerHelper(player).dbcPlayer.getAttributes();
+        int[] stats = dbcPlayer.getAttributes();
         return Math.max(stats[0], stats[3]); //Returns the highest between STR and WIL
     }
 
     public boolean hasEnoughSpiritToFire(){
-        return currentSpirit >= getCurrentSelectedAttack().getCost() * getMaxBaseSpirit();
+        return currentSpirit >= getCurrentSelectedAttack().getCostModifier() * getMaxBaseSpirit();
     }
 
     public void setCurrentAttackSlot(int slot){
@@ -340,7 +345,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Does NOT include passives
      * @return Players max amount of spirit WITHOUT passive modifiers
      */
-    private double getMaxBaseSpirit(){
+    public double getMaxBaseSpirit(){
         return this.maxBaseSpirit;
     }
 
@@ -410,7 +415,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @param spirit
      */
     public void removeSpirit(double spirit){
-        this.removeSpiritAbsolute(spirit * (this.selectedPassiveAbility != null ? this.selectedPassiveAbility.getCostModifier() : 1));
+        this.removeSpiritAbsolute(spirit * (this.selectedPassiveAbility == null ? 1 : this.selectedPassiveAbility.getCostModifier()));
     }
 
     /**
@@ -429,7 +434,7 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setSpirit(this.getSpirit() - spirit);
     }
 
-    private void tellPlayerAboutGaugeUpdate() {
+    public void tellPlayerAboutGaugeUpdate() {
         double gauge = this.getSpirit();
         double cap = this.getMaxSpirit();
         double currPercent = (gauge / cap) * 100; // For gauge display

@@ -46,8 +46,9 @@ public class AbilityDatabase {
                         .setType(EnumAttackType.BARRAGE)
                         .setColor(EnumAttackColor.GREEN)
                         .setDmgModifier(1)
-                        .setCost(1)
-                        .setCasttime(1)
+                        .setCost(0.1)
+                        .setCooldown(1)
+                        .setCasttime(0.5)
                         .getAbility()
         );
 
@@ -59,9 +60,10 @@ public class AbilityDatabase {
                         .setType(EnumAttackType.WAVE)
                         .setColor(EnumAttackColor.ORANGE)
                         .setCost(1)
+                        .setCooldown(5)
                         .setCasttime(1)
                         .setDmgModifier(1)
-                        .setFatigue(1)
+                        .setFatigue(5)
                         .getAbility()
         );
     }

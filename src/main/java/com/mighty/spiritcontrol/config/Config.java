@@ -15,6 +15,7 @@ public class Config {
     public static double SPIRIT_ON_DAMAGE_DEALT_FLAT;
     public static double SPIRIT_ON_DAMAGE_TAKEN_FLAT;
     public static double SPIRIT_PASSIVE_FLAT;
+    public static double DAMAGE_UNIT;
     private final File spiritControlDir;
 
 
@@ -63,6 +64,10 @@ public class Config {
         Configuration mainConfig = new Configuration(new File(spiritControlDir, "main.cfg"));
 
         String CATEGORY_PASSIVE_GAIN = "SPIRIT_CONTROL_PASSIVE_GAIN";
+        String CATEGORY_DAMAGE = "SPIRIT_DAMAGE";
+
+        DAMAGE_UNIT = mainConfig.getFloat("Base unit used for calculating damage", CATEGORY_DAMAGE, 1000000, 1, 500000000, "Formula: (max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)");
+
         SPIRIT_ON_DAMAGE_DEALT_FLAT = mainConfig.getFloat("Spirit gained on damage dealt", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on dealing damage to others (this is the number before passive modifiers)");
         SPIRIT_ON_DAMAGE_TAKEN_FLAT = mainConfig.getFloat("Spirit gained on damage taken", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on taking damage from others (this is the number before passive modifiers)");
         SPIRIT_PASSIVE_FLAT = mainConfig.getFloat("Spirit gained passively", CATEGORY_PASSIVE_GAIN, 0.01f, 0f, 100, "Spirit gained passively (this is the number before passive modifiers)");
