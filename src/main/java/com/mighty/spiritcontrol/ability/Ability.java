@@ -19,14 +19,6 @@ public abstract class Ability implements Comparable<Ability> {
     }
 
     /**
-     * @deprecated
-     */
-    protected Ability(String name, String description){
-        this(name.replaceAll(" ", ""), name, description);
-
-    }
-
-    /**
      * @return Ability's description as a string.
      */
     public String getDescription(){

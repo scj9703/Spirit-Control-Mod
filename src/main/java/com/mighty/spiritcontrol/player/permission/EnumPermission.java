@@ -5,7 +5,6 @@ import com.mighty.spiritcontrol.SpiritControl;
 public enum EnumPermission {
     SPIRITCONTROL_ENABLE(new BukkitWrapper.Permission("zs.spiritcontrol.enable", true)),
     SPIRITCONTROL_DISABLE(new BukkitWrapper.Permission("zs.spiritcontrol.disable", true)),
-    SPIRITCONTROL_TOGGLE(new BukkitWrapper.Permission("zs.spiritcontrol.toggle", true)),
     SPIRITCONTROL_CHECK(new BukkitWrapper.Permission("zs.spiritcontrol.disable", true)),
     SPIRITCONTROL_UNLOCK(new BukkitWrapper.Permission("zs.spiritcontrol.unlock", true)),
     SPIRITCONTROL_LOCK(new BukkitWrapper.Permission("zs.spiritcontrol.lock", true)),
