@@ -7,7 +7,7 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -44,14 +44,15 @@ public class SubCommand_Check extends SCSubCommand {
         Attack superAttack2 = (Attack) extPlayer.getAbilityFromSlot("super2");
         Attack ultimate = (Attack) extPlayer.getAbilityFromSlot("ultimate");
         PassiveAbility passiveAbility = (PassiveAbility) extPlayer.getAbilityFromSlot("passive");
+
         Set<Attack> unlockedAttacks = extPlayer.getUnlockedSuperAttacks();
         Set<Attack> unlockedUltimates = extPlayer.getUnlockedUltimates();
         Set<PassiveAbility> unlockedPassives = extPlayer.getUnlockedPassives();
 
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge> (<percent>%)</gray> Spirit", "gauge", String.valueOf(gauge), "max_gauge", String.valueOf(cap), "percent", percent));
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getId(), "ability2", superAttack2.getId()));
-        sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getId(), "ability2", passiveAbility.getId()));
+        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
+        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge> (<percent>%)</gray> Spirit", "gauge", String.valueOf(gauge), "max_gauge", String.valueOf(cap), "percent", percent));
+        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getId(), "ability2", superAttack2.getId()));
+        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getId(), "ability2", passiveAbility.getId()));
         StringBuilder attackList = new StringBuilder("<dark_aqua>Unlocked Attacks:<gray>");
         StringBuilder ultimateList = new StringBuilder("<dark_aqua>Unlocked Ultimates:<gray>");
         StringBuilder passiveList = new StringBuilder("<dark_aqua>Unlocked Passives:<gray>");
@@ -64,9 +65,9 @@ public class SubCommand_Check extends SCSubCommand {
         for (PassiveAbility passive : unlockedPassives){
             passiveList.append(" ").append(passive.getId());
         }
-        sender.addChatMessage(MiniMessageParser.getFormat(attackList.toString()));
-        sender.addChatMessage(MiniMessageParser.getFormat(ultimateList.toString()));
-        sender.addChatMessage(MiniMessageParser.getFormat(passiveList.toString()));
+        sender.addChatMessage(MMParser.getFormat(attackList.toString()));
+        sender.addChatMessage(MMParser.getFormat(ultimateList.toString()));
+        sender.addChatMessage(MMParser.getFormat(passiveList.toString()));
 
     }
 

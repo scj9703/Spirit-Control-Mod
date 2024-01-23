@@ -24,7 +24,7 @@ public class DBCPlayerWrapper {
     }
 
     public void setFatigue(double timeInMinutes){
-        compound.setInteger("jrmcGodStrain", (int) (timeInMinutes*20));
+        compound.setInteger("jrmcGodStrain", (int) (timeInMinutes*12));
     }
 
     public byte getForm() {
@@ -45,6 +45,10 @@ public class DBCPlayerWrapper {
 
         String[] fusionString = compound.getString("jrmcFuzion").split(",");
         return fusionString.length == 3;
+    }
+
+    public boolean isController(){
+        return JRMCoreH.StusEfcts(10, getStatusEffects());
     }
 
     public int[] getAttributes(){

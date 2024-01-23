@@ -4,7 +4,7 @@ import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.server.MinecraftServer;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
 public class Attack extends Ability {
 
@@ -81,7 +81,8 @@ public class Attack extends Ability {
     }
 
     public void fire(SCPlayer ex) {
-        ex.addChatMessage(MiniMessageParser.getFormat("<aqua>==> <white>"+this.getFireMessage()));
+        if(!fireMessage.isEmpty())
+            ex.addChatMessage(MMParser.getFormat("<aqua>==> <white>"+this.getFireMessage()));
         ex.setCooldown(cooldown);
 
         if(fatigue > 0 && !ex.isFatigued())

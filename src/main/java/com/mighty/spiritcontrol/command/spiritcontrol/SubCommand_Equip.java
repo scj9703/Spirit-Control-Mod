@@ -10,7 +10,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class SubCommand_Equip extends SCSubCommand {
             SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) sender);
 
             if(!extPlayer.hasUnlockedSpiritControl()){
-                sender.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
+                sender.addChatMessage(MMParser.getFormat("<dark_aqua>You haven't learned how to use Spirit Control! Seek training on <dark_purple><bold>Yardrat!"));
                 return;
             }
 

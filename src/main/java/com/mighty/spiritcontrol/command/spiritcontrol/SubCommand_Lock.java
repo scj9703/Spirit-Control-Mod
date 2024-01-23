@@ -7,7 +7,8 @@ import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
-import somehussar.minimessage.MiniMessageParser;
+import somehussar.minimessage.MMParser;
+import somehussar.minimessage.util.Util;
 
 import java.util.List;
 
@@ -40,9 +41,9 @@ public class SubCommand_Lock extends SCSubCommand {
 
         extPlayer.removeAbility(ability);
 
-        player.addChatMessage(MiniMessageParser.getFormat("<dark_aqua>You have forgotten <aqua><ability>", "ability", ability.getId()));
+        player.addChatMessage(MMParser.getFormat("<dark_aqua>You have forgotten <aqua><ability>", "ability", Util.getAbilityHover(ability)));
         if(sender != player){
-            sender.addChatMessage(MiniMessageParser.getFormat("<aqua><player><dark_aqua> has forgotten <aqua><ability>", "player", player.getCommandSenderName(), "ability", ability.getId()));
+            sender.addChatMessage(MMParser.getFormat("<aqua><player><dark_aqua> has forgotten <aqua><ability>", "player", player.getCommandSenderName(), "ability", Util.getAbilityHover(ability)));
         }
 
     }
