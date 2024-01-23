@@ -126,6 +126,8 @@ jar {
 //    }
 }
 
+//####### MIXINS ########
+//Add these to program arguments: --tweakClass org.spongepowered.asm.launch.MixinTweaker --mixin spiritcontrol.mixins.json
 def embedMixin = !project.hasProperty("nomixin")
 def yourMixinConfig = 'spiritcontrol.mixins.json'
 def refMapForYourConfig = 'spiritcontrol.refmap.json'

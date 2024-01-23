@@ -71,6 +71,10 @@ public class AbilityDatabase {
         );
     }
 
+    /**
+     * Register a new ability to the database, or overwrite existing ones
+     * @param ability ability to register
+     */
     public static void registerAbility(Ability ability){
         if(ensureProperType(ability)) {
             if (ability instanceof Attack)
@@ -80,7 +84,7 @@ public class AbilityDatabase {
         }
     }
 
-    //Checks if the new ability doesn't somehow switch around default attack types
+    //Checks if the new ability doesn't somehow switch around default ability types
     private static boolean ensureProperType(Ability ability){
         if(ability == null)
             return false;
@@ -88,7 +92,6 @@ public class AbilityDatabase {
             return ability.getClass() == getAbilityById(ability.getId()).getClass();
         return true;
     }
-
 
     private static void registerAttack(Attack attack){
         if(attack.isUltimate())
@@ -104,6 +107,10 @@ public class AbilityDatabase {
         SpiritControl.LOGGER.info("Adding Passive Ability: "+passive.getId());
     }
 
+    /**
+     * @param ability ability to check
+     * @return If the ability is a default ability
+     */
     public static boolean isDefault(Ability ability){
         if(ability == getAbilityById("VirtuousSpirit"))
             return true;
@@ -112,23 +119,36 @@ public class AbilityDatabase {
         return ability == getAbilityById("EnergyWave");
     }
 
-    private static boolean isAttack(String attName){
-        return attackHashMap.containsKey(attName);
+    private static boolean isAttack(String attId){
+        return attackHashMap.containsKey(attId);
     }
-    private static boolean isUltimate(String ultName){
-        return ultimateHashMap.containsKey(ultName);
+    private static boolean isUltimate(String ultId){
+        return ultimateHashMap.containsKey(ultId);
     }
-    private static boolean isPassive(String passiveName){
-        return passiveAbilityHashMap.containsKey(passiveName);
+    private static boolean isPassive(String passiveId){
+        return passiveAbilityHashMap.containsKey(passiveId);
     }
-    public static boolean isRegistered(String abilityName){
-        return isPassive(abilityName) || isAttack(abilityName) || isUltimate(abilityName);
+
+    /**
+     * @param abilityId ability ID string
+     * @return If that ability is loaded
+     */
+    public static boolean isRegistered(String abilityId){
+        return isPassive(abilityId) || isAttack(abilityId) || isUltimate(abilityId);
     }
+
+    /**
+     * Checks if an ability is loaded
+     * @param ability ability to check
+     * @return if that ability is loaded
+     */
     public static boolean isRegistered(Ability ability) {
         return isRegistered(ability.getId());
     }
 
-
+    /**
+     * @return Array of all registered IDs
+     */
     public static String[] getRegisteredIds(){
         return ArrayUtils.addAll(ArrayUtils.addAll(getAllAttackIds(), getAllUltimateIds()), getAllPassiveIds());
     }
@@ -175,20 +195,33 @@ public class AbilityDatabase {
         return null;
     }
 
-    public static void purgeAbilities(){
+    /**
+     * Purges all abilities from the database
+     */
+    private static void purgeAbilities(){
         SpiritControl.LOGGER.info("===PURGING ALL LOADED ABILITIES===");
         attackHashMap.clear();
         ultimateHashMap.clear();
         passiveAbilityHashMap.clear();
     }
 
+    /**
+     * @return Default super attack
+     */
     public static Ability getDefaultSuper(){
         return getAbilityById("KiAttack");
     }
 
+    /**
+     * @return Default ultimate attack
+     */
     public static Ability getDefaultUltimate(){
         return getAbilityById("EnergyWave");
     }
+
+    /**
+     * @return Default passive ability
+     */
     public static Ability getDefaultPassive() {
         return getAbilityById("VirtuousSpirit");
     }

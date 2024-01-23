@@ -76,15 +76,21 @@ public class SCPlayer implements IExtendedEntityProperties {
      */
     private boolean unlockedSpiritControl = false;
 
+    /**
+     * SC Charging variables
+     */
     private boolean isArmed = false;
     public boolean isChargingAttack = false;
     public byte currentAttackSlot = 0;
     public long lastTimeSneaked = 0;
-
     public long startedCharging = 0;
 
     private long nextTimeAbleToCastAttack = 0;
     public byte sneakCount = 0;
+
+    /**
+     * Toggles the armed state for the player
+     */
     public void toggleIsArmed(){
         isArmed = !isArmed;
 
@@ -95,15 +101,25 @@ public class SCPlayer implements IExtendedEntityProperties {
         sneakCount = 0;
     }
 
+    /**
+     * Sets the attack cooldown for the player
+     * @param seconds time in seconds
+     */
     public void setCooldown(double seconds){
         nextTimeAbleToCastAttack = MinecraftServer.getSystemTimeMillis() + ( (int) (seconds*1000));
         startedCharging = 0;
     }
 
+    /**
+     * @return If the player is on cooldown from using attacks
+     */
     public boolean isOnCooldown(){
         return MinecraftServer.getSystemTimeMillis() - nextTimeAbleToCastAttack <= 0;
     }
 
+    /**
+     * @return If the player can use their currently selected attack
+     */
     public boolean canUseAttack(){
         boolean isUnableToUseUltDueToUlt = false;
         if(getCurrentSelectedAttack().isUltimate())
@@ -112,6 +128,9 @@ public class SCPlayer implements IExtendedEntityProperties {
         return !isOnCooldown() && hasEnoughSpiritToFire() && !isUnableToUseUltDueToUlt;
     }
 
+    /**
+     * @return The currently selected attack
+     */
     public Attack getCurrentSelectedAttack(){
         if(currentAttackSlot == 1)
             return selectedSuperAttack2;
@@ -121,19 +140,32 @@ public class SCPlayer implements IExtendedEntityProperties {
         return selectedSuperAttack1;
     }
 
+    /**
+     * @return If the player is armed to charge SC attacks
+     */
     public boolean isArmed(){
         return isArmed;
     }
 
+    /**
+     * @return The main damage stat for the player (WIL or STR, highest of the two)
+     */
     public int getMainDamageStat(){
         int[] stats = dbcPlayer.getAttributes();
         return Math.max(stats[0], stats[3]); //Returns the highest between STR and WIL
     }
 
+    /**
+     * @return if the player has enough spirit to fire selected attack
+     */
     public boolean hasEnoughSpiritToFire(){
         return currentSpirit >= getCurrentSelectedAttack().getCostModifier() * getMaxBaseSpirit();
     }
 
+    /**
+     * Select an attack to charge
+     * @param slot slot from 0 to 2 (super1, super2, ultimate)
+     */
     public void setCurrentAttackSlot(int slot){
         if(slot > 2 || slot < 0 || currentAttackSlot == slot)
             return;
@@ -143,14 +175,20 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
 
+    /**
+     * Creates a new instance of an SCPlayer
+     * @param mcPlayer Player reference
+     */
     public SCPlayer(EntityPlayer mcPlayer){
         canReceiveMessages = false;
         this.player = mcPlayer;
 
         loadDefaultData();
-
     }
 
+    /**
+     * Creates default data for the player
+     */
     private void loadDefaultData(){
         this.dbcPlayer = new DBCPlayerWrapper(player);
         Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
@@ -245,16 +283,14 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     @Override
     public void loadNBTData(NBTTagCompound compound) {
+
+        loadDefaultData();
+
         if(!compound.hasKey("SpiritControl")){
             return;
         }
 
-        //this.dbcPlayer = new DBCPlayerHelper(player);
         canReceiveMessages = false; //Disables updates messages while loading the player (dimension changes, relogs)
-
-        loadDefaultData();
-
-
 
         NBTTagCompound scTag = compound.getCompoundTag("SpiritControl");
 
@@ -284,6 +320,10 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.canReceiveMessages = true;
     }
 
+    /**
+     * Load ability data from a NBTTagList
+     * @param tagList
+     */
     private void loadAbilityData(NBTTagList tagList) {
         for(int i = 0; i < tagList.tagCount(); i++){
             Ability ability = AbilityDatabase.getAbilityById(tagList.getStringTagAt(i));
@@ -296,7 +336,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
-     * Send a chat message to the player.
+     * Send a chat message to the player if the player can receive messages.
      * @param chatComponent
      */
     public void addChatMessage(IChatComponent chatComponent){
@@ -354,14 +394,24 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     /**
      * Sets the max base spirit (without passive modifiers) to specified value
-     * @param max
+     * @param max new max
      */
     public void setMaxBaseSpirit(double max){
         this.maxBaseSpirit = max;
     }
+
+    /**
+     * Raises the max spirit (without passive buffs)
+     * @param spirit amount of spirit to add to the cap
+     */
     public void addMaxBaseSpirit(double spirit){
         this.setMaxBaseSpirit(this.getMaxBaseSpirit() + spirit);
     }
+
+    /**
+     * Lowers the max spirit (without passive buffs)
+     * @param spirit amount of spirit to take away from the cap
+     */
     public void removeMaxBaseSpirit(double spirit){
         this.setMaxBaseSpirit(this.getMaxBaseSpirit() - spirit);
     }
@@ -437,6 +487,12 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setSpirit(this.getSpirit() - spirit);
     }
 
+    /**
+     * Draws the gauge at least every 5% change
+     *
+     * Checking if spirit gauge is cleanly divisible by a
+     * number does not work due to the nature of decimal numbers
+     */
     public void tellPlayerAboutGaugeUpdate() {
         double gauge = this.getSpirit();
         double cap = this.getMaxSpirit();
@@ -456,8 +512,8 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
-     * Draws the spirit gauge as an uncolored String
-     * @return Spirit gauge
+     * Creates the spirit gauge as an uncolored String
+     * @return Spirit gauge string
      */
     public String drawSpiritGauge(){
         double gauge = getSpirit();
@@ -490,7 +546,7 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     /**
      * Creates a color formatted gauge
-     * @param round Should it ~~floor~~ round it to the closest % divisible by 5
+     * @param round Should it floor it to the closest % divisible by 5
      * @return A Chat component containing the prettified gauge!
      */
     private IChatComponent drawPrettyGauge(boolean round){
@@ -515,9 +571,8 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
-     * Does the player have this ability unlocked?
-     * @param ability
-     * @return True or False
+     * @param ability ability to check
+     * @return If the player has this ability unlocked
      */
     public boolean hasAbility(Ability ability){
         return unlockedSuperAttacks.contains(ability) || unlockedUltimates.contains(ability) || unlockedPassives.contains(ability);
@@ -548,7 +603,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
-     * Sets the ability at a slot
+     * Equips the ability at a slot (even if they don't have it unlocked);
      * <br><br>
      * (`super1`, `super2`, `ultimate`, `passive`)
      *
@@ -573,6 +628,10 @@ public class SCPlayer implements IExtendedEntityProperties {
         }
     }
 
+    /**
+     * Equips an attack into the player's load-out.
+     * @param attack Attack to select
+     */
     private void selectSuperAttack(Attack attack, String slot){
         if(attack.isUltimate())
             return;
@@ -588,19 +647,28 @@ public class SCPlayer implements IExtendedEntityProperties {
 
     }
 
+    /**
+     * Equips an ultimate into the player's load-out.
+     * @param attack Ultimate to select
+     */
     private void selectUltimateAttack(Attack attack){
         if(!attack.isUltimate())
             return;
         this.selectedUltimateAttack = attack;
         this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Ultimate: <aqua>"+Util.getAbilityHover(attack)));
     }
+
+    /**
+     * Equips an passive into the player's load-out.
+     * @param passive Passive to select
+     */
     private void selectPassive(PassiveAbility passive){
         this.selectedPassiveAbility = passive;
         this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+Util.getAbilityHover(passive)));
     }
 
     /**
-     * Adds an ability to the player's unlocked ability list
+     * Adds an ability to the player's skill set
      * @param ability Passive or Attack
      */
     public void addAbility(Ability ability){
@@ -629,12 +697,21 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.removePassive((PassiveAbility) ability);
     }
 
+    /**
+     * Adds an attack to the player's skill set
+     * @param attack The attack to add
+     */
     public void addAttack(Attack attack){
         if(attack.isUltimate())
             this.unlockedUltimates.add(attack);
         else
             this.unlockedSuperAttacks.add(attack);
     }
+
+    /**
+     * Removes an attack from the player's skill set
+     * @param attack the attack to remove
+     */
     private void removeAttack(Attack attack) {
         if(AbilityDatabase.isDefault(attack))
             return;
@@ -647,9 +724,18 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.updateSelectedAbilities();
     }
 
+    /**
+     * Adds a passive ability to the player's skill set
+     * @param passive the passive to add
+     */
     private void addPassive(PassiveAbility passive){
         this.unlockedPassives.add(passive);
     }
+
+    /**
+     * Removes a passive ability from the player's skill set
+     * @param passive the passive to remove
+     */
     private void removePassive(PassiveAbility passive){
         if(AbilityDatabase.isDefault(passive))
             return;
@@ -659,6 +745,9 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.updateSelectedAbilities();
     }
 
+    /**
+     * Updates the player's load-out to potentially remove abilities they lost access to
+     */
     private void updateSelectedAbilities() {
         if(!this.hasAbility(this.selectedPassiveAbility))
             this.setAbilityAtSlot(AbilityDatabase.getDefaultPassive(), "passive");
@@ -673,28 +762,49 @@ public class SCPlayer implements IExtendedEntityProperties {
             this.setAbilityAtSlot(AbilityDatabase.getDefaultUltimate(), "ultimate");
     }
 
+    /**
+     * @return Is the player DBC Fatigued
+     */
     public boolean isFatigued(){
         return dbcPlayer.isFatigued();
     }
 
+    /**
+     * @return The player's current form
+     */
     public byte getForm() {
         //return new DBCPlayerHelper(player).getState();
         return dbcPlayer.getForm();
     }
+
+    /**
+     * @return The player's race
+     */
     public byte getRace(){
         return dbcPlayer.getRace();
     }
 
+    /**
+     * @return Is the player using the C button to charge
+     */
     public boolean isChargingDBC(){
         return dbcPlayer.isCharging();
     }
 
+    /**
+     * @param method type of method
+     * @return True if a player can fill their gauge using this method
+     */
     public boolean canPlayerUsePassive(EnumFillMethod method) {
         if(selectedPassiveAbility == null)
             return false;
         return selectedPassiveAbility.canPassiveFillLikeThis(method) && selectedPassiveAbility.canPlayerUsePassive(this);
     }
 
+    /**
+     * Sets the player's fatigue
+     * @param fatigue in minutes
+     */
     public void setFatigue(double fatigue) {
         dbcPlayer.setFatigue(fatigue);
     }

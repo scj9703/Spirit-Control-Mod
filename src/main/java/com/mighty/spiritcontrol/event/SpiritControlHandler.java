@@ -22,9 +22,8 @@ public class SpiritControlHandler {
      */
     @SubscribeEvent
     public void entityConstructing(EntityConstructing event) {
-        if (event.entity instanceof EntityPlayer && SCPlayer.getPlayer((EntityPlayer) event.entity) == null) {
+        if (event.entity instanceof EntityPlayer && SCPlayer.getPlayer((EntityPlayer) event.entity) == null)
             SCPlayer.register((EntityPlayer)event.entity);
-        }
 
     }
 
@@ -38,8 +37,8 @@ public class SpiritControlHandler {
     }
 
     /**
-     * Adds Spirit to the Player's Gauge on attack or when hit.
-     * @param event - Event when a living entity is attacked.
+     * Event responsible for triple shift-clicking arming/disarming
+     * @param event
      */
     @SubscribeEvent
     public void onPlayerSneak(PlayerSneakEvent event) {
@@ -85,14 +84,14 @@ public class SpiritControlHandler {
             return;
 
         // If the player is the CAUSE of the attack
-        if (event.source.getEntity() instanceof EntityPlayer) {
+        if (event.source.getEntity() instanceof EntityPlayer)
             handlePassiveFilling((EntityPlayer) event.source.getEntity(), EnumFillMethod.DAMAGE_DEALT, Config.SPIRIT_ON_DAMAGE_DEALT_FLAT);
-        }
+
 
         // If the player is the RECIPIENT of the attack
-        if (event.entity instanceof EntityPlayer){
+        if (event.entity instanceof EntityPlayer)
             handlePassiveFilling((EntityPlayer) event.entity, EnumFillMethod.DAMAGE_TAKEN, Config.SPIRIT_ON_DAMAGE_TAKEN_FLAT);
-        }
+
     }
 
     /**
@@ -104,10 +103,11 @@ public class SpiritControlHandler {
         if(event.entity.worldObj.isRemote)
             return;
 
-        if(event.entity.worldObj.getTotalWorldTime() % 10 != 0)
+        if (!(event.entity instanceof EntityPlayer))
             return;
 
-        if (!(event.entity instanceof EntityPlayer))
+        //SC runs on 10 tick cycles, early returns every time its not a DBC tick.
+        if(event.entity.worldObj.getTotalWorldTime() % 10 != 0)
             return;
 
         SCPlayer extPlayer = SCPlayer.getPlayer((EntityPlayer) event.entity);
@@ -133,11 +133,14 @@ public class SpiritControlHandler {
         if(extPlayer.isFatigued() || extPlayer.isChargingAttack || (extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()))
             return;
 
-        if (extPlayer.canPlayerUsePassive(method)) {
+        if (extPlayer.canPlayerUsePassive(method))
             extPlayer.addSpirit(amount);
-        }
     }
 
+    /**
+     * Handles charging of SC attacks
+     * @param extPlayer player that is trying to charge an attack
+     */
     public void handleCharging(SCPlayer extPlayer){
         if( !extPlayer.player.isSneaking() || !extPlayer.isArmed() || !extPlayer.isChargingDBC() || !extPlayer.canUseAttack()){
             extPlayer.isChargingAttack = false;
@@ -167,6 +170,12 @@ public class SpiritControlHandler {
 
     }
 
+    /**
+     * Updates a player about their charging status
+     * @param extPlayer Player that is trying to charge
+     * @param attack Attack they're charging
+     * @param roundedPercentToHighest10 The percent they just charged their attack to (rounded to the nearest 10)
+     */
     private void prettyChargeMessage(SCPlayer extPlayer, Attack attack, byte roundedPercentToHighest10) {
         if(roundedPercentToHighest10 <= extPlayer.lastPrintedCharge)
             return;
