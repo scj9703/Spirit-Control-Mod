@@ -12,14 +12,13 @@ import java.util.List;
 public class SubCommand_Disable extends SCSubCommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        if(!hasPerms(sender)){
+        if(!hasPerms(sender))
             throw new WrongUsageException("You don't have the correct permissions!");
-        }
 
-        if(args.length > 2){
 
+        if(args.length > 2)
             throw new WrongUsageException("Too many arguments!");
-        }
+
 
         EntityPlayerMP player = args.length == 2 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
 

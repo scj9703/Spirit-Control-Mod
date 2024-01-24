@@ -12,10 +12,12 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": [
-     "required-after:jinryuudragonblockc"
+     "required-after:jinryuudragonblockc",
+     "required-after:zslib"
   ],
   "requiredMods" : [
-    "jinryuudragonblockc@[1.4.85,)"
+    "jinryuudragonblockc@[1.4.85,)",
+    "zslib@[1.0,)"
   ]
 }
 ]

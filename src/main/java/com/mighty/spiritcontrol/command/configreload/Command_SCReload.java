@@ -4,6 +4,7 @@ import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.config.Config;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -22,8 +23,7 @@ public class Command_SCReload extends SCCommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] p_71515_2_) {
         if(!hasPerms(sender))
-            return;
-
+            throw new WrongUsageException("You don't have the correct permissions to run this command");
 
         Config.INSTANCE.loadAbilities();
         Config.INSTANCE.loadMainConfig();

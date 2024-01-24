@@ -35,9 +35,11 @@ public abstract class SCCommandBase extends CommandBase {
     }
 
     public boolean hasPerms(ICommandSender sender){
+        //If the command sender is not a player, return true
         if(!(sender instanceof EntityPlayerMP))
             return true;
 
+        //Check if the player has at least one of the permissions required to run this command
         for(BukkitWrapper.Permission permNode : permsList){
             if(BukkitWrapper.hasPermission((EntityPlayer) sender, permNode))
                 return true;
@@ -45,6 +47,11 @@ public abstract class SCCommandBase extends CommandBase {
         return permsList.isEmpty();
     }
 
+    /**
+     * Registers perms to the command.
+     * @param perms List of permissions to register
+     * @return Reference to the command.
+     */
     public SCCommandBase addPerms(Object... perms){
         for(Object permNode : perms){
             if(permNode instanceof EnumPermission){

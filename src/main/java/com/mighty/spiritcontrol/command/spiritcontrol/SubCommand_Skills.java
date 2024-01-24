@@ -28,9 +28,8 @@ public class SubCommand_Skills extends SCSubCommand {
 
             /**
              * @TODO
-             * Revisit this and rewrite it
+             * Revisit this and rewrite it (Maybe?)
              */
-
             Set<Attack> unlockedAttacks = extPlayer.getUnlockedSuperAttacks();
             unlockedAttacks.addAll(extPlayer.getUnlockedUltimates());
             Set<PassiveAbility> unlockedPassives = extPlayer.getUnlockedPassives();

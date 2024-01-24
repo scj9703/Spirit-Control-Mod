@@ -52,7 +52,6 @@ public class DBCPlayerWrapper {
     }
 
     public int[] getAttributes(){
-
         if(!isFused())
             return getStats(player);
 

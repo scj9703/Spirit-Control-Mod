@@ -15,17 +15,16 @@ import java.util.List;
 public class SubCommand_Lock extends SCSubCommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        if(!hasPerms(sender)){
+        if(!hasPerms(sender))
             throw new WrongUsageException("You don't have the correct permissions!");
-        }
 
-        if(args.length > 3){
 
+        if(args.length > 3)
             throw new WrongUsageException("Too many arguments!");
-        }
-        if(args.length < 2){
+
+        if(args.length < 2)
             throw new WrongUsageException("Not enough arguments!");
-        }
+
 
         EntityPlayerMP player = args.length == 3 ? getPlayer(sender, args[2]) : getCommandSenderAsPlayer(sender);
         Ability ability = AbilityDatabase.getAbilityById(args[1]);
