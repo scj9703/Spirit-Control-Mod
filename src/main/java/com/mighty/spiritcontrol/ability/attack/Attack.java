@@ -80,6 +80,12 @@ public class Attack extends Ability {
         return fatigue;
     }
 
+    /**
+     * Fires a ki attack making the player its source.
+     * 
+     * A ki attack drains the player according to this formula : MaxBaseSpirit * CostModifier
+     * @param ex player to make shoot
+     */
     public void fire(SCPlayer ex) {
         if(!fireMessage.isEmpty())
             ex.addChatMessage(MMParser.getFormat("<aqua>==> <white>"+this.getFireMessage()));
