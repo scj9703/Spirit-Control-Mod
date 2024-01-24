@@ -28,17 +28,17 @@ public class Command_SpiritControl extends SCCommandBase {
     }
     @Override
     public String getCommandName() {
-        return "sc";
+        return "spc";
     }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/sc";
+        return "/spc";
     }
 
     @Override
     public List getCommandAliases() {
-        return Arrays.asList("sc", "spiritcontrol");
+        return Arrays.asList("spc", "spiritcontrol");
     }
 
     @Override
