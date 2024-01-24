@@ -192,6 +192,8 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Creates default data for the player
      */
     private void loadDefaultData(){
+        this.canReceiveMessages = false;
+
         this.dbcPlayer = new DBCPlayerWrapper(player);
         Attack kiAttack = (Attack) AbilityDatabase.getDefaultSuper();
         Attack energyWave = (Attack) AbilityDatabase.getDefaultUltimate();
@@ -210,6 +212,8 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(kiAttack, "super2");
         this.setAbilityAtSlot(energyWave, "ultimate");
         this.setAbilityAtSlot(virtuousSpirit, "passive");
+
+        this.canReceiveMessages = true;
     }
 
     /**
