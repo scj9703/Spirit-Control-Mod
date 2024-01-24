@@ -25,7 +25,7 @@ public class Command_SCReload extends SCCommandBase {
         if(!hasPerms(sender))
             throw new WrongUsageException("You don't have the correct permissions to run this command");
 
-        if(!args[0].equalsIgnoreCase("true"))
+        if(args.length < 1 || !args[0].equalsIgnoreCase("true"))
             throw new WrongUsageException("If you're really sure about this, you need to run /screload true");
 
         Config.INSTANCE.loadAbilities();
