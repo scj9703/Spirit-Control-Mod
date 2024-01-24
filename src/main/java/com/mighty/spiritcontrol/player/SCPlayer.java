@@ -156,6 +156,8 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
+     * A ki attack drains the player according to this formula : MaxBaseSpirit * CostModifier
+     *
      * @return if the player has enough spirit to fire selected attack
      */
     public boolean hasEnoughSpiritToFire(){
