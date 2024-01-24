@@ -1,7 +1,6 @@
 package com.mighty.spiritcontrol.event.custom;
 
 import cpw.mods.fml.common.eventhandler.Event;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerSneakEvent extends Event {

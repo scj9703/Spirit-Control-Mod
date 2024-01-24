@@ -1,6 +1,5 @@
 package com.mighty.spiritcontrol.mixin;
 
-import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.event.custom.PlayerSneakEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

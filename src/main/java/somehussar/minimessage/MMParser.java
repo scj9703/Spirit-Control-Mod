@@ -1,6 +1,5 @@
 package somehussar.minimessage;
 
-import com.mighty.spiritcontrol.SpiritControl;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;

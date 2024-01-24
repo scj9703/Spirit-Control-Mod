@@ -1,9 +1,7 @@
 package com.mighty.spiritcontrol;
 
-import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import com.mighty.spiritcontrol.proxy.CommonProxy;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -11,8 +9,6 @@ import cpw.mods.fml.common.event.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
 
 @Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION, name="Spirit Control Plugin", useMetadata = true)
 public class SpiritControl
