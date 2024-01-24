@@ -12,10 +12,10 @@ public class Config {
 
     public static Config INSTANCE;
 
-    public static double SPIRIT_ON_DAMAGE_DEALT_FLAT;
-    public static double SPIRIT_ON_DAMAGE_TAKEN_FLAT;
-    public static double SPIRIT_PASSIVE_FLAT;
-    public static double DAMAGE_UNIT;
+    public static double SPIRIT_ON_DAMAGE_DEALT_FLAT = 1;
+    public static double SPIRIT_ON_DAMAGE_TAKEN_FLAT = 1;
+    public static double SPIRIT_PASSIVE_FLAT = 0.1;
+    public static double DAMAGE_UNIT = 100000;
     private final File spiritControlDir;
 
 
@@ -31,8 +31,10 @@ public class Config {
             INSTANCE = this;
     }
 
+    /**
+     * Attempts to reload all abilities from their respective JSON files.
+     */
     public void loadAbilities() {
-
         AbilityDatabase.loadDefaults();
 
 
@@ -58,6 +60,9 @@ public class Config {
 
     }
 
+    /**
+     * Reads the config;
+     */
     public void loadMainConfig() {
         //Recreated every time because this function can be run multiple times, and it
         //needs to reload the config file to update the changes.

@@ -13,19 +13,16 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
 
-    public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) {
         SpiritControl.LOGGER = event.getModLog();
 
         new Config(event.getModConfigurationDirectory());
-        //Config.INSTANCE.loadAbilities();
-        //Config.INSTANCE.loadMainConfig();
-
 
         //Loads the class early so permissions are properly registered before listing them out
         EnumPermission.init();
     }
 
-    public void fmlLifeCycleEvent(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {
         //Attempts to find Bukkit and list out all permissions
         BukkitWrapper.init();
 
@@ -36,24 +33,7 @@ public class CommonProxy {
         FMLCommonHandler.instance().bus().register(eventHandler);
     }
 
-    public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {
-    }
-
-    public void fmlLifeCycleEvent(FMLServerAboutToStartEvent event) {
-    }
-
-    public void fmlLifeCycleEvent(FMLServerStartedEvent event) {
-
-    }
-
-    public void fmlLifeCycleEvent(FMLServerStoppingEvent event) {
-    }
-
-    public void fmlLifeCycleEvent(FMLServerStoppedEvent event) {
-
-    }
-
-    public void fmlLifeCycleEvent(FMLServerStartingEvent event) {
+    public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new Command_SpiritControl());
         event.registerServerCommand(new Command_SCReload().addPerms(EnumPermission.SPIRITCONTROL_RELOAD));
     }

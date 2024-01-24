@@ -25,48 +25,18 @@ public class SpiritControl
     public static CommonProxy proxy;
 
     @EventHandler
-    public void fmlLifeCycleEvent(FMLPreInitializationEvent event) {
-        proxy.fmlLifeCycleEvent(event);
+    public void preInit(FMLPreInitializationEvent event) {
+        proxy.preInit(event);
     }
 
     @EventHandler
-    public void fmlLifeCycleEvent(FMLInitializationEvent event) {
-        proxy.fmlLifeCycleEvent(event);
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
     }
 
     @EventHandler
-    public void fmlLifeCycle(FMLPostInitializationEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-    }
-
-    @EventHandler
-    public void fmlLifeCycle(FMLServerAboutToStartEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-
-    }
-
-    @EventHandler
-    public void fmlLifeCycle(FMLServerStartingEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-
-    }
-
-    @EventHandler
-    public void fmlLifeCycle(FMLServerStartedEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-
-    }
-
-    @EventHandler
-    public void fmlLifeCycle(FMLServerStoppingEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-
-    }
-
-    @EventHandler
-    public void fmlLifeCycle(FMLServerStoppedEvent event) {
-        proxy.fmlLifeCycleEvent(event);
-
+    public void serverStarting(FMLServerStartingEvent event) {
+        proxy.serverStarting(event);
     }
 
     /**

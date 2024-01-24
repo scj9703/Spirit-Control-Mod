@@ -21,13 +21,12 @@ public class SubCommand_Check extends SCSubCommand {
             throw new WrongUsageException("You don't have the correct permissions!");
         }
 
-        if(args.length > 2){
-
+        if(args.length > 2)
             throw new WrongUsageException("Too many arguments!");
-        }
-        if(args.length < 2){
+
+        if(args.length < 2)
             throw new WrongUsageException("Not enough arguments!");
-        }
+
 
         /**
          * @TODO

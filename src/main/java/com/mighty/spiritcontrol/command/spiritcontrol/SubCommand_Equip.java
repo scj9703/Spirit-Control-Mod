@@ -26,12 +26,12 @@ public class SubCommand_Equip extends SCSubCommand {
                 return;
             }
 
-            if(args.length > 3){
+            if(args.length > 3)
                 throw new WrongUsageException("Too many arguments!");
-            }
-            if(args.length < 3){
+
+            if(args.length < 3)
                 throw new WrongUsageException("Not enough arguments!");
-            }
+
 
             Ability ability = AbilityDatabase.getAbilityById(args[2]);
             if(ability == null)

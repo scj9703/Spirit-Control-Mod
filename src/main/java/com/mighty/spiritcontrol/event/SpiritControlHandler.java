@@ -149,6 +149,8 @@ public class SpiritControlHandler {
             extPlayer.lastPrintedCharge = -1;
             return;
         }
+
+        //Early return if the player is fused but is NOT the controller.
         if(extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()){
             return;
         }
@@ -161,7 +163,7 @@ public class SpiritControlHandler {
             extPlayer.startedCharging = currentTime;
 
         double percent = ((double) (currentTime - extPlayer.startedCharging) / 1000) / attack.getCasttime();
-        percent = Math.min(Math.max(0, percent), 1);
+        percent = Math.min(Math.max(0, percent), 1); //Gets rid of some pesky bugs with percentiles going above the max size of a signed byte (127)
         byte roundedPercentToHighest10 = (byte) (Math.round(percent*10)*10);
 
         prettyChargeMessage(extPlayer, attack, roundedPercentToHighest10);
@@ -185,6 +187,6 @@ public class SpiritControlHandler {
         if(roundedPercentToHighest10 > 100)
             roundedPercentToHighest10 = 100;
         extPlayer.lastPrintedCharge = roundedPercentToHighest10;
-        extPlayer.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", Util.getAbilityHover(attack), "percent", String.valueOf(roundedPercentToHighest10)));
+        extPlayer.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_hoverable> <gray>: <aqua><percent>%", "attack_hoverable", Util.getAbilityHover(attack), "percent", String.valueOf(roundedPercentToHighest10)));
     }
 }
