@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import somehussar.minimessage.MMParser;
+import somehussar.minimessage.util.Util;
 
 public class SpiritControlHandler {
     /**
@@ -166,6 +167,8 @@ public class SpiritControlHandler {
         prettyChargeMessage(extPlayer, attack, roundedPercentToHighest10);
         if(roundedPercentToHighest10 >= 100) {
             attack.fire(extPlayer);
+            extPlayer.startedCharging = 0;
+            extPlayer.lastPrintedCharge = -1;
         }
 
     }
@@ -182,6 +185,6 @@ public class SpiritControlHandler {
         if(roundedPercentToHighest10 > 100)
             roundedPercentToHighest10 = 100;
         extPlayer.lastPrintedCharge = roundedPercentToHighest10;
-        extPlayer.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", attack.getName(), "percent", String.valueOf(roundedPercentToHighest10)));
+        extPlayer.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Charging <aqua><attack_name> <gray>: <aqua><percent>%", "attack_name", Util.getAbilityHover(attack), "percent", String.valueOf(roundedPercentToHighest10)));
     }
 }
