@@ -131,7 +131,7 @@ public class SpiritControlHandler {
      */
     public void handlePassiveFilling(SCPlayer extPlayer, EnumFillMethod method, double amount){
 
-        if(extPlayer.isFatigued() || extPlayer.isChargingAttack || (extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()))
+        if(!extPlayer.hasUnlockedSpiritControl() || extPlayer.isFatigued() || extPlayer.isChargingAttack || (extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()))
             return;
 
         if (extPlayer.canPlayerUsePassive(method))
