@@ -12,7 +12,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class Command_SCReload extends SCCommandBase {
     @Override
     public String getCommandName() {
-        return "/screload"; //The slash is intentional. It's to prevent you from accidentally running the command
+        return "screload";
     }
 
     @Override
@@ -21,9 +21,12 @@ public class Command_SCReload extends SCCommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] p_71515_2_) {
+    public void processCommand(ICommandSender sender, String[] args) {
         if(!hasPerms(sender))
             throw new WrongUsageException("You don't have the correct permissions to run this command");
+
+        if(!args[0].equalsIgnoreCase("true"))
+            throw new WrongUsageException("If you're really sure about this, you need to run /screload true");
 
         Config.INSTANCE.loadAbilities();
         Config.INSTANCE.loadMainConfig();
