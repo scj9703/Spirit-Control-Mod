@@ -8,6 +8,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+
+/**
+ * Intermediate class used for loading attacks.
+ *
+ * Allows to make more complex types more readable in the configs.
+ */
 public class PassiveJSON {
 
     public String name;
