@@ -40,8 +40,8 @@ public class AttackJSON {
     }
 
     public void setExampleValues(){
-        name = "Name. Can be formatted (Only MC Codes, & &aworks.)";
-        description = "Description. Can be formatted (Only MC Codes, & &aworks.)";
+        name = "Name. Can be formatted (Only MC Codes &awork.)";
+        description = "Description. Can be formatted (Only MC Codes &awork.)";
 
         color = EnumAttackColor.ALIGNMENT_BASED.name().toLowerCase();
         type = EnumAttackType.BIG_BLAST.name().toLowerCase();
