@@ -49,7 +49,7 @@ public class SubCommand_Check extends SCSubCommand {
         Set<PassiveAbility> unlockedPassives = extPlayer.getUnlockedPassives();
 
         sender.addChatMessage(MMParser.getFormat("<dark_aqua>Checking player: <gray>" + player.getCommandSenderName()));
-        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge> (<percent>%)</gray> Spirit", "gauge", String.valueOf(gauge), "max_gauge", String.valueOf(cap), "percent", percent));
+        sender.addChatMessage(MMParser.getFormat("<dark_aqua>Spirit Gauge: <gray><gauge></gray> out of <gray><max_gauge> (<percent>%)</gray> Spirit", "gauge", String.format("%.2f", gauge), "max_gauge", String.format("%.2f", cap), "percent", percent));
         sender.addChatMessage(MMParser.getFormat("<dark_aqua>Super1: <gray><ability1></gray>, Super2: <gray><ability2></gray>", "ability1", superAttack1.getId(), "ability2", superAttack2.getId()));
         sender.addChatMessage(MMParser.getFormat("<dark_aqua>Ultimate: <gray><ability1></gray>, Passive: <gray><ability2></gray>", "ability1", ultimate.getId(), "ability2", passiveAbility.getId()));
         StringBuilder attackList = new StringBuilder("<dark_aqua>Unlocked Attacks:<gray>");
