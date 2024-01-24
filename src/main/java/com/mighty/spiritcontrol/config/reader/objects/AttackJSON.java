@@ -5,6 +5,12 @@ import com.mighty.spiritcontrol.ability.attack.AttackBuilder;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackColor;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
 
+
+/**
+ * Intermediate class used for loading attacks.
+ *
+ * Allows to make more complex types more readable in the configs.
+ */
 public class AttackJSON {
     public String name;
     public String description;
@@ -49,7 +55,7 @@ public class AttackJSON {
         effect = false;
         dmg_modifier = 1.0;
         cost_modifier = 1.0;
-        fire_message = "Example fire message. SHOULD be formatted. Uses both MiniMessage and MC Codes";
+        fire_message = "Example fire message. SHOULD be formatted. Uses both <aqua>MiniMessage</aqua> and &cMC &cCodes";
         cast_time = 1.0;
         fatigue = 0.0;
     }
