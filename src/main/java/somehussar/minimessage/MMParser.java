@@ -284,7 +284,6 @@ public class MMParser {
             throw new RuntimeException("Can't parse hover action (too few args) " + token);
         }
         HoverEvent.Action action = HoverEvent.Action.valueOf(args[1].toUpperCase());
-        SpiritControl.LOGGER.info(args[2]);
         //For some reason, hover events don't like unformatted text. Dirty fix for that.
         //
         // Will need a rewrite of the whole parser rather than a port.
