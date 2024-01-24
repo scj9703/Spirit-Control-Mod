@@ -1,7 +1,7 @@
 package com.mighty.spiritcontrol.event.custom;
 
-import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerSwingEvent extends Event {
 

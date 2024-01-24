@@ -8,7 +8,10 @@ import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.AbilityDatabase;
 import com.mighty.spiritcontrol.config.reader.objects.PassiveJSON;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;

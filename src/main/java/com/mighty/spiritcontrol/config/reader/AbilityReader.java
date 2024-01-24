@@ -1,6 +1,7 @@
 package com.mighty.spiritcontrol.config.reader;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public abstract class AbilityReader {
