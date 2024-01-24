@@ -59,7 +59,7 @@ public class SubCommand_Check extends SCSubCommand {
             attackList.append(" ").append(atk.getId());
         }
         for(Attack atk : unlockedUltimates){
-            attackList.append(" ").append(atk.getId());
+            ultimateList.append(" ").append(atk.getId());
         }
         for (PassiveAbility passive : unlockedPassives){
             passiveList.append(" ").append(passive.getId());
