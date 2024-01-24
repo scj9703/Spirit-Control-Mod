@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION, name="Spirit Control Plugin", useMetadata = true)
+@Mod(modid = SpiritControl.MODID, version = SpiritControl.VERSION, name="Spirit Control Plugin", acceptableRemoteVersions = "*",  useMetadata = true)
 public class SpiritControl
 {
     public static final String MODID = "spiritcontrol";
