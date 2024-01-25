@@ -20,6 +20,7 @@ public class Config {
 
     //public static boolean ACCEPT_RELEASE = false;
     public static boolean ACCEPT_FUSION = true;
+    public static boolean ACCEPT_STAT_BONUSES = true;
     public static boolean ACCEPT_RACIAL_BUFFS = false;
     public static boolean ACCEPT_RACIAL_FORMS = false;
     public static boolean ACCEPT_STATUS_EFF = false;
@@ -90,6 +91,7 @@ public class Config {
         //ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Stat bonuses", CATEGORY_STAT_CALCULATIONS, true, "DBCA/jrmcabonus command bonuses");
         //ACCEPT_RELEASE = mainConfig.getBoolean("Release", CATEGORY_STAT_CALCULATIONS, false, "Damage AND cost will be adjusted to a players charge/release level.");
         ACCEPT_FUSION = mainConfig.getBoolean("Fusion", CATEGORY_STAT_CALCULATIONS, true, "True - uses fusion stats, False - player stats");
+        ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Bonus attributes", CATEGORY_STAT_CALCULATIONS, true, "Should use jrmcabonus / DBCA");
         ACCEPT_RACIAL_BUFFS = mainConfig.getBoolean("Racial buffs", CATEGORY_STAT_CALCULATIONS, false, "Arco powerpoints or majin absorption");
         ACCEPT_STATUS_EFF = mainConfig.getBoolean("Status Effects", CATEGORY_STAT_CALCULATIONS, false, "");
         ACCEPT_RACIAL_FORMS = mainConfig.getBoolean("Racial forms", CATEGORY_STAT_CALCULATIONS, false, "");

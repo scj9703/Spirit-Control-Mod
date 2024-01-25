@@ -1,10 +1,16 @@
 package com.mighty.spiritcontrol.player;
 
 import JinRyuu.JRMCore.JRMCoreH;
+import JinRyuu.JRMCore.server.JGMathHelper;
+import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import tv.twitch.chat.Chat;
+
+import static JinRyuu.JRMCore.JRMCoreH.getBonusAttributes;
 
 public class DBCPlayerWrapper {
 
@@ -61,6 +67,10 @@ public class DBCPlayerWrapper {
 
     public int getStat(int statId){
         int[] attributes = getAttributes();
+
+        if(Config.ACCEPT_STAT_BONUSES) {
+            attributes[statId] = getBonusAttribute(statId, attributes[statId]);
+        }
 
         byte race = getRace();
         String racial = getRacialSkill();
@@ -180,6 +190,7 @@ public class DBCPlayerWrapper {
     private int[] getStats(EntityPlayer player) {
         NBTTagCompound nbt = JRMCoreH.nbt(player);
         int[] stats = new int[6];
+
         String[] attr = { "jrmcStrI", "jrmcDexI", "jrmcCnsI", "jrmcWilI", "jrmcIntI", "jrmcCncI" };
 
         for (int i = 0; i < attr.length; i++) {
@@ -187,6 +198,37 @@ public class DBCPlayerWrapper {
         }
 
         return stats;
+    }
+
+    private int getBonusAttribute(int statId, int baseStat) {
+        String nbtValue =JRMCoreH.getBonusAttributes(player.getCommandSenderName(), statId);
+        int bonusAttribute = baseStat;
+
+        if(!nbtValue.equals("NONE") && !nbtValue.equals("n")){
+            double bonusValueResult = 0.0;
+            String[] bonus = nbtValue.split("\\|");
+            String[][] bonusValues = new String[bonus.length][2];
+            if (bonus.length > 0 && bonus[0].length() > 0) {
+                for(int i = 0; i < bonus.length; ++i) {
+                    if (bonus[i].length() > 1) {
+                        String[] bonusValue = bonus[i].split("\\;");
+                        bonusValues[i][1] = bonusValue[1];
+
+                        double value2;
+                        try {
+                            value2 = Double.parseDouble(bonusValues[i][1].substring(1));
+                            bonusValueResult = JGMathHelper.StringMethod(bonusValues[i][1].substring(0, 1), bonusValueResult, value2);
+                        } catch (Exception ignored) {
+
+                        }
+                    }
+                }
+            }
+
+            bonusAttribute = (int)bonusValueResult;
+        }
+
+        return bonusAttribute;
     }
 
     public NBTTagCompound getNbt() {
