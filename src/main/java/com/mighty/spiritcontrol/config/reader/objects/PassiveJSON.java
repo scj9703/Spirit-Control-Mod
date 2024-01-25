@@ -52,6 +52,7 @@ public class PassiveJSON {
         Set<Byte> formsForRace = new HashSet<>();
         formsForRace.add((byte) -1);
         race_forms.put("half_saiyan", formsForRace);
+        race_forms.put("saiyan", formsForRace);
         fill_methods.add("damage_dealt");
     }
 
