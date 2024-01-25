@@ -17,14 +17,25 @@ The results are going to be in `./build/libs/`.
 
 Commands and permissions
 ------------------------
-`/sc` and `/spiritcontrol` are aliases for the prefix for all of these commands, except `//screload`.
-* `/sc` - no perm node - Displays data about your current load-out.
-* `/sc skills` - no perm node - Displays all of your unlocked skills.
-* `/sc equip <slot_name> <skill_id>` - no perm node - Allows the player to change out abilities in their load-out.
-* `/sc enable [player]` - `zs.spiritcontrol.enable` - Unlocks Spirit Control for the player.
-* `/sc disable [player]` - `zs.spiritcontrol.disable` - Removes Spirit Control from the player.
-* `/sc unlock <skill_id> [player]` - `zs.spiritcontrol.unlock` - Unlock an ability.
-* `/sc lock <skill_id> [player]` - `zs.spiritcontrol.lock` - Removes an ability.
+`/spc` and `/spiritcontrol` are aliases for the prefix for all of these commands, except `//screload`. 
+<br><br>
+
+THE DEFAULT PERMISSION NODES ARE: 
+* `com.mighty.spiritcontrol.command.spiritcontrol.Command_SpiritControl` - /spc
+* `com.mighty.spiritcontrol.command.configreload.Command_SCReload` - /screload
+<br><br>
+These are required to even run commands in SC on Crucible/Cauldron servers, however since SC implements its own permission system you can just add `com.mighty.spiritcontrol.*` to all players and then the custom perm nodes for other commands individually to correct ranks
+<br>
+<br>
+
+CUSTOM PERM NODES:
+* `/spc` - no perm node - Displays data about your current load-out.
+* `/spc skills` - no perm node - Displays all of your unlocked skills.
+* `/spc equip <slot_name> <skill_id>` - no perm node - Allows the player to change out abilities in their load-out.
+* `/spc enable [player]` - `zs.spiritcontrol.enable` - Unlocks Spirit Control for the player.
+* `/spc disable [player]` - `zs.spiritcontrol.disable` - Removes Spirit Control from the player.
+* `/spc unlock <skill_id> [player]` - `zs.spiritcontrol.unlock` - Unlock an ability.
+* `/spc lock <skill_id> [player]` - `zs.spiritcontrol.lock` - Removes an ability.
 * `//screload` - `zs.spiritcontrol.reloadconfig` - Reloads configs and abilities from `./config/spirit_control`
 
 Configs
