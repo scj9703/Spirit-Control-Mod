@@ -1,5 +1,6 @@
 package com.mighty.spiritcontrol.ability.attack;
 
+import JinRyuu.JRMCore.JRMCoreConfig;
 import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.player.SCPlayer;
@@ -99,6 +100,9 @@ public class Attack extends Ability {
         //(max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)
         double damageScaling = (double) ex.getMainDamageStat() / 100000;
         int damage = (int) (damageScaling * (dmgModifier * Config.DAMAGE_UNIT) / 2);  // divided by 2 because we use 100% charge which already gives double damage.
+
+        damage = (int) (damage / JRMCoreConfig.dat5696[type][1]); //Removes a quirky issue with DBC using its own config to scale the damage
+
         ex.removeSpirit(ex.getMaxBaseSpirit() * getCostModifier());
         MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+"100 1 100 0 0 0 "+ex.player.getCommandSenderName());
         ex.addChatMessage(ex.drawPrettyGauge());
