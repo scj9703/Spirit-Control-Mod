@@ -87,4 +87,7 @@ public class DBCPlayerWrapper {
         return stats;
     }
 
+    public NBTTagCompound getNbt() {
+        return compound;
+    }
 }

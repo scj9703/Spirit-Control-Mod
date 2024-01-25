@@ -105,6 +105,7 @@ public class Attack extends Ability {
 
         ex.removeSpirit(ex.getMaxBaseSpirit() * getCostModifier());
         MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+"100 1 100 0 0 0 "+ex.player.getCommandSenderName());
+        ex.dbcPlayer.getNbt().setByte("jrmcFrng", (byte) 1);
         ex.addChatMessage(ex.drawPrettyGauge());
     }
 }
