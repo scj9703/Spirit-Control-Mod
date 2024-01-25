@@ -143,10 +143,26 @@ public class SpiritControlHandler {
      * @param extPlayer player that is trying to charge an attack
      */
     public void handleCharging(SCPlayer extPlayer){
-        if( !extPlayer.player.isSneaking() || !extPlayer.isArmed() || !extPlayer.isChargingDBC() || !extPlayer.canUseAttack()){
-            extPlayer.isChargingAttack = false;
-            extPlayer.startedCharging = 0;
-            extPlayer.lastPrintedCharge = -1;
+        if( !extPlayer.player.isSneaking() || !extPlayer.isChargingDBC()){
+            setDefaultChargingState(extPlayer);
+            return;
+        }
+
+        if(!extPlayer.isArmed()){
+            if(extPlayer.startedCharging != -1) {
+                extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You need to be <green>armed</green> to use SC Attacks!"));
+                setDefaultChargingState(extPlayer);
+            }
+            extPlayer.startedCharging = -1;
+            return;
+        }
+
+        if(!extPlayer.canUseAttack()){
+            if(extPlayer.startedCharging != -1) {
+                extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You <dark_red>don't</dark_red> have enough Spirit to use this attack!"));
+                setDefaultChargingState(extPlayer);
+            }
+            extPlayer.startedCharging = -1;
             return;
         }
 
@@ -173,6 +189,12 @@ public class SpiritControlHandler {
             extPlayer.lastPrintedCharge = -1;
         }
 
+    }
+
+    private void setDefaultChargingState(SCPlayer extPlayer){
+        extPlayer.isChargingAttack = false;
+        extPlayer.startedCharging = 0;
+        extPlayer.lastPrintedCharge = -1;
     }
 
     /**
