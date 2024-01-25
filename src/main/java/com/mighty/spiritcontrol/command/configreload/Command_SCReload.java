@@ -9,6 +9,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Command_SCReload extends SCCommandBase {
     @Override
     public String getCommandName() {
@@ -33,5 +38,12 @@ public class Command_SCReload extends SCCommandBase {
         SpiritControl.reloadPlayerData();
         SpiritControl.LOGGER.info("Reloaded all abilities successfully!");
         sender.addChatMessage(new ChatComponentText("Reloaded all abilities successfully!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+    }
+
+    @Override
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
+        if(args.length == 2)
+            return Collections.singletonList("true");
+        return null;
     }
 }
