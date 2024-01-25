@@ -150,7 +150,7 @@ public class SpiritControlHandler {
 
         if(!extPlayer.isArmed()){
             //Extra if to only display messages once per charge attempt
-            if(extPlayer.startedCharging != -1) {
+            if(extPlayer.startedCharging <= -1) {
                 extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You need to be <green>armed</green> to use SC Attacks!"));
                 setDefaultChargingState(extPlayer);
             }
@@ -160,7 +160,7 @@ public class SpiritControlHandler {
 
         if(!extPlayer.canUseAttack()){
             //Extra if to only display messages once per charge attempt
-            if(extPlayer.startedCharging != -1) {
+            if(extPlayer.startedCharging <= -1) {
                 extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You <dark_red>don't</dark_red> have enough Spirit to use this attack!"));
                 setDefaultChargingState(extPlayer);
             }
