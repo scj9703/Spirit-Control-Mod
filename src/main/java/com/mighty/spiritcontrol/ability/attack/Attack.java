@@ -11,6 +11,7 @@ public class Attack extends Ability {
     private final byte type;
     private final byte color;
     private final int speed;
+    private final int density;
     private final boolean effect;
     private final double dmgModifier;
     private final double costModifier;
@@ -20,11 +21,12 @@ public class Attack extends Ability {
     private final boolean isUltimate;
     private final double fatigue;
 
-    Attack(String id, String name, String description, byte type, byte color, String fireMessage, int speed, boolean effect, double dmgModifier, double cost, double cooldown, double casttime, boolean isUltimate, double fatigue){
+    Attack(String id, String name, String description, byte type, byte color, String fireMessage, int speed, int density, boolean effect, double dmgModifier, double cost, double cooldown, double casttime, boolean isUltimate, double fatigue){
         super(id, name, description);
         this.type = type;
         this.color = color;
         this.speed = speed;
+        this.density = density;
         this.effect = effect;
         this.dmgModifier = dmgModifier;
         this.costModifier = cost;

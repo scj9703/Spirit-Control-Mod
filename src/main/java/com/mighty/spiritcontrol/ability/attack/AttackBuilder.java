@@ -8,6 +8,7 @@ public class AttackBuilder extends AbilityBuilder {
     protected EnumAttackType type = EnumAttackType.BLAST;
     protected EnumAttackColor color = EnumAttackColor.ALIGNMENT_BASED;
     protected int speed = 5;
+    protected int density = 12;
     protected boolean effect = false;
     protected double dmgModifier = 1;
     protected double cost = 50;
@@ -52,6 +53,11 @@ public class AttackBuilder extends AbilityBuilder {
     public AttackBuilder setSpeed(int speed) {
         this.speed = speed;
 		return this;
+    }
+
+    public AttackBuilder setDensity(int density){
+        this.density = density;
+        return this;
     }
 
     public AttackBuilder setEffect(boolean effect) {
@@ -105,7 +111,7 @@ public class AttackBuilder extends AbilityBuilder {
     }
 
     public Attack getAbility(){
-        return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, effect, dmgModifier, cost, cooldown, casttime, isUltimate, fatigue);
+        return new Attack(literalId, name, description, (byte) type.getValue(), (byte) color.getValue(), fireMessage, speed, density, effect, dmgModifier, cost, cooldown, casttime, isUltimate, fatigue);
         //return new Attack(name, type.getValue(), color.getValue(), speed, effect, dmgModifier, cost, casttime, fireMessage, description, isUltimate, fatigue);
     }
 

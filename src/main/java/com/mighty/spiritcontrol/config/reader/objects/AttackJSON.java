@@ -4,6 +4,7 @@ import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.attack.AttackBuilder;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackColor;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
+import org.omg.CORBA.portable.IDLEntity;
 
 
 /**
@@ -17,6 +18,7 @@ public class AttackJSON {
     public String color;
     public String type;
     public int speed;
+    public int density;
     public boolean effect;
     public double dmg_modifier;
     public double cost_modifier;
@@ -35,6 +37,7 @@ public class AttackJSON {
                 .setColor(color)
                 .setType(type)
                 .setSpeed(speed)
+                .setDensity(density)
                 .setEffect(effect)
                 .setDmgModifier(dmg_modifier)
                 .setCost(cost_modifier)
@@ -52,6 +55,7 @@ public class AttackJSON {
         color = EnumAttackColor.ALIGNMENT_BASED.name().toLowerCase();
         type = EnumAttackType.BIG_BLAST.name().toLowerCase();
         speed = 5;
+        density = 12;
         effect = false;
         dmg_modifier = 1.0;
         cost_modifier = 1.0;
