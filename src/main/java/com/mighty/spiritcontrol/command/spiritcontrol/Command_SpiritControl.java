@@ -73,7 +73,8 @@ public class Command_SpiritControl extends SCCommandBase {
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("passive"))));
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/sc help</aqua> for a full list of commands!"));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/<cmd_name> help</aqua> for a full list of commands!", "cmd_name", getCommandName()));
+
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MMParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
             }else{
