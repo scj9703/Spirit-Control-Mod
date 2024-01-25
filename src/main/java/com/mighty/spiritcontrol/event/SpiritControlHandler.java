@@ -16,6 +16,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import somehussar.minimessage.MMParser;
 import somehussar.minimessage.util.Util;
 
+import java.text.DecimalFormat;
+
 public class SpiritControlHandler {
     /**
      * Registers a player for Spirit Control attributes.
@@ -150,7 +152,7 @@ public class SpiritControlHandler {
 
         if(!extPlayer.isArmed()){
             //Extra if to only display messages once per charge attempt
-            if(extPlayer.startedCharging <= -1) {
+            if(extPlayer.startedCharging > -1) {
                 extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You need to be <green>armed</green> to use SC Attacks!"));
                 setDefaultChargingState(extPlayer);
             }
@@ -160,8 +162,19 @@ public class SpiritControlHandler {
 
         if(extPlayer.getCurrentSelectedAttack().isUltimate() && extPlayer.isFatigued()){
             //Extra if to only display messages once per charge attempt
-            if(extPlayer.startedCharging <= -1) {
+            if(extPlayer.startedCharging > -1) {
                 extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You <dark_red>can't</dark_red> use ultimates when fatigued!"));
+                setDefaultChargingState(extPlayer);
+            }
+            extPlayer.startedCharging = -1;
+            return;
+        }
+
+        if(extPlayer.isOnCooldown()){
+            //Extra if to only display messages once per charge attempt
+            DecimalFormat format = new DecimalFormat("#.##");
+            if(extPlayer.startedCharging > -1) {
+                extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You're on a <dark_red>cooldown</dark_red> before you can use another ability for the next <time> seconds!", "time", format.format(extPlayer.getCooldown())));
                 setDefaultChargingState(extPlayer);
             }
             extPlayer.startedCharging = -1;
@@ -170,7 +183,7 @@ public class SpiritControlHandler {
 
         if(!extPlayer.canUseAttack()){
             //Extra if to only display messages once per charge attempt
-            if(extPlayer.startedCharging <= -1) {
+            if(extPlayer.startedCharging > -1) {
                 extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You <dark_red>don't</dark_red> have enough Spirit to use this attack!"));
                 setDefaultChargingState(extPlayer);
             }

@@ -118,6 +118,13 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
+     * @return Cooldown time in seconds.
+     */
+    public double getCooldown(){
+        return (nextTimeAbleToCastAttack - MinecraftServer.getSystemTimeMillis()) / 1000.0;
+    }
+
+    /**
      * @return If the player can use their currently selected attack
      */
     public boolean canUseAttack(){
