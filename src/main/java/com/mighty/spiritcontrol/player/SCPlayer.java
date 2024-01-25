@@ -321,6 +321,8 @@ public class SCPlayer implements IExtendedEntityProperties {
         this.setAbilityAtSlot(AbilityDatabase.getAbilityById(scTag.getString("Passive")), "passive");
 
         this.setMaxBaseSpirit(scTag.getDouble("maxSpirit"));
+        if(maxBaseSpirit == 0)
+            maxBaseSpirit = 1000;
         this.setSpirit(scTag.getDouble("currentSpirit"));
 
         this.canReceiveMessages = true;
