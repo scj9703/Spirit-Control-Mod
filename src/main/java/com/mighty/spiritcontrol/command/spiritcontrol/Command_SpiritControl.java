@@ -33,7 +33,7 @@ public class Command_SpiritControl extends SCCommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/spc";
+        return "/spc help";
     }
 
     @Override
