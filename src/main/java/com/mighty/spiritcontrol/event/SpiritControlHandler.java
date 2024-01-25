@@ -158,6 +158,16 @@ public class SpiritControlHandler {
             return;
         }
 
+        if(extPlayer.getCurrentSelectedAttack().isUltimate() && extPlayer.isFatigued()){
+            //Extra if to only display messages once per charge attempt
+            if(extPlayer.startedCharging <= -1) {
+                extPlayer.addChatMessage(MMParser.getFormat("<aqua>==> <dark_aqua>You <dark_red>can't</dark_red> use ultimates when fatigued!"));
+                setDefaultChargingState(extPlayer);
+            }
+            extPlayer.startedCharging = -1;
+            return;
+        }
+
         if(!extPlayer.canUseAttack()){
             //Extra if to only display messages once per charge attempt
             if(extPlayer.startedCharging <= -1) {
