@@ -42,7 +42,7 @@ public class Command_SCReload extends SCCommandBase {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        if(args.length == 2)
+        if(args.length == 1)
             return Collections.singletonList("true");
         return null;
     }
