@@ -15,7 +15,16 @@ public class Config {
     public static double SPIRIT_ON_DAMAGE_DEALT_FLAT = 1;
     public static double SPIRIT_ON_DAMAGE_TAKEN_FLAT = 1;
     public static double SPIRIT_PASSIVE_FLAT = 0.1;
+
     public static double DAMAGE_UNIT = 100000;
+
+    //public static boolean ACCEPT_RELEASE = false;
+    public static boolean ACCEPT_FUSION = true;
+    public static boolean ACCEPT_RACIAL_BUFFS = false;
+    public static boolean ACCEPT_RACIAL_FORMS = false;
+    public static boolean ACCEPT_STATUS_EFF = false;
+    public static boolean ACCEPT_NON_RACIAL = false;
+
     private final File spiritControlDir;
 
 
@@ -70,12 +79,21 @@ public class Config {
 
         String CATEGORY_PASSIVE_GAIN = "SPIRIT_CONTROL_PASSIVE_GAIN";
         String CATEGORY_DAMAGE = "SPIRIT_DAMAGE";
+        String CATEGORY_STAT_CALCULATIONS = "DAMAGE_TOGGLES";
 
         DAMAGE_UNIT = mainConfig.getFloat("Base unit used for calculating damage", CATEGORY_DAMAGE, 1000000, 1, 500000000, "Formula: (max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)");
 
         SPIRIT_ON_DAMAGE_DEALT_FLAT = mainConfig.getFloat("Spirit gained on damage dealt", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on dealing damage to others (this is the number before passive modifiers)");
         SPIRIT_ON_DAMAGE_TAKEN_FLAT = mainConfig.getFloat("Spirit gained on damage taken", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on taking damage from others (this is the number before passive modifiers)");
         SPIRIT_PASSIVE_FLAT = mainConfig.getFloat("Spirit gained passively", CATEGORY_PASSIVE_GAIN, 0.01f, 0f, 100, "Spirit gained passively (this is the number before passive modifiers)");
+
+        //ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Stat bonuses", CATEGORY_STAT_CALCULATIONS, true, "DBCA/jrmcabonus command bonuses");
+        //ACCEPT_RELEASE = mainConfig.getBoolean("Release", CATEGORY_STAT_CALCULATIONS, false, "Damage AND cost will be adjusted to a players charge/release level.");
+        ACCEPT_FUSION = mainConfig.getBoolean("Fusion", CATEGORY_STAT_CALCULATIONS, true, "True - uses fusion stats, False - player stats");
+        ACCEPT_RACIAL_BUFFS = mainConfig.getBoolean("Racial buffs", CATEGORY_STAT_CALCULATIONS, false, "Arco powerpoints or majin absorption");
+        ACCEPT_STATUS_EFF = mainConfig.getBoolean("Status Effects", CATEGORY_STAT_CALCULATIONS, false, "");
+        ACCEPT_RACIAL_FORMS = mainConfig.getBoolean("Racial forms", CATEGORY_STAT_CALCULATIONS, false, "");
+        ACCEPT_NON_RACIAL = mainConfig.getBoolean("Non racial forms", CATEGORY_STAT_CALCULATIONS, false, "Non racial forms like KK, Mystic, UI or GoD");
 
         if(mainConfig.hasChanged())
             mainConfig.save();

@@ -158,8 +158,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @return The main damage stat for the player (WIL or STR, highest of the two)
      */
     public int getMainDamageStat(){
-        int[] stats = dbcPlayer.getAttributes();
-        return Math.max(stats[0], stats[3]); //Returns the highest between STR and WIL
+        return Math.max(dbcPlayer.getStat(0), dbcPlayer.getStat(3)); //Returns the highest between STR and WIL
     }
 
     /**

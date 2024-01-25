@@ -1,6 +1,7 @@
 package com.mighty.spiritcontrol.player;
 
 import JinRyuu.JRMCore.JRMCoreH;
+import com.mighty.spiritcontrol.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -8,11 +9,13 @@ import net.minecraft.server.MinecraftServer;
 public class DBCPlayerWrapper {
 
     EntityPlayer player;
-    NBTTagCompound compound;
+    NBTTagCompound nbt;
+
+    String statusEffects;
 
     public DBCPlayerWrapper(EntityPlayer player){
         this.player = player;
-        this.compound = player.getEntityData().getCompoundTag("PlayerPersisted");
+        this.nbt = player.getEntityData().getCompoundTag("PlayerPersisted");
     }
 
     public boolean isCharging(){
@@ -20,30 +23,35 @@ public class DBCPlayerWrapper {
     }
 
     public boolean isFatigued(){
-        return compound.getInteger("jrmcGodStrain") != 0;
+        return nbt.getInteger("jrmcGodStrain") != 0;
     }
 
     public void setFatigue(double timeInMinutes){
-        compound.setInteger("jrmcGodStrain", (int) (timeInMinutes*12));
+        nbt.setInteger("jrmcGodStrain", (int) (timeInMinutes*12));
     }
 
     public byte getForm() {
-        return compound.getByte("jrmcState");
+        return nbt.getByte("jrmcState");
     }
 
     public byte getRace() {
-        return compound.getByte("jrmcRace");
+        return nbt.getByte("jrmcRace");
     }
 
-    public String getStatusEffects(){
-        return compound.getString("jrmcStatusEff");
+    public String getStatusEffects(){;
+        return nbt.getString("jrmcStatusEff");
+    }
+
+    public void updateStatusEffString(){
+        statusEffects = getStatusEffects();
     }
 
     public boolean isFused() {
-        if(JRMCoreH.StusEfcts(10, getStatusEffects()) || JRMCoreH.StusEfcts(11, getStatusEffects()))
+        updateStatusEffString();
+        if(JRMCoreH.StusEfcts(10, statusEffects) || JRMCoreH.StusEfcts(11, statusEffects))
             return true;
 
-        String[] fusionString = compound.getString("jrmcFuzion").split(",");
+        String[] fusionString = nbt.getString("jrmcFuzion").split(",");
         return fusionString.length == 3;
     }
 
@@ -51,11 +59,105 @@ public class DBCPlayerWrapper {
         return JRMCoreH.StusEfcts(10, getStatusEffects());
     }
 
+    public int getStat(int statId){
+        int[] attributes = getAttributes();
+
+        byte race = getRace();
+        String racial = getRacialSkill();
+        byte powerType = 1;
+        byte release = 100;
+        int pwrPoints = 0;
+        boolean isFused = isFused();
+        String[] skills = getSkills();
+        String absorption = "0";
+
+        byte state = 0;
+        byte state2 = 0;
+
+        if(Config.ACCEPT_RACIAL_BUFFS){
+            if(race == 4)
+                pwrPoints = getArcoReserves();
+            if(race == 5)
+                absorption = getMajinAbsorb();
+        }
+
+        if(Config.ACCEPT_RACIAL_FORMS){
+            state = getForm();
+        }
+
+
+        boolean isLegendary = false;
+        boolean isMajin = false;
+        boolean isKK = false;
+        boolean isMystic = false;
+        boolean isUI = false;
+        boolean isGoD = false;
+
+        if(Config.ACCEPT_STATUS_EFF){
+            updateStatusEffString();
+            isLegendary = isLegendary();
+            isMajin = isMajin();
+        }
+        if(Config.ACCEPT_NON_RACIAL){
+            state2 = getState2();
+            isKK = isKK();
+            isMystic = isMystic();
+            isUI = isUI();
+            isGoD = isGoD();
+        }
+
+        return JRMCoreH.getPlayerAttribute(player, attributes, statId, state, state2, race, racial, release, pwrPoints, isLegendary, isMajin, isKK, isMystic, isUI, isGoD, powerType, skills, isFused, absorption);
+    }
+
+    private String[] getSkills() {
+        return JRMCoreH.PlyrSkills(player);
+    }
+
+    private String getRacialSkill() {
+        return nbt.getString("jrmcSSltX");
+    }
+
+    private boolean isGoD(){
+        return JRMCoreH.StusEfcts(20, statusEffects);
+    }
+
+    private boolean isUI(){
+        return JRMCoreH.StusEfcts(19, statusEffects);
+    }
+
+    private boolean isMystic(){
+        return JRMCoreH.StusEfcts(13, statusEffects);
+    }
+
+    private boolean isKK(){
+        return JRMCoreH.StusEfcts(5, statusEffects);
+    }
+
+    private byte getState2() {
+        return nbt.getByte("jrmcState2");
+    }
+
+    private boolean isMajin() {
+        return JRMCoreH.StusEfcts(13, statusEffects);
+    }
+
+    private boolean isLegendary() {
+        return JRMCoreH.StusEfcts(14, statusEffects);
+    }
+
+    private String getMajinAbsorb() {
+        return nbt.getString("jrmcMajinAbsorptionData");
+    }
+
+    private int getArcoReserves() {
+        return nbt.getInteger("jrmcArcRsrv");
+    }
+
     public int[] getAttributes(){
-        if(!isFused())
+        if(!Config.ACCEPT_FUSION || !isFused())
             return getStats(player);
 
-        String[] fusionPartners = compound.getString("jrmcFuzion").split(",");
+        String[] fusionPartners = nbt.getString("jrmcFuzion").split(",");
 
         EntityPlayer player1 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(fusionPartners[0]);
         EntityPlayer player2 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(fusionPartners[1]);
@@ -88,6 +190,6 @@ public class DBCPlayerWrapper {
     }
 
     public NBTTagCompound getNbt() {
-        return compound;
+        return nbt;
     }
 }
