@@ -43,7 +43,7 @@ public class SpiritControl
      * Reloads all player SC data.
      * Used for reloading ability configs.
      *
-     * @reason: Abilities are created as new instances and players need their references to it updated. Config reloads are not supposed to happen very often.
+     * reason: Abilities are created as new instances and players need their references to it updated. Config reloads are not supposed to happen very often.
      */
     public static void reloadPlayerData(){
         for(Object plrObject : MinecraftServer.getServer().getConfigurationManager().playerEntityList){
