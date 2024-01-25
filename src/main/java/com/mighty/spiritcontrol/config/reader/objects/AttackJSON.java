@@ -4,7 +4,6 @@ import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.attack.AttackBuilder;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackColor;
 import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
-import org.omg.CORBA.portable.IDLEntity;
 
 
 /**

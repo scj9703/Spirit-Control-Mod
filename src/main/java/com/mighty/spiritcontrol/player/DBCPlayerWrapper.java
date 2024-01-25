@@ -2,15 +2,10 @@ package com.mighty.spiritcontrol.player;
 
 import JinRyuu.JRMCore.JRMCoreH;
 import JinRyuu.JRMCore.server.JGMathHelper;
-import com.mighty.spiritcontrol.SpiritControl;
 import com.mighty.spiritcontrol.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
-import tv.twitch.chat.Chat;
-
-import static JinRyuu.JRMCore.JRMCoreH.getBonusAttributes;
 
 public class DBCPlayerWrapper {
 

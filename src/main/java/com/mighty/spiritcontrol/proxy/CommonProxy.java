@@ -8,7 +8,9 @@ import com.mighty.spiritcontrol.event.SpiritControlHandler;
 import com.mighty.spiritcontrol.player.permission.BukkitWrapper;
 import com.mighty.spiritcontrol.player.permission.EnumPermission;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
