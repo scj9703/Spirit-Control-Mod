@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class SpiritControl
 {
     public static final String MODID = "spiritcontrol";
-    public static final String VERSION = "1.0.1";
+    public static final String VERSION = "1.0.2";
 
     public static Logger LOGGER;
 
