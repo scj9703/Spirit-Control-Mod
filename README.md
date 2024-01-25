@@ -28,7 +28,7 @@ Configs
 Configs are located in `./config/spirit_control/`.
 <br><br>
 You can overwrite default ability stats by creating new abilities in their respective config files using the same ID as a default ability. <br><br>
-You cannot change default ability types. <br>
+You cannot change default ability types. (Passives can't become ultimates or supers, etc.) <br>
 Default ability IDs: `KiAttack`, `EnergyWave`, `VirtuousSpirit`
 
 ### Acceptable race names:
