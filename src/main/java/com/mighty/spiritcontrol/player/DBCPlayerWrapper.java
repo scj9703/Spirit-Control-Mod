@@ -200,7 +200,7 @@ public class DBCPlayerWrapper {
         int bonusAttribute = baseStat;
 
         if(!nbtValue.equals("NONE") && !nbtValue.equals("n")){
-            double bonusValueResult = 0.0;
+            double bonusValueResult = bonusAttribute;
             String[] bonus = nbtValue.split("\\|");
             String[][] bonusValues = new String[bonus.length][2];
             if (bonus.length > 0 && bonus[0].length() > 0) {
