@@ -101,7 +101,7 @@ public class Attack extends Ability {
         int damage = getDamage(ex);
 
         ex.removeSpirit(ex.getMaxBaseSpirit() * getCostModifier());
-        MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+"100 1 100 0 0 0 "+ex.player.getCommandSenderName());
+        MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+density+" 1 100 0 0 0 "+ex.player.getCommandSenderName());
         ex.dbcPlayer.getNbt().setByte("jrmcFrng", (byte) 1); //Fixes a bug with ki attacks not being connected to the player
         ex.addChatMessage(ex.drawPrettyGauge());
     }
