@@ -137,7 +137,7 @@ public class SpiritControlHandler {
             return;
 
         if (extPlayer.canPlayerUsePassive(method))
-            extPlayer.addSpirit(amount);
+            extPlayer.addSpiritByPassive(amount, method);
     }
 
     /**

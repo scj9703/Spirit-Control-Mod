@@ -9,19 +9,17 @@ import java.util.Set;
 public class PassiveAbility extends Ability {
 
     private final HashMap<Byte, Set<Byte>> raceFormMap;
-    private final double spiritFillModifier;
+    private final HashMap<EnumFillMethod, Double> fillMethods;
     private final double spiritBonus;
     private final double costModifier;
-    private final Set<EnumFillMethod> fillMethods;
 
     //Non public constructor.
-    PassiveAbility(String id, String name, String description, double bonusSpirit, double spiritFillModifier, double spiritUseModifier, HashMap<Byte, Set<Byte>> raceFormMap, Set<EnumFillMethod> fillMethods){
+    PassiveAbility(String id, String name, String description, double bonusSpirit, HashMap<EnumFillMethod, Double> fillMethods, double spiritUseModifier, HashMap<Byte, Set<Byte>> raceFormMap){
         super(id, name, description);
         this.raceFormMap = raceFormMap;
         this.spiritBonus = bonusSpirit;
-        this.spiritFillModifier = spiritFillModifier;
-        this.costModifier = spiritUseModifier;
         this.fillMethods = fillMethods;
+        this.costModifier = spiritUseModifier;
     }
 
     /**
@@ -48,19 +46,12 @@ public class PassiveAbility extends Ability {
     }
 
     /**
-     * Checks if a passive can be filled by this method
-     * @param fillMethod type of method you'd like to check
-     * @return True or false
+     * Get the fill modifier for a given method
+     * @param method
+     * @return Fill modifier
      */
-    public boolean canPassiveFillLikeThis(EnumFillMethod fillMethod){
-        return this.fillMethods.contains(fillMethod);
-    }
-
-    /**
-     * @return Modifier of how this passive affects spirit gauge refilling.
-     */
-    public double getSpiritFillModifier() {
-        return spiritFillModifier;
+    public double getSpiritFillModifier(EnumFillMethod method) {
+        return fillMethods.getOrDefault(method, 0.0);
     }
 
     /**

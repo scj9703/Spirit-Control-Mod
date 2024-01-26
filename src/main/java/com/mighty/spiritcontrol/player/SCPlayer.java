@@ -471,25 +471,23 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Does not add anything if player is fatigued
      * @param spirit Amount of spirit to add
      */
-    public void addSpirit(double spirit){
-        if(this.isFatigued())
-            return;
-        this.addSpiritAbsolute(spirit * (this.selectedPassiveAbility != null ? this.selectedPassiveAbility.getSpiritFillModifier() : 1));
+    public void addSpiritByPassive(double spirit, EnumFillMethod method){
+        this.addSpirit(spirit * (this.selectedPassiveAbility != null ? this.selectedPassiveAbility.getSpiritFillModifier(method) : 1));
     }
 
     /**
      * Removes spirit while taking into the passive cost modifier
      * @param spirit
      */
-    public void removeSpirit(double spirit){
-        this.removeSpiritAbsolute(spirit * (this.selectedPassiveAbility == null ? 1 : this.selectedPassiveAbility.getCostModifier()));
+    public void removeSpiritByPassive(double spirit){
+        this.removeSpirit(spirit * (this.selectedPassiveAbility == null ? 1 : this.selectedPassiveAbility.getCostModifier()));
     }
 
     /**
      * Adds spirit while ignoring passive modifiers
      * @param spirit
      */
-    public void addSpiritAbsolute(double spirit){
+    public void addSpirit(double spirit){
         this.setSpirit(this.getSpirit() + spirit);
     }
 
@@ -497,7 +495,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * Removes spirit while ignoring passive modifiers
      * @param spirit
      */
-    public void removeSpiritAbsolute(double spirit){
+    public void removeSpirit(double spirit){
         this.setSpirit(this.getSpirit() - spirit);
     }
 
@@ -812,7 +810,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     public boolean canPlayerUsePassive(EnumFillMethod method) {
         if(selectedPassiveAbility == null)
             return false;
-        return selectedPassiveAbility.canPassiveFillLikeThis(method) && selectedPassiveAbility.canPlayerUsePassive(this);
+        return selectedPassiveAbility.canPlayerUsePassive(this);
     }
 
     /**

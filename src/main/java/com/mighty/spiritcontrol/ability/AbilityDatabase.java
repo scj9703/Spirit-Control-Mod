@@ -35,10 +35,10 @@ public class AbilityDatabase {
                         .setId("VirtuousSpirit")
                         .setName("Virtuous Spirit")
                         .setDescription("A calm mind makes your Super Attacks cost 0.9x as much.")
-                        .setFillModifier(1)
                         .setCostModifier(0.9)
                         .setBonusModifier(1)
-                        .addFillMethods(EnumFillMethod.DAMAGE_TAKEN, EnumFillMethod.DAMAGE_DEALT)
+                        .addFillMethod(EnumFillMethod.DAMAGE_TAKEN, 1.0)
+                        .addFillMethod(EnumFillMethod.DAMAGE_DEALT, 1.5)
                         .getAbility()
         );
 

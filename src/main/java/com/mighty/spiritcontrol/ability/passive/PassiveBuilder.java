@@ -9,10 +9,9 @@ import java.util.*;
 public class PassiveBuilder extends AbilityBuilder {
 
     protected HashMap<Byte, Set<Byte>> raceFormMap = new HashMap<>();
-    protected double spiritFillModifier = 1;
+    protected HashMap<EnumFillMethod, Double> fillMethods = new HashMap<>();
     protected double spiritBonus = 1;
     protected double costModifier = 1;
-    protected Set<EnumFillMethod> fillMethods = new HashSet<>();
 
     public PassiveBuilder addRaceForm(int race, int id){
         byte raceByte = (byte) race;
@@ -28,8 +27,8 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder setFillModifier(double modifier){
-        this.spiritFillModifier = modifier;
+    public PassiveBuilder addFillMethod(EnumFillMethod method, double value){
+        fillMethods.put(method, value);
         return this;
     }
 
@@ -40,17 +39,6 @@ public class PassiveBuilder extends AbilityBuilder {
 
     public PassiveBuilder setCostModifier(double modifier){
         this.costModifier = modifier;
-        return this;
-    }
-
-    public PassiveBuilder addFillMethods(EnumFillMethod... methods){
-        if(methods != null)
-            this.fillMethods.addAll(Arrays.asList(methods));
-        return this;
-    }
-    public PassiveBuilder addFillMethod(EnumFillMethod method){
-        if(method != null)
-            this.fillMethods.add(method);
         return this;
     }
 
@@ -91,21 +79,26 @@ public class PassiveBuilder extends AbilityBuilder {
         return this;
     }
 
-    public PassiveBuilder addFillMethods(Set<String> fillMethodsNew) {
-        for(String methodName : fillMethodsNew){
-            try{
-                this.addFillMethod(EnumFillMethod.valueOf(methodName.toUpperCase()));
-            }catch(Exception e){
-                SpiritControl.LOGGER.warn("Can't find fill method '"+methodName+"'. ", e);
-            }
+    public PassiveAbility getAbility(){
+        if(fillMethods.isEmpty())
+            fillMethods.put(EnumFillMethod.DAMAGE_DEALT, 1.0);
+        return new PassiveAbility(literalId, name, description, spiritBonus, fillMethods, costModifier, raceFormMap);
+        //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
+    }
+
+    public PassiveBuilder addFillMethodsByNameMap(Map<String, Double> fillMethods) {
+        for(String key : fillMethods.keySet()){
+            try {
+                this.fillMethods.put(EnumFillMethod.valueOf(key.toUpperCase()), fillMethods.get(key));
+            } catch (Exception ignored) {}
         }
         return this;
     }
 
-    public PassiveAbility getAbility(){
-        if(fillMethods.isEmpty())
-            fillMethods.add(EnumFillMethod.DAMAGE_DEALT);
-        return new PassiveAbility(literalId, name, description, spiritBonus, spiritFillModifier, costModifier, raceFormMap, fillMethods);
-        //return new PassiveAbility(this.name, this.raceId, this.formId, this.spiritFillModifier, this.spiritBonus, this.costModifier, this.description);
+    public PassiveBuilder addFillMethodsByEnumMap(Map<EnumFillMethod, Double> fillMethods) {
+        for(EnumFillMethod key : fillMethods.keySet()){
+            this.fillMethods.put(key, fillMethods.get(key));
+        }
+        return this;
     }
 }
