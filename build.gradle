@@ -63,6 +63,9 @@ repositories {
 }
 
 dependencies {
+
+    embed "org.apache.commons:commons-collections4:4.4"
+
     //CodeChickenCore & CodeChickenLib for dynamic remapping of jars.
     implementation "curse.maven:codechickencore-222213:3293859"
     implementation "curse.maven:codechickenlib-746280:4388255"

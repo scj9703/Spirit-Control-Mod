@@ -8,15 +8,18 @@ import com.mighty.spiritcontrol.ability.attack.EnumAttackType;
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.spiritcontrol.ability.passive.PassiveBuilder;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /** Stores all Spirit Control Abilities **/
 public class AbilityDatabase {
-    private static final HashMap<String, Attack> attackHashMap = new HashMap<>();
-    private static final HashMap<String, Attack> ultimateHashMap = new HashMap<>();
-    private static final HashMap<String, PassiveAbility> passiveAbilityHashMap = new HashMap<>();
+    private static final Map<String, Attack> attackHashMap = new CaseInsensitiveMap<>();
+    private static final Map<String, Attack> ultimateHashMap = new CaseInsensitiveMap<>();
+    private static final Map<String, PassiveAbility> passiveAbilityHashMap = new CaseInsensitiveMap<>();
 
 
     //Type: 0 = Wave, 1 = Blast, 2 = Disk, 3 = laser, 4 = spiral, 5 = large blast,  6 = barrage, 7 = shield
