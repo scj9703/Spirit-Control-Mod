@@ -167,7 +167,7 @@ public class SCPlayer implements IExtendedEntityProperties {
      * @return if the player has enough spirit to fire selected attack
      */
     public boolean hasEnoughSpiritToFire(){
-        return currentSpirit >= getCurrentSelectedAttack().getCostModifier() * getMaxBaseSpirit();
+        return currentSpirit >= ((PassiveAbility) getAbilityFromSlot("passive")).getCostModifier() * getCurrentSelectedAttack().getCostModifier() * getMaxBaseSpirit();
     }
 
     /**
