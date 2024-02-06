@@ -1,5 +1,6 @@
 package com.mighty.spiritcontrol.player;
 
+import JinRyuu.JRMCore.ComJrmcaBonus;
 import JinRyuu.JRMCore.JRMCoreH;
 import JinRyuu.JRMCore.server.JGMathHelper;
 import com.mighty.spiritcontrol.config.Config;
@@ -196,7 +197,7 @@ public class DBCPlayerWrapper {
     }
 
     private int getBonusAttribute(int statId, int baseStat) {
-        String nbtValue =JRMCoreH.getBonusAttributes(player.getCommandSenderName(), statId);
+        String nbtValue = nbt.getString("jrmcAttrBonus" + ComJrmcaBonus.ATTRIBUTES_SHORT[statId]);
         int bonusAttribute = baseStat;
 
         if(!nbtValue.equals("NONE") && !nbtValue.equals("n")){
