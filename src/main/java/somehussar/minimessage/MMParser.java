@@ -162,7 +162,7 @@ public class MMParser {
                     builder = new ComponentBuilder(msg);
                 } else {
                     if(nonTags.size() > 0) {
-                        builder.append(nonTags.peek()+" ", ComponentBuilder.FormatRetention.ALL);
+                        builder.append(nonTags.pop()+" ", ComponentBuilder.FormatRetention.ALL);
                     }else {
                         builder.append(msg, ComponentBuilder.FormatRetention.NONE);
                     }
