@@ -40,7 +40,7 @@ apply plugin: 'forge'
 def domain = 'com.mighty' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 def modid = 'spiritcontrol'
 def mcversion = '1.7.10'
-version = '1.0.9'
+version = '1.0.10'
 // -SETTINGS
 
 group = "${domain}.${modid}"
