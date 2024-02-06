@@ -4,6 +4,7 @@ import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.AbilityDatabase;
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -16,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubCommand_Equip extends SCSubCommand {
+    public SubCommand_Equip(SCCommandBase parent) {
+        super(parent);
+    }
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if(sender instanceof EntityPlayerMP) {
@@ -84,5 +89,10 @@ public class SubCommand_Equip extends SCSubCommand {
             return getListOfStringsMatchingLastWord(args, tabCompletion.toArray(new String[0]));
         }
         return null;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "<aqua>/"+parent.getCommandName()+" equip <slotName> <skillName> <dark_aqua>- equips the selected skill onto your loadout. <aqua>Accepted slot names: <green>Super1, Super2, Ultimate, Passive";
     }
 }

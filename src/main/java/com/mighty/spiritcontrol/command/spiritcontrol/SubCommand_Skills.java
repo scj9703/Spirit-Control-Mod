@@ -2,6 +2,7 @@ package com.mighty.spiritcontrol.command.spiritcontrol;
 
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -15,6 +16,10 @@ import java.util.List;
 import java.util.Set;
 
 public class SubCommand_Skills extends SCSubCommand {
+
+    public SubCommand_Skills(SCCommandBase parent) {
+        super(parent);
+    }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
@@ -60,5 +65,10 @@ public class SubCommand_Skills extends SCSubCommand {
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return null;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "<aqua>/"+parent.getCommandName()+" skills <dark_aqua>- displays all unlocked skill names and descriptions";
     }
 }

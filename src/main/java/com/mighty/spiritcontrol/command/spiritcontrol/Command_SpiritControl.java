@@ -16,15 +16,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Command_SpiritControl extends SCCommandBase {
+
+    public static SCCommandBase INSTANCE;
     public Command_SpiritControl(){
-        subCommandMap.put("help", new SubCommand_Help());
-        subCommandMap.put("skills", new SubCommand_Skills());
-        subCommandMap.put("equip", new SubCommand_Equip());
-        subCommandMap.put("enable", new SubCommand_Enable().addPerms(EnumPermission.SPIRITCONTROL_ENABLE));
-        subCommandMap.put("disable", new SubCommand_Disable().addPerms(EnumPermission.SPIRITCONTROL_DISABLE));
-        subCommandMap.put("check", new SubCommand_Check().addPerms(EnumPermission.SPIRITCONTROL_CHECK));
-        subCommandMap.put("unlock", new SubCommand_Unlock().addPerms(EnumPermission.SPIRITCONTROL_LOCK));
-        subCommandMap.put("lock", new SubCommand_Lock().addPerms(EnumPermission.SPIRITCONTROL_UNLOCK));
+        INSTANCE = this;
+        subCommandMap.put("help", new SubCommand_Help(this));
+        subCommandMap.put("skills", new SubCommand_Skills(this));
+        subCommandMap.put("equip", new SubCommand_Equip(this));
+        subCommandMap.put("enable", new SubCommand_Enable(this).addPerms(EnumPermission.SPIRITCONTROL_ENABLE));
+        subCommandMap.put("disable", new SubCommand_Disable(this).addPerms(EnumPermission.SPIRITCONTROL_DISABLE));
+        subCommandMap.put("check", new SubCommand_Check(this).addPerms(EnumPermission.SPIRITCONTROL_CHECK));
+        subCommandMap.put("unlock", new SubCommand_Unlock(this).addPerms(EnumPermission.SPIRITCONTROL_LOCK));
+        subCommandMap.put("lock", new SubCommand_Lock(this).addPerms(EnumPermission.SPIRITCONTROL_UNLOCK));
     }
     @Override
     public String getCommandName() {
@@ -73,7 +76,7 @@ public class Command_SpiritControl extends SCCommandBase {
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> <blue>Passive Ability: <underline><aqua><ability></underline>", "ability", Util.getAbilityHover(extPlayer.getAbilityFromSlot("passive"))));
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
-                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/<cmd_name> help</aqua> for a full list of commands!", "cmd_name", getCommandName()));
+                sender.addChatMessage(MMParser.getFormat("<aqua>==><dark_aqua> Do <aqua>/<cmd_name> help</aqua> for help!", "cmd_name", getCommandName()));
 
                 sender.addChatMessage(MMParser.getFormat("<dark_aqua>>"));
                 sender.addChatMessage(MMParser.getFormat("<dark_gray>{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}"));
@@ -111,7 +114,5 @@ public class Command_SpiritControl extends SCCommandBase {
         SCSubCommand subCommand = subCommandMap.getOrDefault(args[0], null);
         return subCommand != null && subCommand.isUsernameIndex(args, index);
     }
-
-
 
 }

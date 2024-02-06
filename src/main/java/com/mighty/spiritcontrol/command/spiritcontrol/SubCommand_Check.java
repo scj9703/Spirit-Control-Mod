@@ -2,6 +2,7 @@ package com.mighty.spiritcontrol.command.spiritcontrol;
 
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
+import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -14,6 +15,10 @@ import java.util.List;
 import java.util.Set;
 
 public class SubCommand_Check extends SCSubCommand {
+
+    public SubCommand_Check(SCCommandBase parent) {
+        super(parent);
+    }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
@@ -86,5 +91,10 @@ public class SubCommand_Check extends SCSubCommand {
     @Override
     public boolean isUsernameIndex(String[] args, int index) {
         return index == 2;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "<aqua>/"+parent.getCommandName()+" check [player] <dark_aqua>- shows a Player's Gauge, load-out, and all unlocked abilities";
     }
 }

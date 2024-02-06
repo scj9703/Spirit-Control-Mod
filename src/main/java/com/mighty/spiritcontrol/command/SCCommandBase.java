@@ -7,13 +7,12 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import org.apache.commons.collections4.OrderedMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class SCCommandBase extends CommandBase {
-    protected final HashMap<String, SCSubCommand> subCommandMap = new HashMap<>();
+    protected final Map<String, SCSubCommand> subCommandMap = new LinkedHashMap<>();
 
     protected final ArrayList<BukkitWrapper.Permission> permsList = new ArrayList<>();
 

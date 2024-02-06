@@ -2,6 +2,7 @@ package com.mighty.spiritcontrol.command.spiritcontrol;
 
 import com.mighty.spiritcontrol.ability.Ability;
 import com.mighty.spiritcontrol.ability.AbilityDatabase;
+import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -13,6 +14,10 @@ import somehussar.minimessage.util.Util;
 import java.util.List;
 
 public class SubCommand_Lock extends SCSubCommand {
+    public SubCommand_Lock(SCCommandBase parent) {
+        super(parent);
+    }
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if(!hasPerms(sender))
@@ -65,5 +70,10 @@ public class SubCommand_Lock extends SCSubCommand {
     @Override
     public boolean isUsernameIndex(String[] args, int index) {
         return index == 3;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "<aqua>/"+parent.getCommandName()+" lock <skillName> [player] <dark_aqua>- removes an ability";
     }
 }

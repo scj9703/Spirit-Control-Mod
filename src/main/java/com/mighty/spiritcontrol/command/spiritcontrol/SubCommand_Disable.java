@@ -1,5 +1,6 @@
 package com.mighty.spiritcontrol.command.spiritcontrol;
 
+import com.mighty.spiritcontrol.command.SCCommandBase;
 import com.mighty.spiritcontrol.command.SCSubCommand;
 import com.mighty.spiritcontrol.player.SCPlayer;
 import net.minecraft.command.ICommandSender;
@@ -10,6 +11,10 @@ import somehussar.minimessage.MMParser;
 import java.util.List;
 
 public class SubCommand_Disable extends SCSubCommand {
+    public SubCommand_Disable(SCCommandBase parent) {
+        super(parent);
+    }
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if(!hasPerms(sender))
@@ -41,5 +46,10 @@ public class SubCommand_Disable extends SCSubCommand {
         if(args.length == 2)
             return getListOfStringsMatchingLastWord(args, getPlayers());
         return null;
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "<aqua>/"+parent.getCommandName()+" disable [player] <dark_aqua>- locks Spirit Control for a Player";
     }
 }
