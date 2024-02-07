@@ -106,10 +106,13 @@ public class DBCPlayerWrapper {
         }
         if(Config.ACCEPT_NON_RACIAL){
             state2 = getState2();
-            isKK = isKK();
             isMystic = isMystic();
             isUI = isUI();
             isGoD = isGoD();
+        }
+        if(Config.ACCEPT_KAIOKEN){
+            state2 = getState2();
+            isKK = isKK();
         }
 
         return JRMCoreH.getPlayerAttribute(player, attributes, statId, state, state2, race, racial, release, pwrPoints, isLegendary, isMajin, isKK, isMystic, isUI, isGoD, powerType, skills, isFused, absorption);

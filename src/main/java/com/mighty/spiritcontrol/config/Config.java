@@ -25,6 +25,7 @@ public class Config {
     public static boolean ACCEPT_RACIAL_FORMS = false;
     public static boolean ACCEPT_STATUS_EFF = false;
     public static boolean ACCEPT_NON_RACIAL = false;
+    public static boolean ACCEPT_KAIOKEN = false;
 
     private final File spiritControlDir;
 
@@ -93,9 +94,10 @@ public class Config {
         ACCEPT_FUSION = mainConfig.getBoolean("Fusion", CATEGORY_STAT_CALCULATIONS, true, "True - uses fusion stats, False - player stats");
         ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Bonus attributes", CATEGORY_STAT_CALCULATIONS, true, "Should use jrmcabonus / DBCA");
         ACCEPT_RACIAL_BUFFS = mainConfig.getBoolean("Racial buffs", CATEGORY_STAT_CALCULATIONS, false, "Arco powerpoints or majin absorption");
-        ACCEPT_STATUS_EFF = mainConfig.getBoolean("Status Effects", CATEGORY_STAT_CALCULATIONS, false, "");
-        ACCEPT_RACIAL_FORMS = mainConfig.getBoolean("Racial forms", CATEGORY_STAT_CALCULATIONS, false, "");
+        ACCEPT_STATUS_EFF = mainConfig.getBoolean("Status Effects", CATEGORY_STAT_CALCULATIONS, false, "Majin/Legendary");
+        ACCEPT_RACIAL_FORMS = mainConfig.getBoolean("Racial forms", CATEGORY_STAT_CALCULATIONS, false, null);
         ACCEPT_NON_RACIAL = mainConfig.getBoolean("Non racial forms", CATEGORY_STAT_CALCULATIONS, false, "Non racial forms like KK, Mystic, UI or GoD");
+        ACCEPT_KAIOKEN = mainConfig.getBoolean("Kaioken", CATEGORY_STAT_CALCULATIONS, false, null);
 
         if(mainConfig.hasChanged())
             mainConfig.save();
