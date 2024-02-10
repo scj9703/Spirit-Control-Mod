@@ -86,15 +86,18 @@ public class SpiritControlHandler {
         if(event.entity.worldObj.isRemote || event.isCanceled()) //Return if even ran on client or cancelled
             return;
 
+        if(event.source.getDamageType().equals("thorns"))
+            return;
+
         // If the player is the CAUSE of the attack
         if (event.source.getEntity() instanceof EntityPlayer)
             handlePassiveFilling((EntityPlayer) event.source.getEntity(), EnumFillMethod.DAMAGE_DEALT, Config.SPIRIT_ON_DAMAGE_DEALT_FLAT);
 
 
         // If the player is the RECIPIENT of the attack
-        if (event.entity instanceof EntityPlayer)
+        if (event.entity instanceof EntityPlayer) {
             handlePassiveFilling((EntityPlayer) event.entity, EnumFillMethod.DAMAGE_TAKEN, Config.SPIRIT_ON_DAMAGE_TAKEN_FLAT);
-
+        }
     }
 
     /**
