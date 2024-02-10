@@ -592,6 +592,14 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
+     * @param abilityId ID of the ability to check
+     * @return If the player has this ability unlocked
+     */
+    public boolean hasAbility(String abilityId){
+        return hasAbility(AbilityDatabase.getAbilityById(abilityId));
+    }
+
+    /**
      * @param slotName Name of the slot that stores an attack (super1, super2, ultimate, passive)
      * @return Ability stored in the slot
      */
@@ -678,6 +686,10 @@ public class SCPlayer implements IExtendedEntityProperties {
     private void selectPassive(PassiveAbility passive){
         this.selectedPassiveAbility = passive;
         this.addChatMessage(MMParser.getFormat("<dark_aqua>Equipped Passive: <aqua>"+Util.getAbilityHover(passive)));
+    }
+
+    public void addAbility(String abilityID){
+        addAbility(AbilityDatabase.getAbilityById(abilityID));
     }
 
     /**

@@ -21,6 +21,14 @@ public class AbilityDatabase {
     private static final Map<String, Attack> ultimateHashMap = new CaseInsensitiveMap<>();
     private static final Map<String, PassiveAbility> passiveAbilityHashMap = new CaseInsensitiveMap<>();
 
+    private static AbilityDatabase instance;
+
+    public static AbilityDatabase getInstance(){
+        if(instance == null)
+            instance = new AbilityDatabase();
+        return instance;
+    }
+
 
     //Type: 0 = Wave, 1 = Blast, 2 = Disk, 3 = laser, 4 = spiral, 5 = large blast,  6 = barrage, 7 = shield
 

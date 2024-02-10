@@ -1,6 +1,7 @@
 package com.mighty.spiritcontrol.proxy;
 
 import com.mighty.spiritcontrol.SpiritControl;
+import com.mighty.spiritcontrol.api.SPCApi;
 import com.mighty.spiritcontrol.command.configreload.Command_SCReload;
 import com.mighty.spiritcontrol.command.spiritcontrol.Command_SpiritControl;
 import com.mighty.spiritcontrol.config.Config;
@@ -12,6 +13,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
+import noppes.npcs.scripted.NpcAPI;
 
 public class CommonProxy {
 
@@ -33,6 +35,8 @@ public class CommonProxy {
 //        MinecraftForge.TERRAIN_GEN_BUS.register(eventHandler);
 //        MinecraftForge.ORE_GEN_BUS.register(eventHandler);
         FMLCommonHandler.instance().bus().register(eventHandler);
+
+        NpcAPI.engineObjects.put("SPCApi", new SPCApi());
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
