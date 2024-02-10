@@ -36,7 +36,11 @@ public class SpiritControlHandler {
      */
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event){
-        SCPlayer.getPlayer(event.entityPlayer).copy(SCPlayer.getPlayer(event.original));
+        SCPlayer player = SCPlayer.getPlayer(event.entityPlayer);
+        player.copy(SCPlayer.getPlayer(event.original));
+
+        if(event.wasDeath)
+            player.setSpirit(player.getSpirit()*Config.DEATH_PERSIST_PERCENTILE);
     }
 
     /**

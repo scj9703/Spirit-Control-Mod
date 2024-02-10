@@ -26,6 +26,7 @@ public class Config {
     public static boolean ACCEPT_STATUS_EFF = false;
     public static boolean ACCEPT_NON_RACIAL = false;
     public static boolean ACCEPT_KAIOKEN = false;
+    public static double DEATH_PERSIST_PERCENTILE = 1;
 
     private final File spiritControlDir;
 
@@ -82,6 +83,9 @@ public class Config {
         String CATEGORY_PASSIVE_GAIN = "SPIRIT_CONTROL_PASSIVE_GAIN";
         String CATEGORY_DAMAGE = "SPIRIT_DAMAGE";
         String CATEGORY_STAT_CALCULATIONS = "DAMAGE_TOGGLES";
+        String CATEGORY_DEATH = "DEATH";
+
+        DEATH_PERSIST_PERCENTILE = mainConfig.getFloat("Spirit death persistence percentile", CATEGORY_DEATH, 25, 0, 100, "Percentile amount of how much Spirit a player keeps after death") / 100.0;
 
         DAMAGE_UNIT = mainConfig.getFloat("Base unit used for calculating damage", CATEGORY_DAMAGE, 1000000, 1, 500000000, "Formula: (max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)");
 
