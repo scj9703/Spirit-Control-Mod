@@ -2,6 +2,7 @@ package com.mighty.spiritcontrol.event;
 
 import com.mighty.spiritcontrol.ability.attack.Attack;
 import com.mighty.spiritcontrol.ability.passive.EnumFillMethod;
+import com.mighty.spiritcontrol.ability.passive.PassiveAbility;
 import com.mighty.spiritcontrol.config.Config;
 import com.mighty.spiritcontrol.event.custom.PlayerSneakEvent;
 import com.mighty.spiritcontrol.event.custom.PlayerSwingEvent;
@@ -150,8 +151,15 @@ public class SpiritControlHandler {
 
         extPlayer.lastTimeGainedSpirit = time;
 
-        if (extPlayer.canPlayerUsePassive(method))
+        if (extPlayer.canPlayerUsePassive(method)) {
             extPlayer.addSpiritByPassive(amount, method);
+            return;
+        }
+
+        double passiveModifier = ( (PassiveAbility) extPlayer.getAbilityFromSlot("passive")).getSpiritFillModifier(method);
+        if(passiveModifier < 1.0)
+            amount *= passiveModifier;
+        extPlayer.addSpirit(amount);
     }
 
     /**
