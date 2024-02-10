@@ -82,6 +82,7 @@ public class SCPlayer implements IExtendedEntityProperties {
     private boolean isArmed = false;
     public boolean isChargingAttack = false;
     public byte currentAttackSlot = 0;
+    public long lastTimeGainedSpirit = 0;
     public long lastTimeSneaked = 0;
     public long startedCharging = 0;
 

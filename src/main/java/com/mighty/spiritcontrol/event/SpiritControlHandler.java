@@ -136,6 +136,10 @@ public class SpiritControlHandler {
         if(!extPlayer.hasUnlockedSpiritControl() || extPlayer.isFatigued() || extPlayer.isChargingAttack || (extPlayer.dbcPlayer.isFused() && !extPlayer.dbcPlayer.isController()))
             return;
 
+        if(MinecraftServer.getSystemTimeMillis() - extPlayer.lastTimeGainedSpirit < 100){
+            return;
+        }
+
         if (extPlayer.canPlayerUsePassive(method))
             extPlayer.addSpiritByPassive(amount, method);
     }
