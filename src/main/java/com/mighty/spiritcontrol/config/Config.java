@@ -89,8 +89,6 @@ public class Config {
         SPIRIT_ON_DAMAGE_TAKEN_FLAT = mainConfig.getFloat("Spirit gained on damage taken", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on taking damage from others (this is the number before passive modifiers)");
         SPIRIT_PASSIVE_FLAT = mainConfig.getFloat("Spirit gained passively", CATEGORY_PASSIVE_GAIN, 0.01f, 0f, 100, "Spirit gained passively (this is the number before passive modifiers)");
 
-        //ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Stat bonuses", CATEGORY_STAT_CALCULATIONS, true, "DBCA/jrmcabonus command bonuses");
-        //ACCEPT_RELEASE = mainConfig.getBoolean("Release", CATEGORY_STAT_CALCULATIONS, false, "Damage AND cost will be adjusted to a players charge/release level.");
         ACCEPT_FUSION = mainConfig.getBoolean("Fusion", CATEGORY_STAT_CALCULATIONS, true, "True - uses fusion stats, False - player stats");
         ACCEPT_STAT_BONUSES = mainConfig.getBoolean("Bonus attributes", CATEGORY_STAT_CALCULATIONS, true, "Should use jrmcabonus / DBCA");
         ACCEPT_RACIAL_BUFFS = mainConfig.getBoolean("Racial buffs", CATEGORY_STAT_CALCULATIONS, false, "Arco powerpoints or majin absorption");
