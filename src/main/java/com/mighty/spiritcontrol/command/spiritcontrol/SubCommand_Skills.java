@@ -51,7 +51,7 @@ public class SubCommand_Skills extends SCSubCommand {
             for (PassiveAbility passive:unlockedPassives){
                 passives.append(" ").append(passive.getId());
             }
-            sender.addChatMessage(MMParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/sc equip."));
+            sender.addChatMessage(MMParser.getFormat("<dark_aqua>These ability names are used in commands such as <aqua>/"+parent.getCommandName()+" equip"));
             sender.addChatMessage(new ChatComponentText(""));
             sender.addChatMessage(MMParser.getFormat(supers.toString()));
             sender.addChatMessage(MMParser.getFormat(ultimates.toString()));
