@@ -3,6 +3,7 @@ package com.mighty.spiritcontrol.player;
 import JinRyuu.JRMCore.ComJrmcaBonus;
 import JinRyuu.JRMCore.JRMCoreH;
 import JinRyuu.JRMCore.server.JGMathHelper;
+import JinRyuu.JRMCore.server.config.dbc.JGConfigRaces;
 import com.mighty.spiritcontrol.config.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,6 +41,10 @@ public class DBCPlayerWrapper {
         return nbt.getByte("jrmcRace");
     }
 
+    public byte getClassId() {
+        return nbt.getByte("jrmcClass");
+    }
+
     public String getStatusEffects(){;
         return nbt.getString("jrmcStatusEff");
     }
@@ -63,9 +68,10 @@ public class DBCPlayerWrapper {
 
     public int getStat(int statId){
         int[] attributes = getAttributes();
+        int bonus = 0;
 
         if(Config.ACCEPT_STAT_BONUSES) {
-            attributes[statId] = getBonusAttribute(statId, attributes[statId]);
+            bonus = getBonusAttribute(statId, attributes[statId]);
         }
 
         byte race = getRace();
@@ -115,7 +121,7 @@ public class DBCPlayerWrapper {
             isKK = isKK();
         }
 
-        return JRMCoreH.getPlayerAttribute(player, attributes, statId, state, state2, race, racial, release, pwrPoints, isLegendary, isMajin, isKK, isMystic, isUI, isGoD, powerType, skills, isFused, absorption);
+        return JRMCoreH.getPlayerAttribute(player, attributes, statId, state, state2, race, racial, release, pwrPoints, isLegendary, isMajin, isKK, isMystic, isUI, isGoD, powerType, skills, isFused, absorption) + bonus;
     }
 
     private String[] getSkills() {
@@ -207,7 +213,7 @@ public class DBCPlayerWrapper {
             double bonusValueResult = bonusAttribute;
             String[] bonus = nbtValue.split("\\|");
             String[][] bonusValues = new String[bonus.length][2];
-            if (bonus.length > 0 && bonus[0].length() > 0) {
+            if (bonus.length > 0 && !bonus[0].isEmpty()) {
                 for(int i = 0; i < bonus.length; ++i) {
                     if (bonus[i].length() > 1) {
                         String[] bonusValue = bonus[i].split("\\;");
@@ -216,7 +222,12 @@ public class DBCPlayerWrapper {
                         double value2;
                         try {
                             value2 = Double.parseDouble(bonusValues[i][1].substring(1));
-                            bonusValueResult = JGMathHelper.StringMethod(bonusValues[i][1].substring(0, 1), bonusValueResult, value2);
+
+                            String operator = bonusValues[i][1].substring(0, 1);
+                            if(operator.equals("+") || operator.equals("-"))
+                                value2 =  value2 / JGConfigRaces.CONFIG_RACES_STATS_MULTI[getRace()][getClassId()][statId];
+
+                            bonusValueResult = JGMathHelper.StringMethod(operator, bonusValueResult, value2);
                         } catch (Exception ignored) {
 
                         }
@@ -232,5 +243,29 @@ public class DBCPlayerWrapper {
 
     public NBTTagCompound getNbt() {
         return nbt;
+    }
+
+    public int[] getFormAttributes() {
+        int[] stats = new int[6];
+        for(int i = 0; i < 6; i++) {
+            stats[i] = getStat(i);
+        }
+        return stats;
+    }
+
+    public int getEffectiveLevel(){
+        int[] stats = getFormAttributes();
+
+        int level = 0;
+        for(int i = 0; i < 6; i++){
+            level += stats[i]/5;
+        }
+
+        level -= 11;
+
+        if(level < 1)
+            level = 1;
+
+        return level;
     }
 }

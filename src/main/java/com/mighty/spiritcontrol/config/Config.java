@@ -87,7 +87,7 @@ public class Config {
 
         DEATH_PERSIST_PERCENTILE = mainConfig.getFloat("Spirit death persistence percentile", CATEGORY_DEATH, 25, 0, 100, "Percentile amount of how much Spirit a player keeps after death") / 100.0;
 
-        DAMAGE_UNIT = mainConfig.getFloat("Base unit used for calculating damage", CATEGORY_DAMAGE, 1000000, 1, 500000000, "Formula: (max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)");
+        DAMAGE_UNIT = mainConfig.getFloat("Base unit used for calculating damage", CATEGORY_DAMAGE, 1000000, 1, 500000000, "Formula: (effectiveLevel / MaxLevel) * (damageUnit * attackDamageModifier), where effectiveLevel is a level derived from stats ");
 
         SPIRIT_ON_DAMAGE_DEALT_FLAT = mainConfig.getFloat("Spirit gained on damage dealt", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on dealing damage to others (this is the number before passive modifiers)");
         SPIRIT_ON_DAMAGE_TAKEN_FLAT = mainConfig.getFloat("Spirit gained on damage taken", CATEGORY_PASSIVE_GAIN, 1f, 0f, 100, "Spirit gained on taking damage from others (this is the number before passive modifiers)");

@@ -97,17 +97,17 @@ public class Attack extends Ability {
         if(fatigue > 0 && !ex.isFatigued())
             ex.setFatigue(fatigue);
 
-        //(max(str, wil) / 100,000) * (damageUnit * attackDamageModifier)
+        //(effectiveLevel / maxLevel) * (damageUnit * attackDamageModifier)
         int damage = getDamage(ex);
 
         ex.removeSpiritByPassive(ex.getMaxBaseSpirit() * getCostModifier());
-        MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+density+" 1 100 0 0 0 "+ex.player.getCommandSenderName());
+        MinecraftServer.getServer().getCommandManager().executeCommand(MinecraftServer.getServer(), "dbcspawnki "+type+" "+speed+" "+damage+" "+(effect ? 1 : 0)+" "+color+" "+density+" 1 10 0 0 0 "+ex.player.getCommandSenderName());
         ex.dbcPlayer.getNbt().setByte("jrmcFrng", (byte) 1); //Fixes a bug with ki attacks not being connected to the player
         ex.addChatMessage(ex.drawPrettyGauge());
     }
 
     private int getDamage(SCPlayer ex) {
-        double damageScaling = (double) ex.getMainDamageStat() / 100000;
+        double damageScaling = (double) ex.dbcPlayer.getEffectiveLevel() / ((double) (JRMCoreConfig.tmx * 6) /5-11);
         int damage = (int) (damageScaling * (dmgModifier * Config.DAMAGE_UNIT) / 2);  // divided by 2 because we use 100% charge which already gives double damage.
 
         damage = (int) (damage / JRMCoreConfig.dat5696[type][1]); //Removes a quirky issue with DBC using its own config to scale the damage

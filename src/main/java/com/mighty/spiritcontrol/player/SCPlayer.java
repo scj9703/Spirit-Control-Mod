@@ -156,13 +156,6 @@ public class SCPlayer implements IExtendedEntityProperties {
     }
 
     /**
-     * @return The main damage stat for the player (WIL or STR, highest of the two)
-     */
-    public int getMainDamageStat(){
-        return Math.max(dbcPlayer.getStat(0), dbcPlayer.getStat(3)); //Returns the highest between STR and WIL
-    }
-
-    /**
      * A ki attack drains the player according to this formula : MaxBaseSpirit * CostModifier
      *
      * @return if the player has enough spirit to fire selected attack
