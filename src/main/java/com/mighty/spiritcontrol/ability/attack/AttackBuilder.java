@@ -8,7 +8,7 @@ public class AttackBuilder extends AbilityBuilder {
     protected EnumAttackType type = EnumAttackType.BLAST;
     protected EnumAttackColor color = EnumAttackColor.ALIGNMENT_BASED;
     protected int speed = 5;
-    protected int density = 12;
+    protected int density = 1;
     protected boolean effect = false;
     protected double dmgModifier = 1;
     protected double cost = 50;
