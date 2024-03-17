@@ -99,8 +99,8 @@ public class SpiritControlHandler {
             handlePassiveFilling((EntityPlayer) event.source.getEntity(), EnumFillMethod.DAMAGE_DEALT, Config.SPIRIT_ON_DAMAGE_DEALT_FLAT);
 
 
-        // If the player is the RECIPIENT of the attack
-        if (event.entity instanceof EntityPlayer) {
+        // If the player is the RECIPIENT of the attack, and that the cause of the attack was from an entity
+        if (event.entity instanceof EntityPlayer && event.source.getEntity() != null) {
             handlePassiveFilling((EntityPlayer) event.entity, EnumFillMethod.DAMAGE_TAKEN, Config.SPIRIT_ON_DAMAGE_TAKEN_FLAT);
         }
     }
