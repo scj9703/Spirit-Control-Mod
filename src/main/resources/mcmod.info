@@ -1,0 +1,25 @@
+[
+{
+  "modid": "ZSSpiritcontrol",
+  "name": "Spirit Control Plugin",
+  "description": "A plugin/serverside mod for the ZeroS DBC Server",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["@_jbug_", "@somehussar"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [
+     "required-after:jinryuudragonblockc",
+     "required-after:zslib",
+     "required-after:customnpcs"
+  ],
+  "requiredMods" : [
+    "jinryuudragonblockc@[1.4.85,)",
+    "zslib@[1.0,)",
+    "customnpcs@[1.8.6,)"
+  ]
+}
+]

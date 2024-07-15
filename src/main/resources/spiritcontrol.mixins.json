@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.7.11",
+  "package": "com.mighty.spiritcontrol.mixin",
+  "refmap": "spiritcontrol.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntity",
+    "MixinEntityLivingBase"
+  ]
+}
